@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="rootPane" prefHeight="790.0" prefWidth="552.0" stylesheets="@../resources/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schoollibrary.ui.editbook.EditBookController">
+   <children>
+      <VBox id="vbox1" prefHeight="546.0" prefWidth="414.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="titleLable" alignment="CENTER" prefHeight="70.0" prefWidth="569.0" text="EDIT BOOK" textAlignment="CENTER" textFill="#1e00ff">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Roboto Condensed Bold" size="35.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="b_id" focusColor="#2962ff" labelFloat="true" promptText="BookID" unFocusColor="#03a9f4">
+               <font>
+                  <Font name="Roboto Condensed Regular" size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="70.0" right="70.0" top="50.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </JFXTextField>
+            <JFXTextField fx:id="b_name" focusColor="#2962ff" labelFloat="true" layoutX="50.0" layoutY="111.0" promptText="Book Name" unFocusColor="#03a9f4">
+               <font>
+                  <Font name="Roboto Condensed Regular" size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="70.0" right="70.0" top="35.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </JFXTextField>
+            <JFXTextField fx:id="author" focusColor="#2962ff" labelFloat="true" layoutX="50.0" layoutY="111.0" promptText="Author" unFocusColor="#03a9f4">
+               <font>
+                  <Font name="Roboto Condensed Regular" size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="70.0" right="70.0" top="35.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </JFXTextField>
+            <JFXTextField fx:id="publisher" focusColor="#2962ff" labelFloat="true" layoutX="10.0" layoutY="140.0" promptText="Publisher" unFocusColor="#03a9f4">
+               <font>
+                  <Font name="Roboto Condensed Regular" size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="70.0" right="70.0" top="35.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </JFXTextField>
+            <JFXTextField fx:id="price" focusColor="#2962ff" labelFloat="true" layoutX="10.0" layoutY="170.0" promptText="Price" unFocusColor="#03a9f4">
+               <font>
+                  <Font name="Roboto Condensed Regular" size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="70.0" right="70.0" top="35.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </JFXTextField>
+            <JFXTextField fx:id="pages" focusColor="#2962ff" labelFloat="true" promptText="No of pages" unFocusColor="#03a9f4">
+               <font>
+                  <Font name="Roboto Condensed Regular" size="20.0" />
+               </font>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets left="70.0" right="70.0" top="35.0" />
+               </VBox.margin>
+            </JFXTextField>
+            <StackPane alignment="CENTER_LEFT" prefHeight="78.0" prefWidth="552.0">
+               <children>
+                  <JFXDatePicker fx:id="r_date">
+                     <StackPane.margin>
+                        <Insets left="70.0" right="70.0" />
+                     </StackPane.margin>
+                  </JFXDatePicker>
+               </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </StackPane>
+            <JFXTextField fx:id="description" focusColor="#2962ff" labelFloat="true" layoutX="10.0" layoutY="200.0" promptText="Description" unFocusColor="#03a9f4">
+               <font>
+                  <Font name="Roboto Condensed Regular" size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="70.0" right="70.0" top="10.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </JFXTextField>
+            <HBox prefHeight="82.0" prefWidth="414.0">
+               <VBox.margin>
+                  <Insets top="35.0" />
+               </VBox.margin>
+               <children>
+                  <JFXButton fx:id="saveButton" onAction="#updateBook" prefHeight="38.0" prefWidth="83.0" text="Update" textAlignment="CENTER">
+                     <font>
+                        <Font name="Roboto Condensed Regular" size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="150.0" top="15.0" />
+                     </HBox.margin>
+                  </JFXButton>
+                  <JFXButton fx:id="cancelButton" onAction="#cancel" prefHeight="38.0" prefWidth="83.0" text="Cancel" textAlignment="CENTER">
+                     <font>
+                        <Font name="Roboto Condensed Regular" size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="80.0" top="15.0" />
+                     </HBox.margin>
+                  </JFXButton>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <ButtonBar prefHeight="40.0" prefWidth="200.0" />
+   </children>
+</AnchorPane>

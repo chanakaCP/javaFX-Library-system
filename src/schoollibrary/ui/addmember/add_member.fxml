@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="rootPane" prefHeight="481.0" prefWidth="426.0" stylesheets="@../resources/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schoollibrary.ui.addmember.AddMemberController">
+   <children>
+      <VBox id="vbox1" prefHeight="481.0" prefWidth="426.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="titleLable" alignment="CENTER" prefHeight="70.0" prefWidth="569.0" text="ADD MEMBER" textAlignment="CENTER" textFill="#1e00ff">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Roboto Condensed Bold" size="35.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="m_id" focusColor="#2962ff" labelFloat="true" promptText="Member ID" unFocusColor="#03a9f4">
+               <font>
+                  <Font name="Roboto Condensed Regular" size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="70.0" right="70.0" top="60.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </JFXTextField>
+            <JFXTextField fx:id="m_name" focusColor="#2962ff" labelFloat="true" layoutX="50.0" layoutY="111.0" promptText="Member Name" unFocusColor="#03a9f4">
+               <font>
+                  <Font name="Roboto Condensed Regular" size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="70.0" right="70.0" top="45.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </JFXTextField>
+            <HBox prefHeight="82.0" prefWidth="414.0">
+               <VBox.margin>
+                  <Insets top="60.0" />
+               </VBox.margin>
+               <children>
+                  <JFXButton fx:id="saveButton" onAction="#addMember" prefHeight="38.0" prefWidth="83.0" text="Save" textAlignment="CENTER">
+                     <font>
+                        <Font name="Roboto Condensed Regular" size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="90.0" top="15.0" />
+                     </HBox.margin>
+                  </JFXButton>
+                  <JFXButton fx:id="cancelButton" onAction="#cancel" prefHeight="38.0" prefWidth="83.0" text="Cancel" textAlignment="CENTER">
+                     <font>
+                        <Font name="Roboto Condensed Regular" size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="80.0" top="15.0" />
+                     </HBox.margin>
+                  </JFXButton>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

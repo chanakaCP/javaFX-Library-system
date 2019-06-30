@@ -1,0 +1,164 @@
+
+#rootPane{
+    -fx-background-color: #263238 ;
+}
+#rootPaneLog{
+    -fx-background-color: derive(#263238, -20%);
+}
+/* Main buttons */
+#saveButton, #cancelButton, #searchButton, #issueBtn, #renewBtn, #subBtn{
+    -fx-background-color: transparent;
+    -fx-background-radius: 20;
+    -fx-border-width: 2;
+    -fx-border-color: derive(#00b0ff, -20%);
+    -fx-border-radius: 20; 
+    -fx-text-fill: derive(#00b0ff, -20%);
+    -fx-text-alignment: center;
+    -fx-font-size: 16;
+}
+#saveButton:hover, #cancelButton:hover, #searchButton:hover, #issueBtn:hover, #renewBtn:hover, #subBtn:hover{
+    -fx-background-color:  derive(#00b0ff, -20%);
+    -fx-background-radius: 20;
+    -fx-border-radius: 20; 
+    -fx-border-color:  derive(#00b0ff, -20%);;
+    -fx-text-fill: white;
+    -fx-text-alignment: center;
+}
+#saveButton:focused, #cancelButton:focused, #searchButton:focused, #issueBtn:focused, #renewBtn:focused, #subBtn:focused{
+   -fx-background-color: derive(#00b0ff, -20%);;
+   -fx-background-radius: 20;
+   -fx-border-radius: 20; 
+   -fx-border-color: derive(#00b0ff, -20%);;
+   -fx-text-fill: white; 
+   -fx-text-alignment: center;
+}
+
+/* Title */
+#titleLable{
+    -fx-text-fill: #cfd8dc;
+}
+
+/* Login */
+#logName, #logPassword{
+   -fx-border-color: derive(#00b0ff, -20%);
+   -fx-border-width: 2;
+   -fx-border-radius: 25;
+   -fx-prompt-text-fill: derive(#00b0ff, -20%);
+   -fx-border: gone;
+   -fx-background-color: transparent;
+   -fx-background-radius: 25;
+   -fx-text-fill: derive(#00b0ff, -20%);
+   -fx-color:white;
+}
+#logName:focused, #logPassword:focused, #logName:hover, #logPassword:hover{
+   -fx-border-color: derive(#00b0ff, -20%);
+   -fx-border-width: 2;
+   -fx-border-radius: 25;
+   -fx-border: gone;
+   -fx-background-color: rgba(245, 247, 249,.2);
+   -fx-background-radius: 25;
+   -fx-text-fill: #cddc39;
+}
+
+
+/* Input fields  */
+
+#b_id, #b_name, #author, #publisher, #price, #pages, #description, #m_id, #m_name,
+#u_name, #passoword, #c_password, #no_of_days, #searchKey{
+    -fx-background-color: transparent;
+    -fx-text-fill: #03a9f4;
+    -jfx-focus-color: #cfd8dc;
+}
+#b_id:focused, #b_name:focused, #author:focused, #publisher:focused, #price:focused, #pages:focused, #description:focused, #m_id:focused, 
+#m_name:focused, #u_name:focused, #passoword:focused, #c_password:focused, #no_of_days:focused, #searchKey:focused{
+    -fx-background-color: transparent;
+    -fx-text-fill: #03a9f4;
+    -jfx-focus-color: #cfd8dc;
+}
+.jfx-date-picker .input-line {
+    -fx-background-color: #03a9f4;
+}
+.jfx-date-picker .input-focused-line {
+    -fx-background-color: white;
+}
+.date-picker > .text-field {
+    -fx-text-fill: #03a9f4;
+}
+.combo-box{
+    -fx-background-color: transparent;
+    -jfx-focus-color: #03a9f4;
+}
+.combo-box .cell:selected{
+    -fx-text-fill: #03a9f4;
+}
+#bookIdInput, #memberIdInput, #bookIdInput2, #bookIdInput:focused, #memberIdInput:focused, #bookIdInput2:focused{
+    -fx-background-color: transparent;
+    -fx-text-fill: #03a9f4;
+    -jfx-focus-color: #cfd8dc;
+}
+
+/*  Side bar */
+#menubar{
+    -fx-background-color: derive(#263238, -20%);
+}
+#menuBtn{
+    -fx-background-color: #263238;
+    -fx-text-fill: #78909c;
+}
+#menuBtn:hover, #menuBtn:focused, #menuBtn:focused{
+    -fx-background-color: derive(#00b0ff, -20%);
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+}
+
+/* Tab */
+.tab{
+    -fx-background-color: derive(#263238, -20%);
+    -fx-pref-width: 300;
+    -fx-pref-height: 50;
+    -fx-text-fill: #cfd8dc;
+}
+.tab-header-background{
+    -fx-background-color: derive(#263238, -20%);
+}
+
+/* Menu bar */
+.menu-bar{
+    -fx-base: #263238;
+    -fx-background-color: derive(#263238, -20%);
+}
+.context-menu{
+    -fx-background-color: derive(#263238, 20%);
+}
+
+/* Menu */
+#info, #bookInfoContainer, #memberInfoContainer{
+    -fx-background-color: derive(#263238, -20%);
+    -fx-background-radius: 5;
+}
+/* Detais Card */
+#subDetals1, #subDetals2, #subDetals3{
+    -fx-background-color: derive(#263238, -20%);
+}
+
+/* Data Chart */
+.data0.chart-pie{
+    -fx-pie-color: #311b92;
+    -fx-border-color: #311b92;
+}
+.data1.chart-pie{
+    -fx-pie-color: #01579b;
+    -fx-border-color: #01579b;
+}
+.chart-legend{
+    -fx-background-color: transparent;
+    -fx-border-color: #78909c;
+    -fx-border-radius: 10;
+}
+.chart-legend-item-symbol {
+   -fx-background-radius: 10;
+   -fx-border-radius: 10;
+}
+.chart-legend-item {
+    -fx-text-fill: #78909c;
+}

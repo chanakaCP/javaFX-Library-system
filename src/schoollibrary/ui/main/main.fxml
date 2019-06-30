@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="776.0" prefWidth="1400.0" stylesheets="@../resources/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schoollibrary.ui.main.MainController">
+   <children>
+      <BorderPane fx:id="borderPane" prefHeight="200.0" prefWidth="200.0">
+         <top>
+            <MenuBar BorderPane.alignment="CENTER">
+              <menus>
+                <Menu mnemonicParsing="false" onAction="#menuClose" text="File">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Add">
+                  <items>
+                    <MenuItem mnemonicParsing="false" onAction="#menuAddBook" text="Add Book" />
+                        <MenuItem mnemonicParsing="false" onAction="#menuAddMember" text="Add Member" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="View">
+                  <items>
+                    <MenuItem mnemonicParsing="false" onAction="#menuViewBook" text="View Book" />
+                        <MenuItem mnemonicParsing="false" onAction="#menuViewMember" text="View Member" />
+                        <MenuItem mnemonicParsing="false" onAction="#menuFullScreen" text="Full Screen" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </top>
+         <left>
+            <VBox fx:id="menubar" prefHeight="731.0" prefWidth="258.0" BorderPane.alignment="CENTER">
+               <children>
+                  <JFXButton fx:id="menuBtn" alignment="BASELINE_LEFT" graphicTextGap="25.0" maxHeight="75.0" maxWidth="270.0" onAction="#loadAddMember" prefHeight="50.0" prefWidth="217.0" text="Add Member">
+                     <VBox.margin>
+                        <Insets bottom="15.0" left="20.0" right="20.0" top="150.0" />
+                     </VBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" rotate="-1.3">
+                           <image>
+                              <Image url="@../icons/addMember.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
+                     <font>
+                        <Font name="Roboto Condensed Regular" size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="menuBtn" alignment="BASELINE_LEFT" graphicTextGap="25.0" maxHeight="75.0" maxWidth="270.0" onAction="#loadAddBook" prefHeight="50.0" prefWidth="229.0" text="Add Book">
+                     <VBox.margin>
+                        <Insets bottom="15.0" left="20.0" right="20.0" />
+                     </VBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/addBook.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
+                     <font>
+                        <Font name="Roboto Condensed Regular" size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="menuBtn" alignment="BASELINE_LEFT" graphicTextGap="25.0" maxHeight="75.0" maxWidth="270.0" onAction="#loadViewMember" prefHeight="50.0" prefWidth="228.0" text="View Members">
+                     <VBox.margin>
+                        <Insets bottom="15.0" left="20.0" right="20.0" />
+                     </VBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/userList.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
+                     <font>
+                        <Font name="Roboto Condensed Regular" size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="menuBtn" alignment="BASELINE_LEFT" graphicTextGap="25.0" maxHeight="75.0" maxWidth="270.0" onAction="#loadViewBook" prefHeight="50.0" prefWidth="242.0" text="View Books">
+                     <VBox.margin>
+                        <Insets bottom="15.0" left="20.0" right="20.0" />
+                     </VBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/bookList.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
+                     <font>
+                        <Font name="Roboto Condensed Regular" size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="menuBtn" alignment="BASELINE_LEFT" graphicTextGap="25.0" maxHeight="75.0" maxWidth="270.0" onAction="#loadIssuedBook" prefHeight="50.0" prefWidth="226.0" text="Issued Books">
+                     <VBox.margin>
+                        <Insets bottom="15.0" left="20.0" right="20.0" />
+                     </VBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/issuedList.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
+                     <font>
+                        <Font name="Roboto Condensed Regular" size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="menuBtn" alignment="BASELINE_LEFT" graphicTextGap="25.0" maxHeight="75.0" maxWidth="270.0" onAction="#loadHistory" prefHeight="50.0" prefWidth="234.0" text="History">
+                     <VBox.margin>
+                        <Insets bottom="15.0" left="20.0" right="20.0" />
+                     </VBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/history.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
+                     <font>
+                        <Font name="Roboto Condensed Regular" size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="menuBtn" alignment="BASELINE_LEFT" graphicTextGap="25.0" maxHeight="75.0" maxWidth="270.0" onAction="#loadSetting" prefHeight="50.0" prefWidth="258.0" text="Setting">
+                     <VBox.margin>
+                        <Insets bottom="15.0" left="20.0" right="20.0" />
+                     </VBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/settings.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
+                     <font>
+                        <Font name="Roboto Condensed Regular" size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="menuBtn" alignment="BASELINE_LEFT" graphicTextGap="25.0" maxHeight="75.0" maxWidth="270.0" onAction="#loadTimetable" prefHeight="50.0" prefWidth="270.0" text="Time Table">
+                     <VBox.margin>
+                        <Insets bottom="100.0" left="20.0" right="20.0" />
+                     </VBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/timeTable.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
+                     <font>
+                        <Font name="Roboto Condensed Regular" size="18.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </VBox>
+         </left>
+         <center>
+            <JFXTabPane fx:id="tabbar" prefHeight="800.0" prefWidth="1142.0" BorderPane.alignment="CENTER">
+               <tabs>
+                  <Tab fx:id="issueTab" text="Book Issue">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <HBox AnchorPane.bottomAnchor="-70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <VBox maxWidth="1.7976931348623157E308" prefHeight="730.0" prefWidth="676.0">
+                                       <children>
+                                          <HBox fx:id="info" alignment="CENTER_LEFT" prefHeight="223.0" prefWidth="498.0">
+                                             <children>
+                                                <JFXTextField fx:id="bookIdInput" alignment="CENTER" focusColor="#2962ff" labelFloat="true" onAction="#loadBookInfo" prefHeight="31.0" prefWidth="150.0" promptText="BOOK ID" unFocusColor="#03a9f4">
+                                                   <font>
+                                                      <Font name="Roboto Condensed Regular" size="18.0" />
+                                                   </font>
+                                                   <HBox.margin>
+                                                      <Insets left="30.0" right="30.0" />
+                                                   </HBox.margin>
+                                                </JFXTextField>
+                                                <VBox alignment="CENTER" prefHeight="223.0" prefWidth="459.0">
+                                                   <children>
+                                                      <Text fx:id="bookName" fill="#6e909c" strokeType="OUTSIDE" strokeWidth="0.0" text="Book Name" textAlignment="CENTER" wrappingWidth="320.8003105163589">
+                                                         <font>
+                                                            <Font name="Roboto Condensed Regular" size="20.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets left="40.0" right="40.0" />
+                                                         </VBox.margin>
+                                                      </Text>
+                                                      <Text fx:id="bookStatus" fill="#6e909c" layoutX="10.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Availability" textAlignment="CENTER" wrappingWidth="320.000066280365">
+                                                         <font>
+                                                            <Font name="Roboto Condensed Regular" size="20.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets left="40.0" right="40.0" top="20.0" />
+                                                         </VBox.margin>
+                                                      </Text>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="30.0" left="50.0" right="30.0" top="50.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <HBox fx:id="info" alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="223.0" prefWidth="1083.0">
+                                             <children>
+                                                <JFXTextField fx:id="memberIdInput" alignment="CENTER" focusColor="#2962ff" labelFloat="true" onAction="#loadMemberInfo" prefHeight="31.0" prefWidth="150.0" promptText="MEMBER ID" unFocusColor="#03a9f4">
+                                                   <font>
+                                                      <Font name="Roboto Condensed Regular" size="18.0" />
+                                                   </font>
+                                                   <HBox.margin>
+                                                      <Insets left="30.0" right="30.0" />
+                                                   </HBox.margin>
+                                                </JFXTextField>
+                                                <VBox alignment="CENTER" prefHeight="223.0" prefWidth="441.0">
+                                                   <children>
+                                                      <Text fx:id="memberName" fill="#6e909c" strokeType="OUTSIDE" strokeWidth="0.0" text="Member Name " textAlignment="CENTER" wrappingWidth="320.7999839782715">
+                                                         <font>
+                                                            <Font name="Roboto Condensed Regular" size="20.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets left="40.0" right="40.0" />
+                                                         </VBox.margin>
+                                                      </Text>
+                                                      <Text fx:id="memberStatus" fill="#6e909c" layoutX="50.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Validity" textAlignment="CENTER" wrappingWidth="320.80004930496216">
+                                                         <font>
+                                                            <Font name="Roboto Condensed Regular" size="20.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets left="40.0" right="40.0" top="20.0" />
+                                                         </VBox.margin>
+                                                      </Text>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets left="50.0" right="30.0" top="50.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <VBox fx:id="issue_btn" alignment="CENTER" prefHeight="72.0" prefWidth="1083.0">
+                                             <children>
+                                                <JFXButton fx:id="issueBtn" onAction="#issueBookOperation" prefHeight="39.0" prefWidth="102.0" text="Issue">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </JFXButton>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets left="30.0" right="30.0" top="30.0" />
+                                             </VBox.margin>
+                                          </VBox>
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="770.0" prefWidth="467.0">
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                       <children>
+                                          <VBox fx:id="bookInfoContainer" alignment="CENTER" prefHeight="223.0" prefWidth="406.0">
+                                             <VBox.margin>
+                                                <Insets bottom="30.0" left="30.0" right="50.0" top="50.0" />
+                                             </VBox.margin>
+                                             <padding>
+                                                <Insets left="10.0" right="10.0" />
+                                             </padding></VBox>
+                                          <VBox fx:id="memberInfoContainer" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="223.0" prefWidth="407.0">
+                                             <VBox.margin>
+                                                <Insets bottom="30.0" left="30.0" right="50.0" top="50.0" />
+                                             </VBox.margin>
+                                             <padding>
+                                                <Insets left="10.0" right="10.0" />
+                                             </padding></VBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab fx:id="submissionTab" text="Renew /  Submission">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="1066.0">
+                           <children>
+                              <BorderPane layoutX="152.0" layoutY="98.0" prefHeight="572.0" prefWidth="643.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <top>
+                                    <JFXTextField fx:id="bookIdInput2" alignment="CENTER" focusColor="#2962ff" labelFloat="true" maxHeight="30.0" maxWidth="150.0" onAction="#loadBookInfo2" prefHeight="31.0" prefWidth="150.0" promptText="BOOK ID" unFocusColor="#03a9f4" BorderPane.alignment="CENTER">
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                       <BorderPane.margin>
+                                          <Insets top="100.0" />
+                                       </BorderPane.margin>
+                                       <font>
+                                          <Font name="Roboto Condensed Regular" size="18.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets left="10.0" />
+                                       </padding>
+                                    </JFXTextField>
+                                 </top>
+                                 <bottom>
+                                    <HBox fx:id="renew_btn" alignment="CENTER" prefHeight="82.0" prefWidth="583.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <JFXButton fx:id="renewBtn" onAction="#renewBookOperation" prefHeight="35.0" prefWidth="112.0" text="Renew">
+                                             <HBox.margin>
+                                                <Insets right="50.0" />
+                                             </HBox.margin>
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </JFXButton>
+                                          <JFXButton fx:id="subBtn" layoutX="284.0" layoutY="43.0" onAction="#submitBookOperation" prefHeight="35.0" prefWidth="112.0" text="Submission">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </JFXButton>
+                                       </children>
+                                       <BorderPane.margin>
+                                          <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                                       </BorderPane.margin>
+                                    </HBox>
+                                 </bottom>
+                                 <center>
+                                    <HBox prefHeight="409.0" prefWidth="789.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <VBox fx:id="subDetals1" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="1000.0">
+                                             <HBox.margin>
+                                                <Insets bottom="40.0" left="50.0" right="50.0" top="50.0" />
+                                             </HBox.margin>
+                                             <children>
+                                                <Text fx:id="subLale1" fill="#00b0ff" strokeType="OUTSIDE" strokeWidth="0.0" text="Book" textAlignment="CENTER">
+                                                   <VBox.margin>
+                                                      <Insets top="40.0" />
+                                                   </VBox.margin>
+                                                   <font>
+                                                      <Font name="Roboto Condensed Bold" size="20.0" />
+                                                   </font>
+                                                </Text>
+                                                <Text fx:id="book_name" fill="#78909c" strokeType="OUTSIDE" strokeWidth="0.0" text=" Book Name" textAlignment="CENTER" wrappingWidth="240.31603872776031">
+                                                   <font>
+                                                      <Font name="Roboto Condensed Regular" size="20.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets top="60.0" />
+                                                   </VBox.margin>
+                                                </Text>
+                                                <Text fx:id="description" fill="#78909c" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" textAlignment="CENTER" wrappingWidth="240.7020189166069">
+                                                   <font>
+                                                      <Font name="Roboto Condensed Regular" size="20.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets top="30.0" />
+                                                   </VBox.margin>
+                                                </Text>
+                                             </children>
+                                          </VBox>
+                                          <VBox fx:id="subDetals2" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="1000.0">
+                                             <HBox.margin>
+                                                <Insets bottom="40.0" right="50.0" top="50.0" />
+                                             </HBox.margin>
+                                             <children>
+                                                <Text fx:id="subLale2" fill="#00b0ff" strokeType="OUTSIDE" strokeWidth="0.0" text="Member" textAlignment="CENTER">
+                                                   <VBox.margin>
+                                                      <Insets top="40.0" />
+                                                   </VBox.margin>
+                                                   <font>
+                                                      <Font name="Roboto Condensed Bold" size="20.0" />
+                                                   </font>
+                                                </Text>
+                                                <Text fx:id="member_id" fill="#78909c" strokeType="OUTSIDE" strokeWidth="0.0" text="Member ID" textAlignment="CENTER" wrappingWidth="240.41336369514465">
+                                                   <font>
+                                                      <Font name="Roboto Condensed Regular" size="20.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets top="60.0" />
+                                                   </VBox.margin>
+                                                </Text>
+                                                <Text fx:id="member_name" fill="#78909c" strokeType="OUTSIDE" strokeWidth="0.0" text="Name" textAlignment="CENTER" wrappingWidth="240.41324162483215">
+                                                   <font>
+                                                      <Font name="Roboto Condensed Regular" size="20.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets top="30.0" />
+                                                   </VBox.margin>
+                                                </Text>
+                                             </children>
+                                          </VBox>
+                                          <VBox fx:id="subDetals3" alignment="TOP_CENTER" prefHeight="661.0" prefWidth="1000.0">
+                                             <HBox.margin>
+                                                <Insets bottom="40.0" right="50.0" top="50.0" />
+                                             </HBox.margin>
+                                             <children>
+                                                <Text fx:id="subLale3" fill="#00b0ff" strokeType="OUTSIDE" strokeWidth="0.0" text="Issue" textAlignment="CENTER">
+                                                   <VBox.margin>
+                                                      <Insets top="40.0" />
+                                                   </VBox.margin>
+                                                   <font>
+                                                      <Font name="Roboto Condensed Bold" size="20.0" />
+                                                   </font>
+                                                </Text>
+                                                <Text fx:id="issue_date" fill="#78909c" strokeType="OUTSIDE" strokeWidth="0.0" text="Issue Date" textAlignment="CENTER" wrappingWidth="240.63548278808594">
+                                                   <font>
+                                                      <Font name="Roboto Condensed Regular" size="20.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets top="60.0" />
+                                                   </VBox.margin>
+                                                </Text>
+                                                <Text fx:id="renew_count" fill="#78909c" strokeType="OUTSIDE" strokeWidth="0.0" text="Renew Count" textAlignment="CENTER" wrappingWidth="240.635498046875">
+                                                   <font>
+                                                      <Font name="Roboto Condensed Regular" size="20.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets top="30.0" />
+                                                   </VBox.margin>
+                                                </Text>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <BorderPane.margin>
+                                          <Insets left="50.0" right="50.0" top="30.0" />
+                                       </BorderPane.margin>
+                                    </HBox>
+                                 </center>
+                              </BorderPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+               </tabs>
+            </JFXTabPane>
+         </center>
+      </BorderPane>
+   </children>
+</StackPane>
