@@ -84,6 +84,8 @@
 .date-picker > .text-field {
     -fx-text-fill: #03a9f3;
 }
+
+/*new feature*/
 .combo-box{
     -fx-background-color: transparent;
     -jfx-focus-color: #03a9f4;
