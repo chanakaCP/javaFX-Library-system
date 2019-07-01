@@ -81,6 +81,9 @@
 .jfx-date-picker .input-focused-line {
     -fx-background-color: white;
 }
+.date-picker > .text-field {
+    -fx-text-fill: #03a9f3;
+}
 .combo-box{
     -fx-background-color: transparent;
     -jfx-focus-color: #03a9f4;
@@ -162,8 +165,15 @@
 
 
 
-
-
-.date-picker > .text-field {
-    -fx-text-fill: white;
+/* Table */
+.table-view{
+   -fx-background-color: transparent;
+   -fx-text-fill: white;
+   -fx-background-fills: white;
+}
+.table-view:focused{
+    -fx-background-color: transparent;
+}
+.table-view .column-header-background{
+    -fx-background-color: blue;
 }
