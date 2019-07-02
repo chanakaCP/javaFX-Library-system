@@ -50,17 +50,17 @@
                   <Insets bottom="10.0" left="20.0" right="20.0" top="20.0" />
                </VBox.margin>
             </HBox>
-            <TableView fx:id="tableViewCol" prefHeight="560.0" prefWidth="1115.0">
+            <TableView fx:id="tableViewCol" prefHeight="543.0" prefWidth="1462.0">
               <columns>
-                <TableColumn fx:id="idCol" prefWidth="100.79998397827148" text="Book ID" />
-                <TableColumn fx:id="nameCol" prefWidth="258.4000701904297" text="Name" />
+                <TableColumn fx:id="idCol" prefWidth="160.00001180171967" text="Book ID" />
+                <TableColumn fx:id="nameCol" prefWidth="164.80001831054688" text="Name" />
                   <TableColumn fx:id="authorCol" prefWidth="275.20001220703125" text="Author" />
                   <TableColumn fx:id="publisherCol" prefWidth="184.79998779296875" text="Publisher" />
-                  <TableColumn fx:id="priceCol" prefWidth="115.20001220703125" text="Price" />
-                  <TableColumn fx:id="pageCol" prefWidth="106.4000244140625" text="No: of pages" />
-                  <TableColumn fx:id="dateCol" prefWidth="120.79998779296875" text="Received Date" />
-                  <TableColumn fx:id="descriptionCol" prefWidth="207.199951171875" text="Description" />
-                  <TableColumn fx:id="availabilityCol" prefWidth="112.800048828125" text="Availability" />
+                  <TableColumn fx:id="priceCol" prefWidth="101.5999755859375" text="Price" />
+                  <TableColumn fx:id="pageCol" prefWidth="96.0" text="No: of pages" />
+                  <TableColumn fx:id="dateCol" prefWidth="126.4000244140625" text="Received Date" />
+                  <TableColumn fx:id="descriptionCol" prefWidth="205.5999755859375" text="Description" />
+                  <TableColumn fx:id="availabilityCol" prefWidth="135.2000732421875" text="Availability" />
               </columns>
                <contextMenu>
                   <ContextMenu>
@@ -71,7 +71,7 @@
                   </ContextMenu>
                </contextMenu>
                <VBox.margin>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
+                  <Insets bottom="30.0" left="30.0" right="30.0" top="20.0" />
                </VBox.margin>
             </TableView>
          </children>

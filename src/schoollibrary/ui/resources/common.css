@@ -164,16 +164,75 @@
 }
 
 
-
 /* Table */
-.table-view{
-   -fx-background-color: transparent;
-   -fx-text-fill: white;
-   -fx-background-fills: white;
+
+/* scroll bar starts here */
+/* The increment and decrement button CSS class of scrollbar */
+/*.table-view .increment-button ,.table-view .decrement-button {
+    -fx-background-color:transparent;
+    -fx-background-radius: 2em;
 }
-.table-view:focused{
+
+.table-view .scroll-bar:horizontal .track,
+.table-view .scroll-bar:vertical .track{
     -fx-background-color: transparent;
+    -fx-border-color: derive(#263238, -20%);
+    -fx-background-radius: 2em;
+    -fx-border-radius: 2em;
+}
+
+.table-view .scroll-bar:horizontal .thumb,
+.table-view .scroll-bar:vertical .thumb {
+    -fx-background-color: derive( #6622CC,90%);
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 2em;
+}*/
+
+
+.table-view{
+    -fx-background-color: derive(#263238, -20%);
+    -fx-font-family: "Roboto Condensed";
+    -fx-background-radius: 10;
 }
 .table-view .column-header-background{
-    -fx-background-color: blue;
+    -fx-background-color: derive(#263238, -20%);  
+    -fx-fixed-cell-size: 50;
 }
+.table-view .column-header-background .label{
+    -fx-background-color: derive(#263238, -20%);  
+    -fx-fixed-cell-size: 50;
+    -fx-text-fill: white;
+    -fx-text-fill: #00ad5f;
+}
+.table-view .column-header {
+    -fx-background-color: derive(#263238, -20%);  
+    -fx-fixed-cell-size: 50;
+}
+.table-view .table-cell{
+    -fx-cell-size: 35;
+    -fx-alignment: center;
+    -fx-background-color: derive(#263238, -20%);
+    -fx-border-color: derive(#263238, -20%);
+    -fx-text-fill: derive(white, -20%);
+    -fx-alignment: CENTER; 
+}
+.table-row-cell{
+    -fx-cell-size: 35;
+    -fx-alignment: center;
+    -fx-background-color: derive(#263238, -20%);
+    -fx-border-color: derive(#263238, -20%);
+    -fx-text-fill: white;
+    -fx-alignment: CENTER;
+}
+.table-row-cell:selected {
+    -fx-background-color: derive(white, -20%);
+    -fx-color: white;
+    -fx-border-color: derive(#00b0ff, -20%);
+    -fx-alignment: CENTER; 
+    -fx-alignment: center;
+    -fx-border-radius: 10;
+    -fx-text-fill: derive(#00b0ff, -20%);
+    -fx-background-insets: 0;
+}
+
+

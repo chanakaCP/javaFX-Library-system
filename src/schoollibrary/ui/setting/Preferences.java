@@ -13,7 +13,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import schoollibrary.alert.AlertMaker;
 
 
-public class Preferences {
+public final class Preferences {
     public static final String CONFIG_FILE = "config.txt";
     
     String username;
