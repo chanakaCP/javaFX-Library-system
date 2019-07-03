@@ -1,7 +1,6 @@
 
 package schoollibrary.ui.submission;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
@@ -80,8 +79,8 @@ public class SubmissionController implements Initializable {
     private void initCol() {
         b_idCol.setCellValueFactory(new PropertyValueFactory<>("b_id"));
         m_idCol.setCellValueFactory(new PropertyValueFactory<>("m_id"));
-        i_timeCol.setCellValueFactory(new PropertyValueFactory<>("issue_time"));
-        s_timeCol.setCellValueFactory(new PropertyValueFactory<>("submission_time"));
+        i_timeCol.setCellValueFactory(new PropertyValueFactory<>("issue_date"));
+        s_timeCol.setCellValueFactory(new PropertyValueFactory<>("submission_date"));
         countCol.setCellValueFactory(new PropertyValueFactory<>("r_count"));
     }
 
@@ -98,11 +97,11 @@ public class SubmissionController implements Initializable {
             while (result.next()) {
                 String bookID = result.getString("bookID");
                 String memberID = result.getString("memberID");
-                String issueTime = result.getString("issueTime");
-                String submissionTime = result.getString("submitTime");
+                String issueDate = result.getString("issueTime");
+                String submissionDate = result.getString("submitTime");
                 String rCount = result.getString("renewCount");
                 int rCountInt = Integer.parseInt(rCount);
-                list.add(new Submission(bookID,memberID,issueTime,submissionTime,rCountInt));
+                list.add(new Submission(bookID,memberID,issueDate,submissionDate,rCountInt));
             }
         } catch (SQLException ex) {
             Logger.getLogger(SubmissionController.class.getName()).log(Level.SEVERE, null, ex);
@@ -121,17 +120,17 @@ public class SubmissionController implements Initializable {
         }
         
         list.clear();  
-        String query = "SELECT * FROM SUBMISSION WHERE " + stream + " LIKE '%"+value+"%' ";
+        String query = "SELECT * FROM SUBMISSION WHERE " + stream + " = '%"+value+"%' ";
         ResultSet result = databaseHandler.execQuery(query);
         try {
             while (result.next()) { 
                 String bookID = result.getString("bookID");
                 String memberID = result.getString("memberID");
-                String issueTime = result.getString("issueTime");
-                String submissionTime = result.getString("submitTime");
+                String issueDate = result.getString("issueTime");
+                String submissionDate = result.getString("submitTime");
                 String rCount = result.getString("renewCount");
                 int rCountInt = Integer.parseInt(rCount);
-                list.add(new Submission(bookID,memberID,issueTime,submissionTime,rCountInt));
+                list.add(new Submission(bookID,memberID,issueDate,submissionDate,rCountInt));
             }
         } catch (SQLException ex) {           
             Logger.getLogger(SubmissionController.class.getName()).log(Level.SEVERE, null, ex);
@@ -157,11 +156,11 @@ public class SubmissionController implements Initializable {
             while (result.next()) { 
                 String bookID = result.getString("bookID");
                 String memberID = result.getString("memberID");
-                String issueTime = result.getString("issueTime");
-                String submissionTime = result.getString("submitTime");
+                String issueDate = result.getString("issueTime");
+                String submissionDate = result.getString("submitTime");
                 String rCount = result.getString("renewCount");
                 int rCountInt = Integer.parseInt(rCount);
-                list.add(new Submission(bookID,memberID,issueTime,submissionTime,rCountInt));
+                list.add(new Submission(bookID,memberID,issueDate,submissionDate,rCountInt));
             }
         } catch (SQLException ex) {           
             Logger.getLogger(SubmissionController.class.getName()).log(Level.SEVERE, null, ex);
@@ -220,15 +219,15 @@ public class SubmissionController implements Initializable {
     public static class Submission{
        public final SimpleStringProperty b_id;
        public final SimpleStringProperty m_id;
-       public final SimpleStringProperty issue_time;
-       public final SimpleStringProperty submission_time;
+       public final SimpleStringProperty issue_date;
+       public final SimpleStringProperty submission_date;
        public final SimpleIntegerProperty r_count;
        
-       public Submission(String bid, String mid, String i_time, String s_time, int count){
+       public Submission(String bid, String mid, String i_date, String s_date, int count){
             this.b_id = new SimpleStringProperty(bid);
             this.m_id = new SimpleStringProperty(mid);
-            this.issue_time = new SimpleStringProperty(i_time);
-            this.submission_time = new SimpleStringProperty(s_time);
+            this.issue_date = new SimpleStringProperty(i_date);
+            this.submission_date = new SimpleStringProperty(s_date);
             this.r_count = new SimpleIntegerProperty(count);
         }
 
@@ -241,12 +240,12 @@ public class SubmissionController implements Initializable {
             return m_id.get();
         }
 
-        public String getIssue_time() {
-            return issue_time.get();
+        public String getIssue_date() {
+            return issue_date.get();
         }
 
-        public String getSubmission_time() {
-            return submission_time.get();
+        public String getSubmission_date() {
+            return submission_date.get();
         }
 
         public Integer getR_count() {

@@ -2,11 +2,13 @@
 package schoollibrary.ui.viewbook;
 
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -32,6 +34,7 @@ import javafx.stage.StageStyle;
 import schoollibrary.alert.AlertMaker;
 import schoollibrary.database.DatabaseHandler;
 import schoollibrary.ui.addbook.AddBookController;
+import schoollibrary.ui.bookDetails.BookDetailsController;
 import schoollibrary.ui.editbook.EditBookController;
 import schoollibrary.ui.main.MainController;
 import schoollibrary.util.LibraryAssistantUtil;
@@ -47,6 +50,8 @@ public class BookListController implements Initializable {
     @FXML
     private JFXTextField searchKey;
     @FXML
+    private JFXDatePicker datePick;
+    @FXML
     private TableView<Book> tableViewCol;
     @FXML
     private TableColumn<Book,String> idCol;
@@ -57,19 +62,13 @@ public class BookListController implements Initializable {
     @FXML
     private TableColumn<Book,String> publisherCol;
     @FXML
-    private TableColumn<Book,String> priceCol;
-    @FXML
-    private TableColumn<Book,String> pageCol;
-    @FXML
     private TableColumn<Book,String> dateCol;
-    @FXML
-    private TableColumn<Book,String> descriptionCol;
     @FXML
     private TableColumn<Book,Boolean> availabilityCol;
     
     DatabaseHandler databaseHandler;
     MainController mainController;
-    
+  
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -77,11 +76,15 @@ public class BookListController implements Initializable {
         choiceKey.getItems().add("Book Name");
         choiceKey.getItems().add("Author");
         choiceKey.getItems().add("Publisher");
-        choiceKey.getItems().add("Desription");
+        choiceKey.getItems().add("Issue Date");
         
         choiceKey.valueProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
-            if(newValue.equals("Book ID") || newValue.equals("Book Name") || newValue.equals("Author") || newValue.equals("Publisher") || newValue.equals("Desription") ){
+            if(newValue.equals("Book ID") || newValue.equals("Book Name") || newValue.equals("Author") || newValue.equals("Publisher") ){
                 searchKey.setDisable(false);
+                datePick.setDisable(true);
+            }else if(newValue.equals("Issue Date")){
+                searchKey.setDisable(true);
+                datePick.setDisable(false);
             }
         });
         initCol();
@@ -94,16 +97,14 @@ public class BookListController implements Initializable {
         nameCol.setCellValueFactory(new PropertyValueFactory<>("b_name"));
         authorCol.setCellValueFactory(new PropertyValueFactory<>("author"));
         publisherCol.setCellValueFactory(new PropertyValueFactory<>("publisher"));
-        priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
-        pageCol.setCellValueFactory(new PropertyValueFactory<>("pages"));
         dateCol.setCellValueFactory(new PropertyValueFactory<>("r_date"));
-        descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
         availabilityCol.setCellValueFactory(new PropertyValueFactory<>("availability"));
     }
 
     
     public void loadData() {
         searchKey.setDisable(true);
+        datePick.setDisable(true);
         list.clear();
         databaseHandler = DatabaseHandler.getInstance();
         String query = "SELECT * FROM BOOK";
@@ -132,6 +133,13 @@ public class BookListController implements Initializable {
 
     
     public void loadSearchData(String stream, String value){
+        if(searchKey.isDisable()){
+            searchKey.setDisable(true);
+            datePick.setDisable(false);
+        }else{
+            searchKey.setDisable(false);
+            datePick.setDisable(true);
+        }
         list.clear(); 
         String query;
         if(stream.equals("B_ID")){
@@ -161,6 +169,38 @@ public class BookListController implements Initializable {
         tableViewCol.setItems(list);
     }
      
+    
+    public void loadSearchDate(String stream, LocalDate value){
+       
+        if(searchKey.isDisable()){
+            searchKey.setDisable(true);
+            datePick.setDisable(false);
+        }else{
+            searchKey.setDisable(false);
+            datePick.setDisable(true);
+        }
+        
+        list.clear();  
+        String query = "SELECT * FROM BOOK WHERE DATE("+stream+") = '"+value+"' ";
+        ResultSet result = databaseHandler.execQuery(query);
+        try {
+            while (result.next()) { 
+                String bookID = result.getString("B_ID");
+                String bookName = result.getString("BName");
+                String bookAuth = result.getString("author");
+                String bookPub = result.getString("publisher");
+                String bookPr = result.getString("price");
+                String bookPg = result.getString("pages");
+                String bookRecDate = result.getString("receiveDate");
+                String bookDes = result.getString("description");
+                boolean bookAvail = result.getBoolean("isAvail");
+                list.add(new Book(bookID,bookName,bookAuth,bookPub,bookPr,bookPg,bookRecDate,bookDes,bookAvail));
+            }
+        } catch (SQLException ex) {           
+            Logger.getLogger(AddBookController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        tableViewCol.setItems(list);
+    }
     
     @FXML
     private void bookDeleteAction(ActionEvent event) {
@@ -228,16 +268,52 @@ public class BookListController implements Initializable {
      
     
     @FXML
+    public void bookDetailsAction(ActionEvent event){
+        Book selectedBook = tableViewCol.getSelectionModel().getSelectedItem();
+        
+        if(selectedBook == null){
+            AlertMaker.errorAlert("No book selected","Please select a book for edit");
+            return;
+        }
+        
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/bookDetails/book_details.fxml"));
+            Parent parent = loader.load();
+            BookDetailsController controller = (BookDetailsController) loader.getController();
+            controller.getId(selectedBook.getB_id());
+            Stage stage = new Stage(StageStyle.DECORATED);
+            stage.setOnCloseRequest((e)->{
+                loadData();
+            });
+            stage.setTitle("View Book");
+            stage.setScene(new Scene(parent));
+            stage.show();
+            LibraryAssistantUtil.setStageIcon(stage);
+           
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    } 
+    
+    
+    
+    
+    @FXML
     private void searchAction(ActionEvent event) {
         String choice = choiceKey.getValue();
         String searchVal = searchKey.getText();
-          
+        LocalDate searchDate = datePick.getValue();
+        
         if(choice == null){
             AlertMaker.errorAlert("Can`t search","Please select a field for search");
             return;
         } 
-        if(searchVal.isEmpty()){
+        if(datePick.isDisable() && searchVal.isEmpty()){
             AlertMaker.errorAlert("Can`t search","Please enter value for search");
+            return;
+        }
+        if(searchKey.isDisable() && searchDate == null){
+            AlertMaker.errorAlert("Can`t search","Please enter date for search");
             return;
         }
         switch (choice) {
@@ -253,8 +329,8 @@ public class BookListController implements Initializable {
             case "Publisher":
                 loadSearchData("publisher",searchVal);
                 break;
-            case "Desription":
-                loadSearchData("description",searchVal);
+            case "Issue Date":
+                loadSearchDate("receiveDate",searchDate);
                 break;
         }    
     }
@@ -262,10 +338,11 @@ public class BookListController implements Initializable {
     
     @FXML
     private void cancel(ActionEvent event) {   
-        if(searchKey.getText().isEmpty()){
+        if(searchKey.getText().isEmpty() && datePick.getValue() == null){
             Stage stage = (Stage) rootPane.getScene().getWindow();
             stage.close();
         }
+        datePick.setValue(null);
         searchKey.setText("");
         loadData();
     }

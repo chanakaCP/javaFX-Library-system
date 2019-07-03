@@ -111,7 +111,7 @@ public class IssueBookController implements Initializable {
         }
         
         list.clear();  
-        String query = "SELECT * FROM ISSUE WHERE " + stream + " LIKE '%"+value+"%' ";
+        String query = "SELECT * FROM ISSUE WHERE " + stream + " = '%"+value+"%' ";
         ResultSet result = databaseHandler.execQuery(query);
         try {
             while (result.next()) { 
