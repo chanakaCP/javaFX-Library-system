@@ -17,7 +17,7 @@ public final class DatabaseHandler {
     
     private static DatabaseHandler handler = null;
    
-    private static final String DB_URL = "jdbc:derby:database;create=true";   
+    private static final String DB_URL = "jdbc:derby:libraryData;create=true";   
     private static Connection conn = null;
     private static Statement stmt = null;
     
@@ -41,7 +41,7 @@ public final class DatabaseHandler {
         try{
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
             conn = DriverManager.getConnection(DB_URL);
-        }catch(Exception e){
+        }catch(ClassNotFoundException | IllegalAccessException | InstantiationException | SQLException e){
             JOptionPane.showMessageDialog(null,"Cant load database","Database error", JOptionPane.ERROR_MESSAGE);
         }
     }

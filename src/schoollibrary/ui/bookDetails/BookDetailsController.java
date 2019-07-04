@@ -35,7 +35,7 @@ public class BookDetailsController implements Initializable {
     @FXML
     private Label description_c;
     
-     DatabaseHandler databaseHandler;
+    DatabaseHandler databaseHandler;
     BookListController bookListController;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
