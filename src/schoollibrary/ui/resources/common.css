@@ -63,7 +63,7 @@
 /* Input fields  */
 
 #b_id, #b_name, #author, #publisher, #price, #pages, #description, #m_id, #m_name,
-#u_name, #passoword, #c_password, #no_of_days, #searchKey, #avail, #r_date{
+#u_name, #passoword, #c_password, #no_of_days, #fine, #searchKey, #avail, #r_date{
     -fx-background-color: transparent;
     -fx-text-fill: #03a9f4;
     -jfx-focus-color: #cfd8dc;
@@ -78,17 +78,18 @@
 /* Book Card */
 
 #id_c, #name_c, #author_c, #publisher_c, #price_c, #pages_c, #date_c, #description_c, #avail_c{
-    -fx-background-color: #263238;
+    -fx-background-color: derive(#263238, -35%);
     -fx-background-radius: 25;
     -fx-text-fill: #03a9f4;
     -jfx-focus-color: #cfd8dc;
     -fx-text-alignment: center;
 }
-/*#id_c:focused, #name_c:focused, #author_c:focused, #publisher_c:focused, #price_c:focused, #pages_c:focused #date_c:focused, #description_c:focused, #avail_c:focused{
-    -fx-background-color: transparent;
-    -fx-text-fill: #03a9f4;
+#id_c:hover, #name_c:hover, #author_c:hover, #publisher_c:hover, #price_c:hover, #pages_c:hover #date_c:hover, #description_c:hover, #avail_c:hover{
+    -fx-text-fill: white;
     -jfx-focus-color: #cfd8dc;
-}*/
+}
+
+
 .jfx-date-picker .input-line {
     -fx-background-color: #03a9f4;
 }

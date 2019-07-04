@@ -69,7 +69,9 @@ public class AddBookController implements Initializable {
             return;
         }       
     
-        if(bookID.isEmpty()||bookName.isEmpty()||bookAuthor.isEmpty()||bookPublisher.isEmpty()||bookPrice.isEmpty()||bookPage.isEmpty()||bookRecieveDate == null){
+        if(bookID.trim().isEmpty()||bookName.trim().isEmpty()||bookAuthor.trim().isEmpty()||bookPublisher.trim().isEmpty()||
+           bookPrice.trim().isEmpty()||bookPage.trim().isEmpty()||bookRecieveDate == null){
+            
             AlertMaker.errorAlert("Error","Please fill all the fields");
             return;
         } 

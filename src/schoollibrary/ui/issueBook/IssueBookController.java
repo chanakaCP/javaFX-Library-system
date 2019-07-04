@@ -73,7 +73,7 @@ public class IssueBookController implements Initializable {
     private void initCol() {
         b_idCol.setCellValueFactory(new PropertyValueFactory<>("b_id"));
         m_idCol.setCellValueFactory(new PropertyValueFactory<>("m_id"));
-        timeCol.setCellValueFactory(new PropertyValueFactory<>("issue_time"));
+        timeCol.setCellValueFactory(new PropertyValueFactory<>("issue_date"));
         countCol.setCellValueFactory(new PropertyValueFactory<>("r_count"));
     }
 
@@ -89,7 +89,7 @@ public class IssueBookController implements Initializable {
             while (result.next()) {
                 String bookID = result.getString("bookID");
                 String memberID = result.getString("memberID");
-                String issueTime = result.getString("issueTime");
+                String issueTime = result.getString("issueDate");
                 String rCount = result.getString("renewCount");
                 int rCountInt = Integer.parseInt(rCount);
                 list.add(new IssueBook(bookID,memberID,issueTime,rCountInt));
@@ -117,7 +117,7 @@ public class IssueBookController implements Initializable {
             while (result.next()) { 
                 String bookID = result.getString("bookID");
                 String memberID = result.getString("memberID");
-                String issueTime = result.getString("issueTime");
+                String issueTime = result.getString("issueDate");
                 String rCount = result.getString("renewCount");
                 int rCountInt = Integer.parseInt(rCount);
                 list.add(new IssueBook(bookID,memberID,issueTime,rCountInt));
@@ -145,7 +145,7 @@ public class IssueBookController implements Initializable {
             while (result.next()) { 
                 String bookID = result.getString("bookID");
                 String memberID = result.getString("memberID");
-                String issueTime = result.getString("issueTime");
+                String issueTime = result.getString("issueDate");
                 String rCount = result.getString("renewCount");
                 int rCountInt = Integer.parseInt(rCount);
                 list.add(new IssueBook(bookID,memberID,issueTime,rCountInt));
@@ -182,7 +182,7 @@ public class IssueBookController implements Initializable {
                 loadSearchData("memberID",searchVal);
                 break;
             case "Issue Date":
-                loadSearchDate("issueTime",searchDate);
+                loadSearchDate("issueDate",searchDate);
                 break;
         }    
     }
@@ -201,13 +201,13 @@ public class IssueBookController implements Initializable {
     public static class IssueBook{
        public final SimpleStringProperty b_id;
        public final SimpleStringProperty m_id;
-       public final SimpleStringProperty issue_time;
+       public final SimpleStringProperty issue_date;
        public final SimpleIntegerProperty r_count;
        
        public IssueBook(String bid, String mid, String time, int count){
             this.b_id = new SimpleStringProperty(bid);
             this.m_id = new SimpleStringProperty(mid);
-            this.issue_time = new SimpleStringProperty(time);
+            this.issue_date = new SimpleStringProperty(time);
             this.r_count = new SimpleIntegerProperty(count);
         }
 
@@ -220,8 +220,8 @@ public class IssueBookController implements Initializable {
             return m_id.get();
         }
 
-        public String getIssue_time() {
-            return issue_time.get();
+        public String getIssue_date() {
+            return issue_date.get();
         }
 
         public Integer getR_count() {

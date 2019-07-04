@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ContextMenu?>
@@ -13,11 +14,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" prefHeight="700.0" prefWidth="1506.0" styleClass="mainFxmlClass" stylesheets="@../resources/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schoollibrary.ui.viewbook.BookListController">
+<AnchorPane fx:id="rootPane" prefHeight="986.0" prefWidth="1336.0" styleClass="mainFxmlClass" stylesheets="@../resources/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schoollibrary.ui.viewbook.BookListController">
    <children>
-      <VBox prefHeight="700.0" prefWidth="1520.0">
+      <VBox prefHeight="986.0" prefWidth="1328.0">
          <children>
-            <HBox alignment="CENTER" prefHeight="80.0" prefWidth="1080.0" stylesheets="@../resources/common.css">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="1080.0" style="-fx-background-color: derive(#263238, -25%); -fx-background-radius: 10;" stylesheets="@../resources/common.css">
                <children>
                   <JFXComboBox fx:id="choiceKey" focusColor="#2962ff" labelFloat="true" prefHeight="32.0" prefWidth="150.0" promptText="Search by" unFocusColor="#03a9f4">
                      <HBox.margin>
@@ -32,6 +33,11 @@
                         <Font size="15.0" />
                      </font>
                   </JFXTextField>
+                  <JFXDatePicker fx:id="datePick" defaultColor="#03a9f4" prefHeight="32.0" prefWidth="150.0" promptText="Enter Date" styleClass="date">
+                     <HBox.margin>
+                        <Insets right="50.0" />
+                     </HBox.margin>
+                  </JFXDatePicker>
                   <JFXButton fx:id="searchButton" alignment="CENTER" contentDisplay="CENTER" onAction="#searchAction" prefHeight="32.0" prefWidth="85.0" text="Search ">
                      <font>
                         <Font name="Roboto Condensed Regular" size="12.0" />
@@ -47,31 +53,29 @@
                   </JFXButton>
                </children>
                <VBox.margin>
-                  <Insets bottom="10.0" left="20.0" right="20.0" top="20.0" />
+                  <Insets bottom="20.0" left="30.0" right="30.0" top="30.0" />
                </VBox.margin>
             </HBox>
-            <TableView fx:id="tableViewCol" prefHeight="560.0" prefWidth="1115.0">
+            <TableView fx:id="tableViewCol" prefHeight="774.0" prefWidth="1213.0" style="-fx-background-color: derive(#263238, -25%); -fx-background-radius: 10;">
               <columns>
-                <TableColumn fx:id="idCol" prefWidth="100.79998397827148" text="Book ID" />
-                <TableColumn fx:id="nameCol" prefWidth="258.4000701904297" text="Name" />
-                  <TableColumn fx:id="authorCol" prefWidth="275.20001220703125" text="Author" />
-                  <TableColumn fx:id="publisherCol" prefWidth="184.79998779296875" text="Publisher" />
-                  <TableColumn fx:id="priceCol" prefWidth="115.20001220703125" text="Price" />
-                  <TableColumn fx:id="pageCol" prefWidth="106.4000244140625" text="No: of pages" />
-                  <TableColumn fx:id="dateCol" prefWidth="120.79998779296875" text="Received Date" />
-                  <TableColumn fx:id="descriptionCol" prefWidth="207.199951171875" text="Description" />
-                  <TableColumn fx:id="availabilityCol" prefWidth="112.800048828125" text="Availability" />
+                <TableColumn fx:id="idCol" prefWidth="150.0" text="Book ID" />
+                <TableColumn fx:id="nameCol" prefWidth="300.0" text="Name" />
+                  <TableColumn fx:id="authorCol" prefWidth="250.0" text="Author" />
+                  <TableColumn fx:id="publisherCol" prefWidth="250.0" text="Publisher" />
+                  <TableColumn fx:id="dateCol" prefWidth="150.0" text="Received Date" />
+                  <TableColumn fx:id="availabilityCol" prefWidth="153.5999755859375" text="Availability" />
               </columns>
                <contextMenu>
                   <ContextMenu>
                     <items>
-                      <MenuItem mnemonicParsing="false" onAction="#bookEditAction" text="Edit" />
+                      <MenuItem mnemonicParsing="false" onAction="#bookDetailsAction" text="View" />
+                        <MenuItem mnemonicParsing="false" onAction="#bookEditAction" text="Edit" />
                         <MenuItem mnemonicParsing="false" onAction="#bookDeleteAction" text="Delete" />
                     </items>
                   </ContextMenu>
                </contextMenu>
                <VBox.margin>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
+                  <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
                </VBox.margin>
             </TableView>
          </children>

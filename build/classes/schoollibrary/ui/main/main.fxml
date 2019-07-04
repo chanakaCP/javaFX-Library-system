@@ -300,14 +300,14 @@
                                                 <Insets bottom="30.0" left="30.0" right="50.0" top="50.0" />
                                              </VBox.margin>
                                              <padding>
-                                                <Insets left="10.0" right="10.0" />
+                                                <Insets bottom="20.0" left="10.0" right="10.0" />
                                              </padding></VBox>
                                           <VBox fx:id="memberInfoContainer" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="223.0" prefWidth="407.0">
                                              <VBox.margin>
                                                 <Insets bottom="30.0" left="30.0" right="50.0" top="50.0" />
                                              </VBox.margin>
                                              <padding>
-                                                <Insets left="10.0" right="10.0" />
+                                                <Insets bottom="20.0" left="10.0" right="10.0" />
                                              </padding></VBox>
                                        </children>
                                     </VBox>
@@ -443,10 +443,18 @@
                                                       <Font name="Roboto Condensed Regular" size="20.0" />
                                                    </font>
                                                    <VBox.margin>
-                                                      <Insets top="60.0" />
+                                                      <Insets top="50.0" />
                                                    </VBox.margin>
                                                 </Text>
                                                 <Text fx:id="renew_count" fill="#78909c" strokeType="OUTSIDE" strokeWidth="0.0" text="Renew Count" textAlignment="CENTER" wrappingWidth="240.635498046875">
+                                                   <font>
+                                                      <Font name="Roboto Condensed Regular" size="20.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets top="30.0" />
+                                                   </VBox.margin>
+                                                </Text>
+                                                <Text fx:id="total_fine" fill="#78909c" layoutX="30.0" layoutY="214.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Fine" textAlignment="CENTER" wrappingWidth="240.635498046875">
                                                    <font>
                                                       <Font name="Roboto Condensed Regular" size="20.0" />
                                                    </font>

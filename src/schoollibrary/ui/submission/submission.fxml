@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" prefHeight="986.0" prefWidth="1162.0" styleClass="mainFxmlClass" stylesheets="@../resources/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schoollibrary.ui.submission.SubmissionController">
+<AnchorPane fx:id="rootPane" prefHeight="986.0" prefWidth="1173.0" styleClass="mainFxmlClass" stylesheets="@../resources/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schoollibrary.ui.submission.SubmissionController">
    <children>
       <VBox prefHeight="664.0" prefWidth="1125.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -56,11 +56,12 @@
             </HBox>
             <TableView fx:id="tableViewCol" prefHeight="774.0" prefWidth="1091.0">
                <columns>
-                  <TableColumn fx:id="b_idCol" prefWidth="170.0" text="Book ID" />
-                  <TableColumn fx:id="m_idCol" prefWidth="170.0" text="Member ID" />
-                  <TableColumn fx:id="i_timeCol" prefWidth="250.0" text="Issue Date" />
-                  <TableColumn fx:id="s_timeCol" prefWidth="250.0" text="Submission Date" />
-                  <TableColumn fx:id="countCol" prefWidth="246.39996337890625" text="Renew Count" />
+                  <TableColumn fx:id="b_idCol" prefWidth="150.0" text="Book ID" />
+                  <TableColumn fx:id="m_idCol" prefWidth="150.0" text="Member ID" />
+                  <TableColumn fx:id="i_timeCol" prefWidth="200.0" text="Issue Date" />
+                  <TableColumn fx:id="s_timeCol" prefWidth="200.0" text="Submission Date" />
+                  <TableColumn fx:id="countCol" prefWidth="200.0" text="Renew Count" />
+                  <TableColumn fx:id="fineCol" prefWidth="212.8000244140626" text="Fine" />
                </columns>
                <VBox.margin>
                   <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />

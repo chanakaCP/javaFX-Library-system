@@ -10,16 +10,12 @@ import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 import schoollibrary.database.DatabaseHandler;
 import schoollibrary.ui.viewbook.BookListController;
 
 
 public class BookDetailsController implements Initializable {
 
-    
-    @FXML
-    private AnchorPane rootPane;
     @FXML
     private Label id_c;
     @FXML

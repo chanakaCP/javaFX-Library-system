@@ -26,7 +26,7 @@
                   <Font name="Roboto Condensed Bold" size="35.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="b_id" focusColor="#2962ff" labelFloat="true" promptText="BookID" unFocusColor="#03a9f4">
+            <JFXTextField fx:id="b_id" focusColor="#2962ff" labelFloat="true" promptText="Book ID" unFocusColor="#03a9f4">
                <font>
                   <Font name="Roboto Condensed Regular" size="20.0" />
                </font>
@@ -101,16 +101,16 @@
                   </JFXDatePicker>
                </children>
             </StackPane>
-            <JFXTextField fx:id="description" focusColor="#2962ff" labelFloat="true" layoutX="10.0" layoutY="200.0" promptText="Description" unFocusColor="#03a9f4">
-               <font>
-                  <Font name="Roboto Condensed Regular" size="20.0" />
-               </font>
+            <JFXTextField fx:id="description" focusColor="#2962ff" labelFloat="true" prefHeight="52.0" prefWidth="411.0" promptText="Description" unFocusColor="#03a9f4">
                <VBox.margin>
-                  <Insets left="70.0" right="70.0" top="10.0" />
+                  <Insets left="70.0" right="70.0" top="5.0" />
                </VBox.margin>
                <padding>
                   <Insets top="10.0" />
                </padding>
+               <font>
+                  <Font name="Roboto Condensed Regular" size="20.0" />
+               </font>
             </JFXTextField>
             <HBox prefHeight="82.0" prefWidth="414.0">
                <VBox.margin>

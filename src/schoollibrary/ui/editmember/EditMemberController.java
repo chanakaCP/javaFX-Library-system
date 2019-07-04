@@ -35,7 +35,7 @@ public class EditMemberController implements Initializable {
         String memberID = m_id.getText();
         String memberName = m_name.getText();
               
-        if(memberName.isEmpty()){
+        if(memberName.trim().isEmpty()){
             AlertMaker.errorAlert("Error","Please fill all the fields");
             return;
         }

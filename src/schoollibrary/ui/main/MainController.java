@@ -7,7 +7,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -32,6 +33,7 @@ import schoollibrary.alert.AlertMaker;
 import schoollibrary.database.DatabaseHandler;
 import schoollibrary.ui.addbook.AddBookController;
 import schoollibrary.ui.addmember.AddMemberController;
+import schoollibrary.ui.setting.Preferences;
 import schoollibrary.ui.viewbook.BookListController;
 import schoollibrary.ui.viewmember.MemberListController;
 import schoollibrary.util.LibraryAssistantUtil;
@@ -69,7 +71,9 @@ public class MainController implements Initializable {
     @FXML
     private Text issue_date;
     @FXML
-    private Text renew_count;  
+    private Text renew_count;       
+    @FXML
+    private Text total_fine;
     @FXML
     private StackPane rootPane; 
     @FXML
@@ -87,6 +91,7 @@ public class MainController implements Initializable {
     private boolean btnTag2 = true;
 
     DatabaseHandler databaseHandler;
+
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -196,7 +201,7 @@ public class MainController implements Initializable {
         if(btnTag2){
             issueBtn.setDisable(false);
         }
-        String id = bookIdInput.getText();
+        String id = bookIdInput.getText().trim();
         if(id.isEmpty()){
             bookName.setText("Book Name");
             bookStatus.setText("Availability");
@@ -242,7 +247,7 @@ public class MainController implements Initializable {
         if(btnTag1){
             issueBtn.setDisable(false);        
         }
-        String id = memberIdInput.getText();
+        String id = memberIdInput.getText().trim();
         if(id.isEmpty()){
             memberName.setText("Member Name ");
             memberStatus.setText("Validity");
@@ -287,6 +292,7 @@ public class MainController implements Initializable {
             Stage stage = new Stage(StageStyle.DECORATED);
             stage.setTitle(title);
             stage.setScene(new Scene(parent));
+            stage.setResizable(false);
             stage.show();
             LibraryAssistantUtil.setStageIcon(stage);
         } catch (IOException ex) {
@@ -297,8 +303,8 @@ public class MainController implements Initializable {
     
     @FXML
     private void issueBookOperation(ActionEvent event) {
-        String bookId = bookIdInput.getText();
-        String memberId = memberIdInput.getText(); 
+        String bookId = bookIdInput.getText().trim();
+        String memberId = memberIdInput.getText().trim(); 
         
         try{
             String query = "SELECT COUNT(B_ID) as count FROM BOOK WHERE B_ID = '" + bookId + "' ";
@@ -381,7 +387,7 @@ public class MainController implements Initializable {
     
     @FXML
     private void loadBookInfo2(ActionEvent event) {
-        String bookId = bookIdInput2.getText();
+        String bookId = bookIdInput2.getText().trim();
         if(bookId.isEmpty()){
             subDetals1.setVisible(true);
             subDetals3.setVisible(true);
@@ -395,24 +401,26 @@ public class MainController implements Initializable {
                     subDetals1.setVisible(true);
                     subDetals3.setVisible(true);
                     subLale2.setText("Member");
-
-                    String memberId = result.getString("memberID");
-                    issue_date.setText("Date : "+result.getString("issueTime"));
-                    renew_count.setText("Renew count : "+result.getString("renewCount"));
-
+                    
+                    String memberId = result.getString("memberID");  
+                    int totalFine = countTotalFine(result.getString("lastRenewDate"));
+                    issue_date.setText("Date  :  "+result.getString("issueDate"));
+                    renew_count.setText("Renew count  :  "+result.getString("renewCount"));
+                    total_fine.setText("Total fine  :  Rs  "+totalFine);
+                            
                     String query2 = "SELECT BName,description FROM BOOK WHERE B_ID = '" + bookId + "' ";
                     ResultSet result2 = databaseHandler.execQuery(query2);
 
                     if(result2.next()){
-                        book_name.setText("Name : "+result2.getString("BName"));
-                        description.setText("Description : "+result2.getString("description"));
+                        book_name.setText("Name  :  "+result2.getString("BName"));
+                        description.setText("Description  :  "+result2.getString("description"));
                     }
 
                     query2 = "SELECT M_ID,MName FROM MEMBER WHERE M_ID = '" + memberId + "' ";
                     result2 = databaseHandler.execQuery(query2);
                     if(result2.next()){ 
-                        member_id.setText("ID : "+result2.getString("M_ID"));
-                        member_name.setText("Name : "+result2.getString("MName"));
+                        member_id.setText("ID  :  "+result2.getString("M_ID"));
+                        member_name.setText("Name  :  "+result2.getString("MName"));
                     }
                 }else{
                     subDetals1.setVisible(false);
@@ -430,10 +438,11 @@ public class MainController implements Initializable {
     
     @FXML
     private void submitBookOperation(ActionEvent event) {
-        String bookId = bookIdInput2.getText();
+        String bookId = bookIdInput2.getText().trim();
         String memberId;
-        Timestamp issueTime;
+        String issueDate;
         int renew_Count;
+        int totalFine;
    
         try{
             String query = "SELECT COUNT(bookID) as count FROM ISSUE WHERE bookID = '" + bookId + "' ";
@@ -452,23 +461,25 @@ public class MainController implements Initializable {
         String query = "SELECT * FROM ISSUE WHERE bookID = '" + bookId + "' ";
         ResultSet result = databaseHandler.execQuery(query);  
         try {
-            while (result.next()) {
-                issueTime = result.getTimestamp("issueTime");
+            if (result.next()) {
+                issueDate = result.getString("issueDate");
                 renew_Count = result.getInt("renewCount");
                 memberId = result.getString("memberID");
+                String dateFrom = result.getString("lastRenewDate");
+                totalFine = countTotalFine(dateFrom);
                 
                 Optional<ButtonType> responce = AlertMaker.confirmationAlert("Confirm Submission Operation","Are you sure want to submit the book");
                 if(responce.get() == ButtonType.OK){
-                    String query1 = "INSERT INTO SUBMISSION (bookID,memberID,issueTime,renewCount) VALUES ( " +
+                    String query1 = "INSERT INTO SUBMISSION (bookID,memberID,issueDate,fine,renewCount) VALUES ( " +
                                     "'" + bookId + "'," +
                                     "'" + memberId + "'," +
-                                    "'" + issueTime + "'," +
+                                    "'" + issueDate + "'," +
+                                    totalFine +", " +
                                     renew_Count  +
                                     ")";
                     String query2 = "DELETE FROM ISSUE WHERE bookID = '" + bookId + "'";
                     String query3 = "UPDATE BOOK SET isAvail = true WHERE B_ID = '" + bookId + "' ";
                     String query4 = "UPDATE MEMBER SET isSubmit = true WHERE M_ID = '" + memberId + "' ";
-            
                     if(databaseHandler.execAction(query1) && databaseHandler.execAction(query2) && databaseHandler.execAction(query3) && databaseHandler.execAction(query4)){
                         AlertMaker.informatinAlert("Success","Book submission complete");
                         bookIdInput2.setText("");
@@ -489,8 +500,7 @@ public class MainController implements Initializable {
     
     @FXML
     private void renewBookOperation(ActionEvent event) {
-        String bookId = bookIdInput2.getText();
-        
+        String bookId = bookIdInput2.getText().trim();
         try{
             String query = "SELECT COUNT(bookID) as count FROM ISSUE WHERE bookID = '" + bookId + "' ";
             ResultSet result = databaseHandler.execQuery(query);
@@ -508,7 +518,8 @@ public class MainController implements Initializable {
         Optional<ButtonType> responce = AlertMaker.confirmationAlert("Confirm Renew Operation", "Are you sure want to renew the book " + bookName.getText() + "? ");
         
         if(responce.get() == ButtonType.OK){
-            String query = "UPDATE ISSUE SET renewCount = renewCount+1 WHERE bookID = '" + bookId + "' "; 
+            LocalDate renewDate = LocalDate.now();
+            String query = "UPDATE ISSUE SET renewCount = renewCount+1, lastRenewDate = '"+renewDate+"'  WHERE bookID = '" + bookId + "' "; 
             
             if(databaseHandler.execAction(query)){
                 AlertMaker.informatinAlert("Success","Book has been renewed"); 
@@ -551,9 +562,26 @@ public class MainController implements Initializable {
         });
     }
     
+    
     public void refreshGraph(){
         bookChart.setData(databaseHandler.getBookStatistic());
         memberChart.setData(databaseHandler.getMemberStatistic());
     }
-
+   
+    int countTotalFine(String dateIssue){
+        Preferences preferences = Preferences.getPreferences();
+        int finePerDay = preferences.getFinePerDay();
+        int maxNoOfDays = preferences.getnOfDays();
+        LocalDate dateFrom = LocalDate.parse(dateIssue); 
+        LocalDate dateTo = LocalDate.now();
+        Period intervalPeriod = Period.between(dateFrom, dateTo);
+        int dateCount = (intervalPeriod.getDays() + intervalPeriod.getMonths() + intervalPeriod.getYears());
+        System.out.println(dateCount);
+        if(dateCount > maxNoOfDays){
+            return dateCount*finePerDay;
+        }else{
+            return dateCount*0;
+        }
+    }
+    
 }

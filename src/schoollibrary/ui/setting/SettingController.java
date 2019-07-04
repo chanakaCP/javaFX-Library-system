@@ -1,7 +1,6 @@
 
 package schoollibrary.ui.setting;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
@@ -25,11 +24,9 @@ public class SettingController implements Initializable {
     @FXML
     private JFXTextField no_of_days;
     @FXML
-    private JFXButton saveButton;
-    @FXML
-    private JFXButton cancelButton;
-    @FXML
     private AnchorPane rootPane;
+    @FXML
+    private JFXTextField fine;
     
 
     @Override
@@ -43,6 +40,7 @@ public class SettingController implements Initializable {
         String pass = passoword.getText();
         String conPass = c_password.getText();
         int ndays = Integer.parseInt(no_of_days.getText());
+        int dayFine = Integer.parseInt(fine.getText());
         
         if(pass.length() < 16){
             if(pass.equals(conPass)){
@@ -51,6 +49,7 @@ public class SettingController implements Initializable {
                 newPreference.setPassword(pass);
                 newPreference.setConfirmPassword(conPass);
                 newPreference.setnOfDays(ndays);
+                newPreference.setFinePerDay(dayFine);
 
                 Preferences.writeNewPreferences(newPreference);
                 closeStage();
@@ -77,6 +76,7 @@ public class SettingController implements Initializable {
         passoword.setText(String.valueOf(preferences.getPassword()));
         c_password.setText(String.valueOf(preferences.getConfirmPassword()));
         no_of_days.setText(String.valueOf(preferences.getnOfDays()));
+        fine.setText(String.valueOf(preferences.getFinePerDay()));
     }
  
     

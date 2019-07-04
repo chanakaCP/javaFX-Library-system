@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="SchoolLibrary.jar" size="105553" download="eager" />
+    <jar href="SchoolLibrary.jar" size="111357" download="eager" />
     <jar href="lib\commons-codec-1.4.jar" size="58160" download="eager" />
     <jar href="lib\derby.jar" size="3232770" download="eager" />
     <jar href="lib\gson-2.8.1.jar" size="232620" download="eager" />

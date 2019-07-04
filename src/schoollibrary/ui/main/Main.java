@@ -18,14 +18,15 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/schoollibrary/ui/login/login.fxml"));
         Scene scene = new Scene(root);
-        
-        stage.setScene(scene);
-        stage.show();
         stage.setTitle("Library System Login");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+        
         LibraryAssistantUtil.setStageIcon(stage);
   
         new Thread(() -> {
-            DatabaseHandler.getInstance();
+           DatabaseHandler.getInstance();
         }).start();
     }
     

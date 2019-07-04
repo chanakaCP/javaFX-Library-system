@@ -20,12 +20,14 @@ public final class Preferences {
     String password;
     String confirmPassword;
     int nOfDays;  
+    int finePerDay;
     
     public Preferences(){
         username = "admin";
         setPassword("admin");
         setConfirmPassword("admin");
         nOfDays = 7;
+        finePerDay = 1;
     }
 
     public String getUsername() {
@@ -58,6 +60,14 @@ public final class Preferences {
 
     public void setnOfDays(int nOfDays) {
         this.nOfDays = nOfDays;
+    }
+
+    public int getFinePerDay() {
+        return finePerDay;
+    }
+
+    public void setFinePerDay(int finePerDay) {
+        this.finePerDay = finePerDay;
     }
     
     

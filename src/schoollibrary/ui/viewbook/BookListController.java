@@ -253,6 +253,7 @@ public class BookListController implements Initializable {
             EditBookController controller = (EditBookController) loader.getController();
             controller.inflateUI(selectedBook,this);
             Stage stage = new Stage(StageStyle.DECORATED);
+            stage.setResizable(false);
             stage.setOnCloseRequest((e)->{
                 loadData();
             });
@@ -282,6 +283,7 @@ public class BookListController implements Initializable {
             BookDetailsController controller = (BookDetailsController) loader.getController();
             controller.getId(selectedBook.getB_id());
             Stage stage = new Stage(StageStyle.DECORATED);
+            stage.setResizable(false);
             stage.setOnCloseRequest((e)->{
                 loadData();
             });

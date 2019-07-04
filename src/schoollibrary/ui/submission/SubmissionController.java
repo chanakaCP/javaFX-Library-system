@@ -52,9 +52,12 @@ public class SubmissionController implements Initializable {
     private TableColumn<Submission,String> s_timeCol;
     @FXML
     private TableColumn<Submission,Integer> countCol;
-
+    @FXML
+    private TableColumn<Submission,Integer> fineCol;
   
     DatabaseHandler databaseHandler;   
+    
+   
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -82,6 +85,7 @@ public class SubmissionController implements Initializable {
         i_timeCol.setCellValueFactory(new PropertyValueFactory<>("issue_date"));
         s_timeCol.setCellValueFactory(new PropertyValueFactory<>("submission_date"));
         countCol.setCellValueFactory(new PropertyValueFactory<>("r_count"));
+        fineCol.setCellValueFactory(new PropertyValueFactory<>("fine"));
     }
 
     
@@ -89,19 +93,22 @@ public class SubmissionController implements Initializable {
         searchKey.setDisable(true);
         datePick.setDisable(true);
         list.clear();
+//        String sDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         databaseHandler = DatabaseHandler.getInstance();
-        String query = "SELECT * FROM SUBMISSION";
+//        String query = "SELECT * FROM SUBMISSION WHERE DATE(submitDate) = '"+sDate+"' ";
+        String query = "SELECT * FROM SUBMISSION ";
+       
         ResultSet result = databaseHandler.execQuery(query);
-     
+        System.out.println(query);
         try {
             while (result.next()) {
                 String bookID = result.getString("bookID");
                 String memberID = result.getString("memberID");
-                String issueDate = result.getString("issueTime");
-                String submissionDate = result.getString("submitTime");
-                String rCount = result.getString("renewCount");
-                int rCountInt = Integer.parseInt(rCount);
-                list.add(new Submission(bookID,memberID,issueDate,submissionDate,rCountInt));
+                String issueDate = result.getString("issueDate");
+                String submissionDate = result.getString("submitDate");
+                int rCount = Integer.parseInt(result.getString("renewCount"));
+                int fine = Integer.parseInt(result.getString("fine"));
+                list.add(new Submission(bookID,memberID,issueDate,submissionDate,rCount,fine));
             }
         } catch (SQLException ex) {
             Logger.getLogger(SubmissionController.class.getName()).log(Level.SEVERE, null, ex);
@@ -120,17 +127,17 @@ public class SubmissionController implements Initializable {
         }
         
         list.clear();  
-        String query = "SELECT * FROM SUBMISSION WHERE " + stream + " = '%"+value+"%' ";
+        String query = "SELECT * FROM SUBMISSION WHERE " + stream + " = '"+value+"' ";
         ResultSet result = databaseHandler.execQuery(query);
         try {
             while (result.next()) { 
                 String bookID = result.getString("bookID");
                 String memberID = result.getString("memberID");
-                String issueDate = result.getString("issueTime");
-                String submissionDate = result.getString("submitTime");
-                String rCount = result.getString("renewCount");
-                int rCountInt = Integer.parseInt(rCount);
-                list.add(new Submission(bookID,memberID,issueDate,submissionDate,rCountInt));
+                String issueDate = result.getString("issueDate");
+                String submissionDate = result.getString("submitDate");
+                int rCount = Integer.parseInt(result.getString("renewCount"));
+                int fine = Integer.parseInt(result.getString("fine"));
+                list.add(new Submission(bookID,memberID,issueDate,submissionDate,rCount,fine));
             }
         } catch (SQLException ex) {           
             Logger.getLogger(SubmissionController.class.getName()).log(Level.SEVERE, null, ex);
@@ -156,11 +163,11 @@ public class SubmissionController implements Initializable {
             while (result.next()) { 
                 String bookID = result.getString("bookID");
                 String memberID = result.getString("memberID");
-                String issueDate = result.getString("issueTime");
-                String submissionDate = result.getString("submitTime");
-                String rCount = result.getString("renewCount");
-                int rCountInt = Integer.parseInt(rCount);
-                list.add(new Submission(bookID,memberID,issueDate,submissionDate,rCountInt));
+                String issueDate = result.getString("issueDate");
+                String submissionDate = result.getString("submitDate");
+                int rCount = Integer.parseInt(result.getString("renewCount"));
+                int fine = Integer.parseInt(result.getString("fine"));
+                list.add(new Submission(bookID,memberID,issueDate,submissionDate,rCount,fine));
             }
         } catch (SQLException ex) {           
             Logger.getLogger(SubmissionController.class.getName()).log(Level.SEVERE, null, ex);
@@ -174,7 +181,6 @@ public class SubmissionController implements Initializable {
         String choice = choiceKey.getValue();
         String searchVal = searchKey.getText();
         LocalDate searchDate = datePick.getValue();
-        
         if(choice == null){
             AlertMaker.errorAlert("Can`t search","Please select a field for search");
             return;
@@ -195,10 +201,10 @@ public class SubmissionController implements Initializable {
                 loadSearchData("memberID",searchVal);
                 break;
             case "Issue Date":
-                loadSearchDate("issueTime",searchDate);
+                loadSearchDate("issueDate",searchDate);
                 break;
              case "Submission Date":
-                loadSearchDate("submitTime",searchDate);
+                loadSearchDate("submitDate",searchDate);
                 break;
         }    
     }
@@ -222,13 +228,15 @@ public class SubmissionController implements Initializable {
        public final SimpleStringProperty issue_date;
        public final SimpleStringProperty submission_date;
        public final SimpleIntegerProperty r_count;
+       public final SimpleIntegerProperty fine;
        
-       public Submission(String bid, String mid, String i_date, String s_date, int count){
+       public Submission(String bid, String mid, String i_date, String s_date, int count, int fine){
             this.b_id = new SimpleStringProperty(bid);
             this.m_id = new SimpleStringProperty(mid);
             this.issue_date = new SimpleStringProperty(i_date);
             this.submission_date = new SimpleStringProperty(s_date);
             this.r_count = new SimpleIntegerProperty(count);
+            this.fine = new SimpleIntegerProperty(fine);
         }
 
 
@@ -246,6 +254,10 @@ public class SubmissionController implements Initializable {
 
         public String getSubmission_date() {
             return submission_date.get();
+        }
+
+        public Integer getFine() {
+            return fine.get();
         }
 
         public Integer getR_count() {

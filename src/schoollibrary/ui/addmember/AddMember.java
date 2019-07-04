@@ -16,8 +16,7 @@ public class AddMember extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("add_member.fxml"));
         Scene scene = new Scene(root);
-        String css = AddMember.class.getResource("common.css").toExternalForm();
-        scene.getStylesheets().add(css);
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
     }

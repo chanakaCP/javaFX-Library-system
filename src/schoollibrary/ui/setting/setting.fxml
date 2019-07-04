@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" prefHeight="522.0" prefWidth="452.0" stylesheets="@../resources/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schoollibrary.ui.setting.SettingController">
+<AnchorPane fx:id="rootPane" prefHeight="551.0" prefWidth="452.0" stylesheets="@../resources/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schoollibrary.ui.setting.SettingController">
    <children>
       <VBox prefHeight="400.0" prefWidth="424.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -56,6 +56,17 @@
                </VBox.margin>
             </JFXPasswordField>
             <JFXTextField fx:id="no_of_days" focusColor="#2962ff" labelFloat="true" layoutX="60.0" layoutY="255.0" promptText="No of days member can keep the book" unFocusColor="#03a9f4">
+               <font>
+                  <Font name="Roboto Condensed Regular" size="20.0" />
+               </font>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets left="50.0" right="50.0" top="30.0" />
+               </VBox.margin>
+            </JFXTextField>
+            <JFXTextField fx:id="fine" focusColor="#2962ff" labelFloat="true" layoutX="60.0" layoutY="332.0" promptText="Fine per day" unFocusColor="#03a9f4">
                <font>
                   <Font name="Roboto Condensed Regular" size="20.0" />
                </font>

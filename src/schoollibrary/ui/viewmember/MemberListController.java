@@ -175,6 +175,7 @@ public class MemberListController implements Initializable {
             EditMemberController controller = (EditMemberController) loader.getController();
             controller.inflateUI(selectedMember,this);
             Stage stage = new Stage(StageStyle.DECORATED);
+            stage.setResizable(false);
             stage.setOnCloseRequest((e)->{
                 loadData();
             });

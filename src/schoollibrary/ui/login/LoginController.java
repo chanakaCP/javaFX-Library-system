@@ -1,7 +1,6 @@
 
 package schoollibrary.ui.login;
 
-import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -26,7 +25,6 @@ import schoollibrary.util.LibraryAssistantUtil;
 
 
 public class LoginController implements Initializable {
-    private AnchorPane rootPane;
     @FXML
     private Label titleLable;
     @FXML
@@ -82,6 +80,7 @@ public class LoginController implements Initializable {
             Stage stage = new Stage(StageStyle.DECORATED);
             stage.setTitle("Library System");
             stage.setScene(new Scene(parent));
+            stage.setResizable(false);
             stage.show();
             LibraryAssistantUtil.setStageIcon(stage);
         } catch (IOException ex) {

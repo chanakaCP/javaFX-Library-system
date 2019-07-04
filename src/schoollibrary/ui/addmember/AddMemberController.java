@@ -35,7 +35,7 @@ public class AddMemberController implements Initializable {
         String memberID = m_id.getText();
         String memberName = m_name.getText();
         
-        if(memberID.isEmpty()||memberName.isEmpty()){
+        if(memberID.trim().isEmpty()||memberName.trim().isEmpty()){
             AlertMaker.errorAlert("Can`t save","Please fill all the field");
             return;
         }
