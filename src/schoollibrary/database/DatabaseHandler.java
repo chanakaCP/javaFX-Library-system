@@ -47,6 +47,8 @@ public final class DatabaseHandler {
     }
     
     
+    
+    
     void setupBookTable(){
         String TABLE_NAME = "BOOK";
         try{
@@ -225,6 +227,7 @@ public final class DatabaseHandler {
         }
         return data;
     }
+
 }
 
 
