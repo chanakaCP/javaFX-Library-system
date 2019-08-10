@@ -388,6 +388,7 @@ public class MainController implements Initializable {
      }
 
     
+    
     @FXML
     private void loadBookInfo2(ActionEvent event) {
         String bookId = bookIdInput2.getText().trim();
@@ -603,6 +604,8 @@ public class MainController implements Initializable {
             return (dateCount*0);
         }
     }
+    
+//  test
     
     
 //    private void testData() {
