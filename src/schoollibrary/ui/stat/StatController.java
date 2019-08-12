@@ -44,15 +44,15 @@ public class StatController implements Initializable {
         bookChart.setTitle("Total Books  :  "+count);
         bookChart.setTitleSide(Side.TOP);
         bookChart.setLegendVisible(true);
-        bookChart.setLabelsVisible(true);
-        bookChart.setLegendSide(Side.LEFT); 
+        bookChart.setLabelsVisible(false);
+        bookChart.setLegendSide(Side.BOTTOM); 
        
         count = countData("MEMBER");
         memberChart.setTitle("Total Members  :  "+count);
         memberChart.setTitleSide(Side.TOP);
         memberChart.setLegendVisible(true);
-        memberChart.setLabelsVisible(true);
-        memberChart.setLegendSide(Side.LEFT);
+        memberChart.setLabelsVisible(false);
+        memberChart.setLegendSide(Side.BOTTOM);
     }
     
     
