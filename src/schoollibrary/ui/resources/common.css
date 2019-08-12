@@ -176,6 +176,9 @@
 .chart-legend-item {
     -fx-text-fill: #78909c;
 }
+.chart-title{
+    -fx-text-fill: #78909c;
+}
 
 
 /* Table */
@@ -231,7 +234,7 @@
     -fx-background-color: transparent;
     -fx-border-color: transparent;
     -fx-border-radius: 0;
-    -fx-background-radius: 0;
+    -fx-background-radius: -fx-background-color: t0;
     -fx-background-radius: 2em;
 }
 .table-view .scroll-bar:horizontal .track,

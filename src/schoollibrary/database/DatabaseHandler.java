@@ -221,8 +221,8 @@ public final class DatabaseHandler {
             result = execQuery(query2);
             if(result.next()){
                 int count1 = result.getInt(1);
-                data.add(new PieChart.Data("Without book ("+(count-count1)+")",(count-count1)) );
                 data.add(new PieChart.Data("with book ("+count1+")",count1));
+                data.add(new PieChart.Data("Without book ("+(count-count1)+")",(count-count1)) );
             }
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);

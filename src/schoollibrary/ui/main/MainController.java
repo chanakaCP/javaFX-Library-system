@@ -2,10 +2,8 @@
 package schoollibrary.ui.main;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXDialogLayout;
+import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.events.JFXDialogEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -18,7 +16,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,11 +24,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
-import javafx.scene.effect.BoxBlur;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -86,8 +81,8 @@ public class MainController implements Initializable {
     private Text total_fine;
     @FXML
     private StackPane rootPane;
-    @FXML
-    private BorderPane borderPane;
+//    @FXML
+//    private BorderPane borderPane;
     @FXML
     private Text subLale2;
     @FXML
@@ -104,32 +99,34 @@ public class MainController implements Initializable {
 
     DatabaseHandler databaseHandler;
     Preferences preferences;  
+    @FXML
+    private BorderPane borderPane;
+    @FXML
+    private VBox menubar;
+    @FXML
+    private JFXButton menuBtn;
+    @FXML
+    private JFXTabPane tabbar;
+    @FXML
+    private HBox info;
+    @FXML
+    private VBox issue_btn;
+    @FXML
+    private Tab submissionTab;
+    @FXML
+    private HBox renew_btn;
+    @FXML
+    private JFXButton renewBtn;
+    @FXML
+    private JFXButton subBtn;
+    @FXML
+    private Text subLale1;
+    @FXML
+    private VBox subDetals2;
+    @FXML
+    private Text subLale3;
     
-//    @FXML
-//    private VBox menubar;
-//    @FXML
-//    private JFXButton menuBtn;
-//    @FXML
-//    private JFXTabPane tabbar;
-//    @FXML
-//    private HBox info;
-//    @FXML
-//    private VBox issue_btn;
-//    @FXML
-//    private Tab submissionTab;
-//    @FXML
-//    private HBox renew_btn;
-//    @FXML
-//    private JFXButton renewBtn;
-//    @FXML
-//    private JFXButton subBtn;
-//    @FXML
-//    private Text subLale1;
-//    @FXML
-//    private VBox subDetals2;
-//    @FXML
-//    private Text subLale3;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         databaseHandler = DatabaseHandler.getInstance();
@@ -178,13 +175,15 @@ public class MainController implements Initializable {
         loadWindow("History", loader);
     }
     @FXML
-    private void loadTimetable(ActionEvent event) {
-    }
-    @FXML
     private void loadSetting(ActionEvent event) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/setting/setting.fxml"));
         loadWindow("Setting", loader);
     } 
+    @FXML
+    private void loadStat(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/stat/stat.fxml"));
+        loadWindow("Statistic", loader);
+    }
     @FXML
     private void menuClose(ActionEvent event) {
         Stage stage = (Stage) rootPane.getScene().getWindow();
@@ -609,12 +608,14 @@ public class MainController implements Initializable {
         bookInfoContainer.getChildren().add(bookChart);
         memberChart = new PieChart(databaseHandler.getMemberStatistic());
         memberInfoContainer.getChildren().add(memberChart);
+        
         bookChart.setLegendVisible(true);
         bookChart.setLabelsVisible(false);
         bookChart.setLegendSide(Side.BOTTOM);  
+        
         memberChart.setLegendVisible(true);
         memberChart.setLabelsVisible(false);
-        memberChart.setLegendSide(Side.BOTTOM );
+        memberChart.setLegendSide(Side.BOTTOM);
         issueTab.setOnSelectionChanged((Event event) -> {
             if(issueTab.isSelected())
                 refreshGraph();
@@ -710,5 +711,6 @@ public class MainController implements Initializable {
 //        }
 //                              
 //    }
+
     
 }
