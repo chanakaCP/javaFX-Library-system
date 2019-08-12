@@ -182,7 +182,7 @@
                         <Font name="Roboto Condensed Regular" size="18.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="menuBtn" alignment="BASELINE_LEFT" graphicTextGap="25.0" maxHeight="75.0" maxWidth="270.0" onAction="#loadTimetable" prefHeight="50.0" prefWidth="270.0" text="Time Table">
+                  <JFXButton fx:id="menuBtn" alignment="BASELINE_LEFT" graphicTextGap="25.0" maxHeight="75.0" maxWidth="270.0" onAction="#loadTimetable" prefHeight="50.0" prefWidth="270.0" text="Statistic">
                      <VBox.margin>
                         <Insets bottom="100.0" left="20.0" right="20.0" />
                      </VBox.margin>

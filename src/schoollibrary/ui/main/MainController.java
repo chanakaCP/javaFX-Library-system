@@ -2,7 +2,10 @@
 package schoollibrary.ui.main;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.events.JFXDialogEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -15,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -23,7 +27,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -77,7 +85,9 @@ public class MainController implements Initializable {
     @FXML
     private Text total_fine;
     @FXML
-    private StackPane rootPane; 
+    private StackPane rootPane;
+    @FXML
+    private BorderPane borderPane;
     @FXML
     private Text subLale2;
     @FXML
@@ -94,6 +104,31 @@ public class MainController implements Initializable {
 
     DatabaseHandler databaseHandler;
     Preferences preferences;  
+    
+//    @FXML
+//    private VBox menubar;
+//    @FXML
+//    private JFXButton menuBtn;
+//    @FXML
+//    private JFXTabPane tabbar;
+//    @FXML
+//    private HBox info;
+//    @FXML
+//    private VBox issue_btn;
+//    @FXML
+//    private Tab submissionTab;
+//    @FXML
+//    private HBox renew_btn;
+//    @FXML
+//    private JFXButton renewBtn;
+//    @FXML
+//    private JFXButton subBtn;
+//    @FXML
+//    private Text subLale1;
+//    @FXML
+//    private VBox subDetals2;
+//    @FXML
+//    private Text subLale3;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -495,6 +530,23 @@ public class MainController implements Initializable {
                         AlertMaker.errorAlert("Failed","Submission operation failed");
                     }
                 }else{
+                    
+//                    BoxBlur blur = new BoxBlur(3,3,3);
+//                            
+//                    JFXDialogLayout dialogLayout = new JFXDialogLayout();
+//                    JFXButton button = new JFXButton("Okay");                    
+//                    button.getStyleClass().add("dialog-button");
+//                    JFXDialog dialog = new JFXDialog(rootPane, dialogLayout, JFXDialog.DialogTransition.TOP);
+//                    button.addEventHandler(MouseEvent.MOUSE_CLICKED,(MouseEvent mouseEvent) ->{
+//                        dialog.close();
+//                    });
+//                    dialogLayout.setHeading(new Label("Submission operation canceled"));
+//                    dialogLayout.setActions(button); 
+//                    dialog.show();
+//                    dialog.setOnDialogClosed((JFXDialogEvent event1) -> {
+//                        borderPane.setEffect(null);
+//                    });
+//                    borderPane.setEffect(blur);
                     AlertMaker.informatinAlert("Canceled","Submission operation canceled");   
                 }
             }
@@ -502,7 +554,7 @@ public class MainController implements Initializable {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+ 
     
     @FXML
     private void renewBookOperation(ActionEvent event) {

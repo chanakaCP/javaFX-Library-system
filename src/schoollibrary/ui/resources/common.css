@@ -77,9 +77,8 @@
 
 /* Book Card */
 
-#id_c, #name_c, #author_c, #publisher_c, #price_c, #pages_c, #date_c, #description_c, #avail_c{
-    -fx-background-color: derive(#263238, -35%);
-    -fx-background-radius: 25;
+#id_c, #name_c, #author_c, #publisher_c, #price_c, #pages_c, #date_c, #description_c, #avail_c, #col1{
+    -fx-background-color: transparent;
     -fx-text-fill: #03a9f4;
     -jfx-focus-color: #cfd8dc;
     -fx-text-alignment: center;
@@ -250,5 +249,24 @@
 }
 
 
+/* Dialog Button */
+/*.dialog-button{
+    -fx-background-radius: 25;
+    -fx-border-radius: 25;
+    -fx-border-width: 2;
+    -fx-background-color: derive(#00b0ff, -20%);
+    -fx-border-color: derive(#00b0ff, -20%);
+    -fx-text-fill: white;
+    -fx-font-size: 16;
+}
 
-/* test css*/
+.dialog-button:hover{
+    -fx-background-radius: 25;
+    -fx-border-radius: 25;
+    -fx-border-width: 2;
+    -fx-background-color: white;
+    -fx-border-color: derive(#00b0ff, -20%);
+    -fx-text-fill: derive(#00b0ff, -20%);
+    -fx-font-size: 16;
+}*/
+
