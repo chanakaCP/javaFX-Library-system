@@ -99,32 +99,6 @@ public class MainController implements Initializable {
 
     DatabaseHandler databaseHandler;
     Preferences preferences;  
-    @FXML
-    private BorderPane borderPane;
-    @FXML
-    private VBox menubar;
-    @FXML
-    private JFXButton menuBtn;
-    @FXML
-    private JFXTabPane tabbar;
-    @FXML
-    private HBox info;
-    @FXML
-    private VBox issue_btn;
-    @FXML
-    private Tab submissionTab;
-    @FXML
-    private HBox renew_btn;
-    @FXML
-    private JFXButton renewBtn;
-    @FXML
-    private JFXButton subBtn;
-    @FXML
-    private Text subLale1;
-    @FXML
-    private VBox subDetals2;
-    @FXML
-    private Text subLale3;
     
 
     @Override
@@ -401,8 +375,8 @@ public class MainController implements Initializable {
                     "'" + bookId + "'," +
                     "'" + memberId + "'" +
                     ")";
-            String query5 = "UPDATE BOOK SET isAvail = false WHERE B_ID = '" + bookId + "' ";
-            String query6 = "UPDATE MEMBER SET isSubmit = false WHERE M_ID = '" + memberId + "' ";                
+            String query5 = "UPDATE BOOK SET isAvail = false , issueCount = issueCount+1   WHERE B_ID = '" + bookId + "' ";
+            String query6 = "UPDATE MEMBER SET isSubmit = false , issueCount = issueCount+1  WHERE M_ID = '" + memberId + "' ";                
             if(databaseHandler.execAction(query4) && databaseHandler.execAction(query5) && databaseHandler.execAction(query6)){
                 AlertMaker.informatinAlert("Success","Book issue complete");
                 bookIdInput.setText("");
@@ -518,8 +492,8 @@ public class MainController implements Initializable {
                                     renew_Count  +
                                     ")";
                     String query2 = "DELETE FROM ISSUE WHERE bookID = '" + bookId + "'";
-                    String query3 = "UPDATE BOOK SET isAvail = true WHERE B_ID = '" + bookId + "' ";
-                    String query4 = "UPDATE MEMBER SET isSubmit = true WHERE M_ID = '" + memberId + "' ";
+                    String query3 = "UPDATE BOOK SET isAvail = true, subCount = subCount+1, fineCollect = fineCollect+1  WHERE B_ID = '" + bookId + "' ";
+                    String query4 = "UPDATE MEMBER SET isSubmit = true, subCount = subCount+1, finePayed = finePayed+1  WHERE M_ID = '" + memberId + "' ";
                     if(databaseHandler.execAction(query1) && databaseHandler.execAction(query2) && databaseHandler.execAction(query3) && databaseHandler.execAction(query4)){
                         AlertMaker.informatinAlert("Success","Book submission complete");
                         bookIdInput2.setText("");
@@ -558,6 +532,7 @@ public class MainController implements Initializable {
     @FXML
     private void renewBookOperation(ActionEvent event) {
         String bookId = bookIdInput2.getText().trim();
+        String memberId = null;
         try{
             String query = "SELECT COUNT(bookID) as count FROM ISSUE WHERE bookID = '" + bookId + "' ";
             ResultSet result = databaseHandler.execQuery(query);
@@ -567,6 +542,13 @@ public class MainController implements Initializable {
                 AlertMaker.errorAlert("Invalid book ID","This book is not issued" );
                 return;
             }
+            
+            query = "SELECT memberID FROM ISSUE WHERE bookID = '" + bookId + "' ";
+            result = databaseHandler.execQuery(query);
+            if(result.next()){
+                memberId = result.getString("memberID"); 
+            }
+            
         }catch (SQLException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             return;
@@ -576,9 +558,11 @@ public class MainController implements Initializable {
         
         if(responce.get() == ButtonType.OK){
             LocalDate renewDate = LocalDate.now();
-            String query = "UPDATE ISSUE SET renewCount = renewCount+1, lastRenewDate = '"+renewDate+"'  WHERE bookID = '" + bookId + "' "; 
+            String query1 = "UPDATE ISSUE SET renewCount = renewCount+1, lastRenewDate = '"+renewDate+"'  WHERE bookID = '" + bookId + "' "; 
+            String query2 = "UPDATE BOOK SET subCount = subCount+1  WHERE B_ID = '" + bookId + "' ";
+            String query3 = "UPDATE MEMBER SET subCount = subCount+1  WHERE M_ID = '" + memberId + "' ";
             
-            if(databaseHandler.execAction(query)){
+            if(databaseHandler.execAction(query1) && databaseHandler.execAction(query2) && databaseHandler.execAction(query3)){
                 AlertMaker.informatinAlert("Success","Book has been renewed"); 
                 bookIdInput2.setText("");
                 setSubmssionContent();
