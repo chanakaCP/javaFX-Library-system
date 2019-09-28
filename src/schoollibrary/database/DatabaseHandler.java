@@ -65,6 +65,9 @@ public final class DatabaseHandler {
                             + " pages int,\n "
                             + " receiveDate DATE,\n "
                             + " description varchar(200),\n "
+                            + " issueCount int,\n "
+                            + " renewCount int,\n "
+                            + " subCount int,\n "
                             + " isAvail boolean default true "
                             + " ) " 
                     );        
@@ -88,6 +91,10 @@ public final class DatabaseHandler {
                 stmt.execute( " CREATE TABLE " + TABLE_NAME + " ( "
                             + " M_ID varchar(100) primary key,\n "                          
                             + " MName varchar(200),\n "
+                            + " issueCount int,\n "
+                            + " renewCount int,\n "
+                            + " subCount int,\n "
+                            + " finePayed int,\n "
                             + " isSubmit boolean default true "
                             + " ) " 
                     );        
