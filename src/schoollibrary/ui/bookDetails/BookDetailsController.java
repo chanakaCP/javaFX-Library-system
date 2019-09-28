@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import schoollibrary.database.DatabaseHandler;
 import schoollibrary.ui.viewbook.BookListController;
 
@@ -34,9 +35,20 @@ public class BookDetailsController implements Initializable {
     private Label avail_c;
     @FXML
     private Label description_c;
+    @FXML
+    private Label issueCount_c;
+    @FXML
+    private Label subCount_c;
+    @FXML
+    private Label renewCount_c;
+    @FXML
+    private Label fineCount_c;
+    
     
     DatabaseHandler databaseHandler;
     BookListController bookListController;
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         databaseHandler = DatabaseHandler.getInstance();
@@ -49,17 +61,22 @@ public class BookDetailsController implements Initializable {
             if(result.next()){
                 id_c.setText(bookId);
                 name_c.setText(result.getString("BName"));
+                name_c.setWrapText(true);
                 author_c.setText(result.getString("author"));
+                author_c.setWrapText(true);
                 publisher_c.setText(result.getString("publisher"));
+                publisher_c.setWrapText(true);
                 price_c.setText(result.getString("price"));
                 pages_c.setText(result.getString("pages"));
                 date_c.setText(result.getString("receiveDate"));
                 description_c.setText(result.getString("description"));
-                avail_c.setText(result.getString("isAvail"));
-                
-                name_c.setWrapText(true);
-                author_c.setWrapText(true);
                 description_c.setWrapText(true);
+                avail_c.setText(result.getString("isAvail"));
+                issueCount_c.setText(result.getString("issueCount"));
+                subCount_c.setText(result.getString("subCount"));
+                renewCount_c.setText(result.getString("renewCount"));
+                fineCount_c.setText(result.getString("fineCollect"));            
+                
             }
         } catch (SQLException ex) {
             Logger.getLogger(BookDetailsController.class.getName()).log(Level.SEVERE, null, ex);
