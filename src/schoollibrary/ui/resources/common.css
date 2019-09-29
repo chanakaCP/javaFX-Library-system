@@ -77,7 +77,7 @@
 
 /* Book Card */
 
-#id_c, #name_c, #author_c, #publisher_c, #price_c, #pages_c, #date_c, #description_c, #avail_c, #col1{
+#id_c, #name_c, #author_c, #publisher_c, #price_c, #pages_c, #date_c, #description_c, #avail_c, #validity_c, #issueCount_c, #subCount_c, #renewCount_c, #fineCount_c, #col1{
     -fx-background-color: transparent;
     -fx-text-fill: #03a9f4;
     -jfx-focus-color: #cfd8dc;

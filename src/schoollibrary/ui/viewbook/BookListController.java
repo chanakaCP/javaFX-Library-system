@@ -72,6 +72,8 @@ public class BookListController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        databaseHandler = DatabaseHandler.getInstance();
+        
         choiceKey.getItems().add("Book ID");
         choiceKey.getItems().add("Book Name");
         choiceKey.getItems().add("Author");
@@ -108,7 +110,7 @@ public class BookListController implements Initializable {
         searchKey.setDisable(true);
         datePick.setDisable(true);
         list.clear();
-        databaseHandler = DatabaseHandler.getInstance();
+        
         String query = "SELECT * FROM BOOK";
 
         ResultSet result = databaseHandler.execQuery(query);
@@ -283,7 +285,7 @@ public class BookListController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/bookDetails/book_details.fxml"));
             Parent parent = loader.load();
             BookDetailsController controller = (BookDetailsController) loader.getController();
-            controller.getId(selectedBook.getB_id());
+            controller.viewData(selectedBook.getB_id());
             Stage stage = new Stage(StageStyle.DECORATED);
             stage.setResizable(false);
             stage.setOnCloseRequest((e)->{

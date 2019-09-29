@@ -42,9 +42,13 @@ public class AddMemberController implements Initializable {
         String query = "INSERT INTO MEMBER VALUES ( " +
                         "'" + memberID + "'," +
                         "'" + memberName + "'," +
+                              0 + "," +
+                              0 + "," +
+                              0 + "," +
+                              0 + "," +
                         "'" + "true" + "'" +
                 ")";
-        
+        System.out.println(query);
         if(databaseHandler.execAction(query)){      
             AlertMaker.informatinAlert("Success","Insert Member Successfully");
             m_id.setText("");

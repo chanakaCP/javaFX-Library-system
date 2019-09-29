@@ -85,6 +85,10 @@ public class AddBookController implements Initializable {
                               bookPage + "," +
                         "'" + bookRecieveDate + "'," +
                         "'" + bookDescription + "'," +
+                              0 + "," +
+                              0 + "," +
+                              0 + "," +
+                              0 + "," +
                         "'" + "true" + "'" +
                 ")";
         

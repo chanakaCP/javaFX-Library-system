@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 import schoollibrary.database.DatabaseHandler;
 import schoollibrary.ui.viewbook.BookListController;
 
@@ -46,7 +45,7 @@ public class BookDetailsController implements Initializable {
     
     
     DatabaseHandler databaseHandler;
-    BookListController bookListController;
+    BookListController bookListController;   
     
     
     @Override
@@ -54,7 +53,7 @@ public class BookDetailsController implements Initializable {
         databaseHandler = DatabaseHandler.getInstance();
     }    
     
-    public void getId(String bookId){
+    public void viewData(String bookId){
        String query = "SELECT * FROM BOOK WHERE B_ID = '" + bookId + "' " ;
         ResultSet result = databaseHandler.execQuery(query);
         try {
