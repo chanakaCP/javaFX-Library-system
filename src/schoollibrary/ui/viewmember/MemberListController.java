@@ -1,6 +1,7 @@
 
 package schoollibrary.ui.viewmember;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
@@ -34,6 +35,7 @@ import schoollibrary.database.DatabaseHandler;
 import schoollibrary.ui.addbook.AddBookController;
 import schoollibrary.ui.editmember.EditMemberController;
 import schoollibrary.ui.main.MainController;
+import schoollibrary.ui.memberDetails.MemberDetailsController;
 import schoollibrary.util.LibraryAssistantUtil;
 
 
@@ -58,6 +60,7 @@ public class MemberListController implements Initializable {
        
     DatabaseHandler databaseHandler;
     MainController mainController;
+   
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -188,7 +191,38 @@ public class MemberListController implements Initializable {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
+    @FXML
+    private void memberDetailsAction(ActionEvent event) {
+        Member selectedMember = tableViewCol.getSelectionModel().getSelectedItem();
+        
+        if(selectedMember == null){
+            AlertMaker.errorAlert("No member selected","Please select a member for edit");
+            return;
+        }
+        
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/memberDetails/member_details.fxml"));
+            Parent parent = loader.load();
+            MemberDetailsController controller = (MemberDetailsController) loader.getController();
+            controller.viewData(selectedMember.getM_id());
+            Stage stage = new Stage(StageStyle.DECORATED);
+            stage.setResizable(false);
+            stage.setOnCloseRequest((e)->{
+                loadData();
+            });
+            stage.setTitle("View Member");
+            stage.setScene(new Scene(parent));
+            stage.show();
+            LibraryAssistantUtil.setStageIcon(stage);
+           
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
+    
     @FXML
     private void searchAction(ActionEvent event) {
         String choice = choiceKey.getValue();
@@ -228,6 +262,8 @@ public class MemberListController implements Initializable {
     public void getController(MainController mainController){  
         this.mainController = mainController;
     }
+
+  
     
     
     public static class Member{

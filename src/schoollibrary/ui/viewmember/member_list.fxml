@@ -62,8 +62,9 @@
                <contextMenu>
                   <ContextMenu>
                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#memberDetailsAction" text="View" />
                         <MenuItem mnemonicParsing="false" onAction="#memberEdtAction" text="Edit" />
-                        <MenuItem mnemonicParsing="false" onAction="#memberDeleteAction" text="Delete" />
+                        <MenuItem mnemonicParsing="false" onAction="#memberDeleteAction" text="Delete" />        
                     </items>
                   </ContextMenu>
                </contextMenu>
