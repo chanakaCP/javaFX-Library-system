@@ -112,7 +112,7 @@ public class MemberListController implements Initializable {
         }else{
             query = "SELECT * FROM MEMBER WHERE " + stream + " LIKE '%"+value+"%' ";
         }
-        System.out.println(query);
+//        System.out.println(query);
         ResultSet result = databaseHandler.execQuery(query);
         try {
             while (result.next()) { 

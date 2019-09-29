@@ -46,6 +46,7 @@ public class AddMemberController implements Initializable {
                               0 + "," +
                               0 + "," +
                               0 + "," +
+                              0 + "," +
                         "'" + "true" + "'" +
                 ")";
         System.out.println(query);

@@ -151,7 +151,7 @@ public class BookListController implements Initializable {
         }else{
             query = "SELECT * FROM BOOK WHERE " + stream + " LIKE '%"+value+"%' ";
         }
-        System.out.println(query);
+//        System.out.println(query);
         ResultSet result = databaseHandler.execQuery(query);
         try {
             while (result.next()) { 

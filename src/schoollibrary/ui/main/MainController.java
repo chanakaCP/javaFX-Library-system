@@ -2,7 +2,6 @@
 package schoollibrary.ui.main;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
@@ -25,8 +24,6 @@ import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Tab;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -456,7 +453,7 @@ public class MainController implements Initializable {
         String memberId;
         String issueDate;
         int renew_Count;
-        int totalFine;
+        int fine;
    
         try{
             String query = "SELECT COUNT(bookID) as count FROM ISSUE WHERE bookID = '" + bookId + "' ";
@@ -476,24 +473,27 @@ public class MainController implements Initializable {
         ResultSet result = databaseHandler.execQuery(query);  
         try {
             if (result.next()) {
+                
                 issueDate = result.getString("issueDate");
                 renew_Count = result.getInt("renewCount");
                 memberId = result.getString("memberID");
                 String dateFrom = result.getString("lastRenewDate");
-                totalFine = countTotalFine(dateFrom);
+                fine = countTotalFine(dateFrom);
                 
                 Optional<ButtonType> responce = AlertMaker.confirmationAlert("Confirm Submission Operation","Are you sure want to submit the book");
                 if(responce.get() == ButtonType.OK){
+                    int dateCount = delayedDates(dateFrom);
+                            
                     String query1 = "INSERT INTO SUBMISSION (bookID,memberID,issueDate,fine,renewCount) VALUES ( " +
                                     "'" + bookId + "'," +
                                     "'" + memberId + "'," +
                                     "'" + issueDate + "'," +
-                                    totalFine +", " +
+                                    fine +", " +
                                     renew_Count  +
                                     ")";
                     String query2 = "DELETE FROM ISSUE WHERE bookID = '" + bookId + "'";
-                    String query3 = "UPDATE BOOK SET isAvail = true, subCount = subCount+1, fineCollect = fineCollect+1  WHERE B_ID = '" + bookId + "' ";
-                    String query4 = "UPDATE MEMBER SET isSubmit = true, subCount = subCount+1, finePayed = finePayed+1  WHERE M_ID = '" + memberId + "' ";
+                    String query3 = "UPDATE BOOK SET isAvail = true, subCount = subCount+1, fineCollect = fineCollect +'" + fine + "'  WHERE B_ID = '" + bookId + "' ";
+                    String query4 = "UPDATE MEMBER SET isSubmit = true, subCount = subCount+1, finePayed = finePayed +'" + fine + "' , delayedDateCount = delayedDateCount +'" + dateCount + "'  WHERE M_ID = '" + memberId + "' ";
                     if(databaseHandler.execAction(query1) && databaseHandler.execAction(query2) && databaseHandler.execAction(query3) && databaseHandler.execAction(query4)){
                         AlertMaker.informatinAlert("Success","Book submission complete");
                         bookIdInput2.setText("");
@@ -503,23 +503,6 @@ public class MainController implements Initializable {
                         AlertMaker.errorAlert("Failed","Submission operation failed");
                     }
                 }else{
-                    
-//                    BoxBlur blur = new BoxBlur(3,3,3);
-//                            
-//                    JFXDialogLayout dialogLayout = new JFXDialogLayout();
-//                    JFXButton button = new JFXButton("Okay");                    
-//                    button.getStyleClass().add("dialog-button");
-//                    JFXDialog dialog = new JFXDialog(rootPane, dialogLayout, JFXDialog.DialogTransition.TOP);
-//                    button.addEventHandler(MouseEvent.MOUSE_CLICKED,(MouseEvent mouseEvent) ->{
-//                        dialog.close();
-//                    });
-//                    dialogLayout.setHeading(new Label("Submission operation canceled"));
-//                    dialogLayout.setActions(button); 
-//                    dialog.show();
-//                    dialog.setOnDialogClosed((JFXDialogEvent event1) -> {
-//                        borderPane.setEffect(null);
-//                    });
-//                    borderPane.setEffect(blur);
                     AlertMaker.informatinAlert("Canceled","Submission operation canceled");   
                 }
             }
@@ -559,8 +542,8 @@ public class MainController implements Initializable {
         if(responce.get() == ButtonType.OK){
             LocalDate renewDate = LocalDate.now();
             String query1 = "UPDATE ISSUE SET renewCount = renewCount+1, lastRenewDate = '"+renewDate+"'  WHERE bookID = '" + bookId + "' "; 
-            String query2 = "UPDATE BOOK SET subCount = subCount+1  WHERE B_ID = '" + bookId + "' ";
-            String query3 = "UPDATE MEMBER SET subCount = subCount+1  WHERE M_ID = '" + memberId + "' ";
+            String query2 = "UPDATE BOOK SET renewCount = renewCount+1  WHERE B_ID = '" + bookId + "' ";
+            String query3 = "UPDATE MEMBER SET renewCount = renewCount+1  WHERE M_ID = '" + memberId + "' ";
             
             if(databaseHandler.execAction(query1) && databaseHandler.execAction(query2) && databaseHandler.execAction(query3)){
                 AlertMaker.informatinAlert("Success","Book has been renewed"); 
@@ -618,7 +601,7 @@ public class MainController implements Initializable {
         LocalDate dateFrom = LocalDate.parse(dateIssue); 
         LocalDate dateTo = LocalDate.now();
         Period intervalPeriod = Period.between(dateFrom, dateTo);
-        int dateCount = (intervalPeriod.getDays() + intervalPeriod.getMonths() + intervalPeriod.getYears());
+        int dateCount = (intervalPeriod.getDays() + intervalPeriod.getMonths()*30 + intervalPeriod.getYears()*365);
    
         if(dateCount > maxNoOfDays){
             return ((dateCount-maxNoOfDays)*finePerDay);
@@ -670,7 +653,10 @@ public class MainController implements Initializable {
 //        String query5 = "INSERT INTO BOOK VALUES ( '6','book6','auth5','pub1', 12 ,12,'2013-2-12','asdasdasasda','true')";
            
     
-//          String query6 = "INSERT INTO ISSUE (bookID,memberID,issueDate,renewCount,lastRenewDate) VALUES ( '5','5','2019-6-25',0,'2019-6-25')";
+//          String query1 = "INSERT INTO ISSUE (bookID,memberID,issueDate,renewCount,lastRenewDate) VALUES ( '11','11','2019-9-10',0,'2019-9-10')";
+//            if(databaseHandler.execAction(query1)){
+//            System.out.println("success");
+//        }  
 //          String query7 = "UPDATE BOOK SET isAvail = true WHERE B_ID = '5' ";
 //          String query8 = "UPDATE MEMBER SET isSubmit = true WHERE M_ID = '5' ";  
 //             String query9 = "DELETE FROM ISSUE WHERE bookID = '5' ";

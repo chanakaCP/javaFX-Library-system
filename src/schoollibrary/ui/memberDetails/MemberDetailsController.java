@@ -10,7 +10,9 @@ import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import schoollibrary.database.DatabaseHandler;
+import schoollibrary.ui.setting.Preferences;
 import schoollibrary.ui.viewmember.MemberListController;
 
 
@@ -30,10 +32,13 @@ public class MemberDetailsController implements Initializable {
     private Label renewCount_c;
     @FXML
     private Label fineCount_c;
-
+    @FXML
+    private Label dateCount_c;
     
     DatabaseHandler databaseHandler;
     MemberListController memberListController;
+    
+    
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -42,7 +47,8 @@ public class MemberDetailsController implements Initializable {
     
     
     public void viewData(String memberId){
-       String query = "SELECT * FROM MEMBER WHERE M_ID = '" + memberId + "' " ;
+        
+        String query = "SELECT * FROM MEMBER WHERE M_ID = '" + memberId + "' " ;
         ResultSet result = databaseHandler.execQuery(query);
         try {
             if(result.next()){
@@ -54,7 +60,7 @@ public class MemberDetailsController implements Initializable {
                 renewCount_c.setText(result.getString("renewCount"));
                 fineCount_c.setText(result.getString("finePayed"));  
                 validity_c.setText(result.getString("isSubmit"));
-                
+                dateCount_c.setText(result.getString("delayedDateCount"));            
             }
         } catch (SQLException ex) {
             Logger.getLogger(MemberDetailsController.class.getName()).log(Level.SEVERE, null, ex);

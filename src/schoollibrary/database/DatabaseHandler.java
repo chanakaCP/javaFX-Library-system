@@ -96,6 +96,7 @@ public final class DatabaseHandler {
                             + " renewCount int default 0 ,\n "
                             + " subCount int default 0 ,\n "
                             + " finePayed int default 0 ,\n "
+                            + " delayedDateCount int default 0 ,\n "
                             + " isSubmit boolean default true "
                             + " ) " 
                     );        
