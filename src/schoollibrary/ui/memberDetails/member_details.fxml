@@ -68,7 +68,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="58.0" prefWidth="200.0">
                <children>
-                  <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="180.0" text="Book issue validity :" textAlignment="RIGHT">
+                  <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="180.0" text="Member validity :" textAlignment="RIGHT">
                      <font>
                         <Font name="Roboto Condensed Regular" size="15.0" />
                      </font>

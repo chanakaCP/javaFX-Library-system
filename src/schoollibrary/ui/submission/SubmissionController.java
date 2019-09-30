@@ -56,8 +56,12 @@ public class SubmissionController implements Initializable {
     private TableColumn<Submission,Integer> countCol;
     @FXML
     private TableColumn<Submission,Integer> fineCol;
-  
+    @FXML
+    private TableColumn<Submission,Integer> dateCountCol;
+    
+    
     DatabaseHandler databaseHandler;   
+    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -99,6 +103,7 @@ public class SubmissionController implements Initializable {
         i_timeCol.setCellValueFactory(new PropertyValueFactory<>("issue_date"));
         s_timeCol.setCellValueFactory(new PropertyValueFactory<>("submission_date"));
         countCol.setCellValueFactory(new PropertyValueFactory<>("r_count"));
+        dateCountCol.setCellValueFactory(new PropertyValueFactory<>("count_date"));
         fineCol.setCellValueFactory(new PropertyValueFactory<>("fine"));
     }
 
@@ -124,8 +129,9 @@ public class SubmissionController implements Initializable {
                 String issueDate = result.getString("issueDate");
                 String submissionDate = result.getString("submitDate");
                 int rCount = Integer.parseInt(result.getString("renewCount"));
+                int dCount = Integer.parseInt(result.getString("nuOfDaysKept"));
                 int fine = Integer.parseInt(result.getString("fine"));
-                list.add(new Submission(bookID,memberID,issueDate,submissionDate,rCount,fine));
+                list.add(new Submission(bookID,memberID,issueDate,submissionDate,rCount,dCount,fine));
             }
         } catch (SQLException ex) {
             Logger.getLogger(SubmissionController.class.getName()).log(Level.SEVERE, null, ex);
@@ -161,8 +167,9 @@ public class SubmissionController implements Initializable {
                 String issueDate = result.getString("issueDate");
                 String submissionDate = result.getString("submitDate");
                 int rCount = Integer.parseInt(result.getString("renewCount"));
+                int dCount = Integer.parseInt(result.getString("nuOfDaysKept"));
                 int fine = Integer.parseInt(result.getString("fine"));
-                list.add(new Submission(bookID,memberID,issueDate,submissionDate,rCount,fine));
+                list.add(new Submission(bookID,memberID,issueDate,submissionDate,rCount,dCount,fine));
             }
         } catch (SQLException ex) {           
             Logger.getLogger(SubmissionController.class.getName()).log(Level.SEVERE, null, ex);
@@ -191,8 +198,9 @@ public class SubmissionController implements Initializable {
                 String issueDate = result.getString("issueDate");
                 String submissionDate = result.getString("submitDate");
                 int rCount = Integer.parseInt(result.getString("renewCount"));
+                int dCount = Integer.parseInt(result.getString("nuOfDaysKept"));
                 int fine = Integer.parseInt(result.getString("fine"));
-                list.add(new Submission(bookID,memberID,issueDate,submissionDate,rCount,fine));
+                list.add(new Submission(bookID,memberID,issueDate,submissionDate,rCount,dCount,fine));
             }
         } catch (SQLException ex) {           
             Logger.getLogger(SubmissionController.class.getName()).log(Level.SEVERE, null, ex);
@@ -260,14 +268,16 @@ public class SubmissionController implements Initializable {
        public final SimpleStringProperty issue_date;
        public final SimpleStringProperty submission_date;
        public final SimpleIntegerProperty r_count;
+       public final SimpleIntegerProperty count_date;
        public final SimpleIntegerProperty fine;
        
-       public Submission(String bid, String mid, String i_date, String s_date, int count, int fine){
+       public Submission(String bid, String mid, String i_date, String s_date, int count, int d_count, int fine){
             this.b_id = new SimpleStringProperty(bid);
             this.m_id = new SimpleStringProperty(mid);
             this.issue_date = new SimpleStringProperty(i_date);
             this.submission_date = new SimpleStringProperty(s_date);
             this.r_count = new SimpleIntegerProperty(count);
+            this.count_date = new SimpleIntegerProperty(d_count);
             this.fine = new SimpleIntegerProperty(fine);
         }
 
@@ -290,6 +300,10 @@ public class SubmissionController implements Initializable {
 
         public Integer getFine() {
             return fine.get();
+        }
+
+        public Integer getCount_date() {
+            return count_date.get();
         }
 
         public Integer getR_count() {

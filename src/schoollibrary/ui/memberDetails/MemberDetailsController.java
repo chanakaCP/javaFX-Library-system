@@ -10,9 +10,7 @@ import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 import schoollibrary.database.DatabaseHandler;
-import schoollibrary.ui.setting.Preferences;
 import schoollibrary.ui.viewmember.MemberListController;
 
 
@@ -59,8 +57,13 @@ public class MemberDetailsController implements Initializable {
                 subCount_c.setText(result.getString("subCount"));
                 renewCount_c.setText(result.getString("renewCount"));
                 fineCount_c.setText(result.getString("finePayed"));  
-                validity_c.setText(result.getString("isSubmit"));
-                dateCount_c.setText(result.getString("delayedDateCount"));            
+                dateCount_c.setText(result.getString("delayedDateCount"));
+                
+                if(result.getString("isSubmit").equals("true")){
+                    validity_c.setText("Valid Member");
+                }else{
+                    validity_c.setText("Invalid Member");
+                }            
             }
         } catch (SQLException ex) {
             Logger.getLogger(MemberDetailsController.class.getName()).log(Level.SEVERE, null, ex);
