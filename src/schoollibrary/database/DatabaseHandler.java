@@ -155,7 +155,8 @@ public final class DatabaseHandler {
                             + " submitDate DATE DEFAULT CURRENT_DATE ,\n "
 //                            + " submitDate DATE  ,\n "
                             + " issueDate DATE ,\n "
-                            + " renewCount integer "
+                            + " renewCount integer ,\n"
+                            + " nuOfDaysKept integer "
                             + " ) " 
                     );        
             }   

@@ -97,7 +97,7 @@ public class MainController implements Initializable {
     DatabaseHandler databaseHandler;
     Preferences preferences;  
     
-
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         databaseHandler = DatabaseHandler.getInstance();
@@ -482,18 +482,19 @@ public class MainController implements Initializable {
                 
                 Optional<ButtonType> responce = AlertMaker.confirmationAlert("Confirm Submission Operation","Are you sure want to submit the book");
                 if(responce.get() == ButtonType.OK){
-                    int dateCount = delayedDates(dateFrom);
-                            
-                    String query1 = "INSERT INTO SUBMISSION (bookID,memberID,issueDate,fine,renewCount) VALUES ( " +
+                    int delayedDateCount = delayedDates(dateFrom);
+                    int dateCount = countDays(dateFrom);
+                    String query1 = "INSERT INTO SUBMISSION (bookID,memberID,issueDate,fine,renewCount,nuOfDaysKept) VALUES ( " +
                                     "'" + bookId + "'," +
                                     "'" + memberId + "'," +
                                     "'" + issueDate + "'," +
-                                    fine +", " +
-                                    renew_Count  +
+                                    fine + ", " +
+                                    renew_Count+ ", "  +
+                                    dateCount  +
                                     ")";
                     String query2 = "DELETE FROM ISSUE WHERE bookID = '" + bookId + "'";
                     String query3 = "UPDATE BOOK SET isAvail = true, subCount = subCount+1, fineCollect = fineCollect +'" + fine + "'  WHERE B_ID = '" + bookId + "' ";
-                    String query4 = "UPDATE MEMBER SET isSubmit = true, subCount = subCount+1, finePayed = finePayed +'" + fine + "' , delayedDateCount = delayedDateCount +'" + dateCount + "'  WHERE M_ID = '" + memberId + "' ";
+                    String query4 = "UPDATE MEMBER SET isSubmit = true, subCount = subCount+1, finePayed = finePayed +'" + fine + "' , delayedDateCount = delayedDateCount +'" + delayedDateCount + "'  WHERE M_ID = '" + memberId + "' ";
                     if(databaseHandler.execAction(query1) && databaseHandler.execAction(query2) && databaseHandler.execAction(query3) && databaseHandler.execAction(query4)){
                         AlertMaker.informatinAlert("Success","Book submission complete");
                         bookIdInput2.setText("");
@@ -625,6 +626,14 @@ public class MainController implements Initializable {
         }
     }
     
+    
+    int countDays(String dateIssue){
+        LocalDate dateFrom = LocalDate.parse(dateIssue); 
+        LocalDate dateTo = LocalDate.now();
+        Period intervalPeriod = Period.between(dateFrom, dateTo);
+        int dateCount = (intervalPeriod.getDays() + intervalPeriod.getMonths() + intervalPeriod.getYears());
+        return dateCount;
+    }
 //  test
     
     
@@ -652,8 +661,8 @@ public class MainController implements Initializable {
 //        String query4 = "INSERT INTO BOOK VALUES ( '5','book5','auth5','pub1', 12 ,12,'2013-2-12','asdasdasasda','true')";
 //        String query5 = "INSERT INTO BOOK VALUES ( '6','book6','auth5','pub1', 12 ,12,'2013-2-12','asdasdasasda','true')";
            
-    
-//          String query1 = "INSERT INTO ISSUE (bookID,memberID,issueDate,renewCount,lastRenewDate) VALUES ( '11','11','2019-9-10',0,'2019-9-10')";
+//    
+//          String query1 = "INSERT INTO ISSUE (bookID,memberID,issueDate,renewCount,lastRenewDate) VALUES ( '11','11','2019-9-20',0,'2019-9-20')";
 //            if(databaseHandler.execAction(query1)){
 //            System.out.println("success");
 //        }  
