@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" prefHeight="986.0" prefWidth="876.0" styleClass="mainFxmlClass" stylesheets="@../resources/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schoollibrary.ui.issueBook.IssueBookController">
+<AnchorPane fx:id="rootPane" prefHeight="986.0" prefWidth="994.0" styleClass="mainFxmlClass" stylesheets="@../resources/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schoollibrary.ui.issueBook.IssueBookController">
    <children>
       <VBox prefHeight="664.0" prefWidth="1125.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -53,12 +53,13 @@
                   </JFXButton>
                </children>
             </HBox>
-            <TableView fx:id="tableViewCol" prefHeight="773.0" prefWidth="805.0">
+            <TableView fx:id="tableViewCol" prefHeight="774.0" prefWidth="941.0">
                <columns>
                   <TableColumn fx:id="b_idCol" prefWidth="170.0" text="Book ID" />
                   <TableColumn fx:id="m_idCol" prefWidth="170.0" text="Member ID" />
                   <TableColumn fx:id="timeCol" prefWidth="250.0" text="Issue Date" />
-                  <TableColumn fx:id="countCol" prefWidth="225.60000000000002" text="Renew Count" />
+                  <TableColumn fx:id="countCol" prefWidth="170.0" text="Renew Count" />
+                  <TableColumn fx:id="dateCountCol" prefWidth="170.0" text="No: Of Days" />
                </columns>
                <VBox.margin>
                   <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />

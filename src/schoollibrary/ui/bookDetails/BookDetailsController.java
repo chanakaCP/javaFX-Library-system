@@ -70,12 +70,16 @@ public class BookDetailsController implements Initializable {
                 date_c.setText(result.getString("receiveDate"));
                 description_c.setText(result.getString("description"));
                 description_c.setWrapText(true);
-                avail_c.setText(result.getString("isAvail"));
                 issueCount_c.setText(result.getString("issueCount"));
                 subCount_c.setText(result.getString("subCount"));
                 renewCount_c.setText(result.getString("renewCount"));
-                fineCount_c.setText(result.getString("fineCollect"));            
+                fineCount_c.setText(result.getString("fineCollect")); 
                 
+                if(result.getString("isAvail").equals("true")){
+                    avail_c.setText("Available");                    
+                }else{
+                    avail_c.setText("Not available");
+                }                
             }
         } catch (SQLException ex) {
             Logger.getLogger(BookDetailsController.class.getName()).log(Level.SEVERE, null, ex);
