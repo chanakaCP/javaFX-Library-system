@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="535.0" prefWidth="639.0" stylesheets="@../resources/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schoollibrary.ui.memberDetails.MemberDetailsController">
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="575.0" prefWidth="639.0" stylesheets="@../resources/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schoollibrary.ui.memberDetails.MemberDetailsController">
    <children>
       <VBox prefHeight="820.0" prefWidth="573.0" style="-fx-background-color: derive(#263238, -20%);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -54,6 +54,32 @@
                      </HBox.margin>
                   </Label>
                   <Label fx:id="name_c" contentDisplay="CENTER" prefHeight="42.0" prefWidth="250.0" stylesheets="@../resources/common.css">
+                     <font>
+                        <Font name="Roboto Condensed Regular" size="15.0" />
+                     </font>
+                     <padding>
+                        <Insets left="20.0" right="20.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="99.0" prefHeight="58.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="180.0" text="Added date  :" textAlignment="RIGHT">
+                     <font>
+                        <Font name="Roboto Condensed Regular" size="15.0" />
+                     </font>
+                     <padding>
+                        <Insets right="20.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets left="30.0" right="20.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="aDate_c" contentDisplay="CENTER" prefHeight="42.0" prefWidth="250.0" stylesheets="@../resources/common.css">
                      <font>
                         <Font name="Roboto Condensed Regular" size="15.0" />
                      </font>

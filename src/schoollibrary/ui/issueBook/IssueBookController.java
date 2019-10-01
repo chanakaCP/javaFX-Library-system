@@ -43,6 +43,8 @@ public class IssueBookController implements Initializable {
     @FXML
     private TableView<IssueBook> tableViewCol;
     @FXML
+    private TableColumn<IssueBook,Integer> noCol;
+    @FXML
     private TableColumn<IssueBook,String> b_idCol;
     @FXML
     private TableColumn<IssueBook,String> m_idCol;
@@ -54,7 +56,7 @@ public class IssueBookController implements Initializable {
     private TableColumn<IssueBook,Integer> dateCountCol;
 
     DatabaseHandler databaseHandler;   
-
+    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) { 
@@ -77,6 +79,7 @@ public class IssueBookController implements Initializable {
     }    
     
     private void initCol() {
+        noCol.setCellValueFactory(new PropertyValueFactory<>("number"));
         b_idCol.setCellValueFactory(new PropertyValueFactory<>("b_id"));
         m_idCol.setCellValueFactory(new PropertyValueFactory<>("m_id"));
         timeCol.setCellValueFactory(new PropertyValueFactory<>("issue_date"));
@@ -91,16 +94,16 @@ public class IssueBookController implements Initializable {
         databaseHandler = DatabaseHandler.getInstance();
         String query = "SELECT * FROM ISSUE";
         ResultSet result = databaseHandler.execQuery(query);
-     
+        int i=0;
         try {
             while (result.next()) {
+                i++;
                 String bookID = result.getString("bookID");
                 String memberID = result.getString("memberID");
                 String issueTime = result.getString("issueDate");
                 int rCount = Integer.parseInt(result.getString("renewCount"));
                 int dCount = countDays(result.getString("lastRenewDate"));
-                System.out.println(dCount);
-                list.add(new IssueBook(bookID,memberID,issueTime,rCount,dCount));
+                list.add(new IssueBook(i,bookID,memberID,issueTime,rCount,dCount));
             }
         } catch (SQLException ex) {
             Logger.getLogger(IssueBookController.class.getName()).log(Level.SEVERE, null, ex);
@@ -121,14 +124,16 @@ public class IssueBookController implements Initializable {
         list.clear();  
         String query = "SELECT * FROM ISSUE WHERE " + stream + " = '%"+value+"%' ";
         ResultSet result = databaseHandler.execQuery(query);
+        int i=0;
         try {
             while (result.next()) { 
+                i++;
                 String bookID = result.getString("bookID");
                 String memberID = result.getString("memberID");
                 String issueTime = result.getString("issueDate");
                 int rCount = Integer.parseInt(result.getString("renewCount"));
                 int dCount = countDays(result.getString("lastRenewDate"));
-                list.add(new IssueBook(bookID,memberID,issueTime,rCount,dCount));
+                list.add(new IssueBook(i,bookID,memberID,issueTime,rCount,dCount));
             }
         } catch (SQLException ex) {           
             Logger.getLogger(IssueBookController.class.getName()).log(Level.SEVERE, null, ex);
@@ -149,14 +154,16 @@ public class IssueBookController implements Initializable {
         list.clear();  
         String query = "SELECT * FROM ISSUE WHERE DATE("+stream+") = '"+value+"' ";
         ResultSet result = databaseHandler.execQuery(query);
+        int i=0;
         try {
             while (result.next()) { 
+                i++;
                 String bookID = result.getString("bookID");
                 String memberID = result.getString("memberID");
                 String issueTime = result.getString("issueDate");
                 int rCount = Integer.parseInt(result.getString("renewCount"));
                 int dCount = countDays(result.getString("lastRenewDate"));
-                list.add(new IssueBook(bookID,memberID,issueTime,rCount,dCount));
+                list.add(new IssueBook(i,bookID,memberID,issueTime,rCount,dCount));
             }
         } catch (SQLException ex) {           
             Logger.getLogger(IssueBookController.class.getName()).log(Level.SEVERE, null, ex);
@@ -219,13 +226,15 @@ public class IssueBookController implements Initializable {
     
     
     public static class IssueBook{
+       public final SimpleIntegerProperty number;
        public final SimpleStringProperty b_id;
        public final SimpleStringProperty m_id;
        public final SimpleStringProperty issue_date;
        public final SimpleIntegerProperty r_count;
        public final SimpleIntegerProperty d_count;
        
-       public IssueBook(String bid, String mid, String time, int count, int dates){
+       public IssueBook(int no, String bid, String mid, String time, int count, int dates){
+            this.number = new SimpleIntegerProperty(no);
             this.b_id = new SimpleStringProperty(bid);
             this.m_id = new SimpleStringProperty(mid);
             this.issue_date = new SimpleStringProperty(time);
@@ -233,28 +242,23 @@ public class IssueBookController implements Initializable {
             this.d_count = new SimpleIntegerProperty(dates);
         }
 
-
+        public Integer getNumber() {
+            return number.get();
+        }
         public String getB_id() {
             return b_id.get();
         }
-
         public String getM_id() {
             return m_id.get();
         }
-
         public String getIssue_date() {
             return issue_date.get();
         }
-
         public Integer getR_count() {
             return r_count.get();
         }
-
         public Integer getD_count() {
             return d_count.get();
         }
-        
-        
-       
     }
 }

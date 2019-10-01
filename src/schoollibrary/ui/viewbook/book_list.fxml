@@ -14,9 +14,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" prefHeight="986.0" prefWidth="1336.0" styleClass="mainFxmlClass" stylesheets="@../resources/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schoollibrary.ui.viewbook.BookListController">
+<AnchorPane fx:id="rootPane" prefHeight="986.0" prefWidth="1491.0" styleClass="mainFxmlClass" stylesheets="@../resources/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schoollibrary.ui.viewbook.BookListController">
    <children>
-      <VBox prefHeight="986.0" prefWidth="1328.0">
+      <VBox prefHeight="986.0" prefWidth="1503.0">
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="1080.0" style="-fx-background-color: derive(#263238, -25%); -fx-background-radius: 10;" stylesheets="@../resources/common.css">
                <children>
@@ -56,14 +56,16 @@
                   <Insets bottom="20.0" left="30.0" right="30.0" top="30.0" />
                </VBox.margin>
             </HBox>
-            <TableView fx:id="tableViewCol" prefHeight="774.0" prefWidth="1213.0" style="-fx-background-color: derive(#263238, -25%); -fx-background-radius: 10;">
+            <TableView fx:id="tableViewCol" prefHeight="774.0" prefWidth="1416.0" style="-fx-background-color: derive(#263238, -25%); -fx-background-radius: 10;">
               <columns>
-                <TableColumn fx:id="idCol" prefWidth="150.0" text="Book ID" />
-                <TableColumn fx:id="nameCol" prefWidth="300.0" text="Name" />
+                  <TableColumn fx:id="nuCol" prefWidth="70.0" text="NO" />
+                  <TableColumn fx:id="idCol" prefWidth="130.0" text="Book ID" />
+                  <TableColumn fx:id="nameCol" prefWidth="300.0" text="Name" />
                   <TableColumn fx:id="authorCol" prefWidth="250.0" text="Author" />
                   <TableColumn fx:id="publisherCol" prefWidth="250.0" text="Publisher" />
-                  <TableColumn fx:id="dateCol" prefWidth="150.0" text="Received Date" />
-                  <TableColumn fx:id="availabilityCol" prefWidth="153.5999755859375" text="Availability" />
+                  <TableColumn fx:id="rDateCol" prefWidth="130.0" text="Received Date" />
+                  <TableColumn fx:id="aDateCol" prefWidth="130.0" text="Added Date" />
+                  <TableColumn fx:id="availabilityCol" prefWidth="169.5999755859375" text="Availability" />
               </columns>
                <contextMenu>
                   <ContextMenu>

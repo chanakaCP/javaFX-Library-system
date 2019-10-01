@@ -56,13 +56,14 @@
             </HBox>
             <TableView fx:id="tableViewCol" prefHeight="774.0" prefWidth="1091.0">
                <columns>
-                  <TableColumn fx:id="b_idCol" prefWidth="150.0" text="Book ID" />
-                  <TableColumn fx:id="m_idCol" prefWidth="150.0" text="Member ID" />
-                  <TableColumn fx:id="i_timeCol" prefWidth="200.0" text="Issue Date" />
-                  <TableColumn fx:id="s_timeCol" prefWidth="200.0" text="Submission Date" />
-                  <TableColumn fx:id="countCol" prefWidth="170.0" text="Renew Count" />
-                  <TableColumn fx:id="dateCountCol" prefWidth="170" text="No: Of Days" />
-                  <TableColumn fx:id="fineCol" maxWidth="150.0" prefWidth="212.8000244140626" text="Fine" />
+                  <TableColumn fx:id="noCol" prefWidth="70.0" text="NO" />
+                  <TableColumn fx:id="b_idCol" prefWidth="130.0" text="Book ID" />
+                  <TableColumn fx:id="m_idCol" prefWidth="130.0" text="Member ID" />
+                  <TableColumn fx:id="i_timeCol" prefWidth="203.19992065429688" text="Issue Date" />
+                  <TableColumn fx:id="s_timeCol" prefWidth="198.4000244140625" text="Submission Date" />
+                  <TableColumn fx:id="countCol" prefWidth="155.99993896484375" text="Renew Count" />
+                  <TableColumn fx:id="dateCountCol" prefWidth="152.00006103515625" text="No: Of Days" />
+                  <TableColumn fx:id="fineCol" maxWidth="151.2000732421875" prefWidth="151.2000732421875" text="Fine" />
                </columns>
                <VBox.margin>
                   <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />

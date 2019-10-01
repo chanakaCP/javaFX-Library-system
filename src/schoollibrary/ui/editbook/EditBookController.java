@@ -79,7 +79,7 @@ public class EditBookController implements Initializable {
                         + "publisher = '" + bookPublisher + "',"
                         + "price = " + bookPrice + ","
                         + "pages = " + bookPage + ","
-                        + "receiveDate = '" + bookRecieveDate + "',"
+                        + "receivedDate = '" + bookRecieveDate + "',"
                         + "description = '" + bookDescription + "' "
                         + "WHERE B_ID = '" + bookID +"' ";
         

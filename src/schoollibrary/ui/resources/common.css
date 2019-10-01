@@ -83,7 +83,8 @@
     -jfx-focus-color: #cfd8dc;
     -fx-text-alignment: center;
 }
-#id_c:hover, #name_c:hover, #author_c:hover, #publisher_c:hover, #price_c:hover, #pages_c:hover #date_c:hover, #description_c:hover, #avail_c:hover{
+#id_c:hover, #name_c:hover, #author_c:hover, #publisher_c:hover, #price_c:hover, #pages_c:hover #date_c:hover, 
+#description_c:hover, #avail_c:hover, #validity_c:hover, #issueCount_c:hover, #subCount_c:hover, #renewCount_c:hover, #fineCount_c:hover, #dateCount_c:hover{
     -fx-text-fill: white;
     -jfx-focus-color: #cfd8dc;
 }
@@ -262,7 +263,6 @@
     -fx-text-fill: white;
     -fx-font-size: 16;
 }
-
 .dialog-button:hover{
     -fx-background-radius: 25;
     -fx-border-radius: 25;
@@ -272,4 +272,3 @@
     -fx-text-fill: derive(#00b0ff, -20%);
     -fx-font-size: 16;
 }*/
-

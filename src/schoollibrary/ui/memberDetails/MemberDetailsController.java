@@ -32,12 +32,14 @@ public class MemberDetailsController implements Initializable {
     private Label fineCount_c;
     @FXML
     private Label dateCount_c;
+    @FXML
+    private Label aDate_c;
+    
     
     DatabaseHandler databaseHandler;
     MemberListController memberListController;
-    
-    
    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         databaseHandler = DatabaseHandler.getInstance();
@@ -53,6 +55,7 @@ public class MemberDetailsController implements Initializable {
                 id_c.setText(memberId);
                 name_c.setText(result.getString("MName"));
                 name_c.setWrapText(true);
+                aDate_c.setText(result.getString("addedDate"));
                 issueCount_c.setText(result.getString("issueCount"));
                 subCount_c.setText(result.getString("subCount"));
                 renewCount_c.setText(result.getString("renewCount"));

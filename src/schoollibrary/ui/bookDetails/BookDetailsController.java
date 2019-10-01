@@ -31,6 +31,8 @@ public class BookDetailsController implements Initializable {
     @FXML
     private Label date_c;
     @FXML
+    private Label aDate_c;
+    @FXML
     private Label avail_c;
     @FXML
     private Label description_c;
@@ -46,6 +48,8 @@ public class BookDetailsController implements Initializable {
     
     DatabaseHandler databaseHandler;
     BookListController bookListController;   
+  
+    
     
     
     @Override
@@ -67,7 +71,8 @@ public class BookDetailsController implements Initializable {
                 publisher_c.setWrapText(true);
                 price_c.setText(result.getString("price"));
                 pages_c.setText(result.getString("pages"));
-                date_c.setText(result.getString("receiveDate"));
+                date_c.setText(result.getString("receivedDate"));
+                aDate_c.setText(result.getString("addedDate"));
                 description_c.setText(result.getString("description"));
                 description_c.setWrapText(true);
                 issueCount_c.setText(result.getString("issueCount"));

@@ -421,7 +421,6 @@ public class MainController implements Initializable {
                             
                     String query2 = "SELECT BName,description FROM BOOK WHERE B_ID = '" + bookId + "' ";
                     ResultSet result2 = databaseHandler.execQuery(query2);
-
                     if(result2.next()){
                         book_name.setText("Name  :  "+result2.getString("BName"));
                         description.setText("Description  :  "+result2.getString("description"));
@@ -472,8 +471,7 @@ public class MainController implements Initializable {
         String query = "SELECT * FROM ISSUE WHERE bookID = '" + bookId + "' ";
         ResultSet result = databaseHandler.execQuery(query);  
         try {
-            if (result.next()) {
-                
+            if (result.next()) {              
                 issueDate = result.getString("issueDate");
                 renew_Count = result.getInt("renewCount");
                 memberId = result.getString("memberID");
@@ -638,6 +636,8 @@ public class MainController implements Initializable {
     
     
 //    private void testData() {
+        
+        
 //        String query6 = "INSERT INTO SUBMISSION (submissionID,bookID,memberID,issueDate,submitDate,fine,renewCount) VALUES (11, '11','11','2019-6-2','2019-6-9', 1 ,1)";
 //        String query7 = "INSERT INTO SUBMISSION (submissionID,bookID,memberID,issueDate,submitDate,fine,renewCount) VALUES (12, '12','12','2019-6-3','2019-6-10', 1 ,1)";
 //        String query6 = "INSERT INTO SUBMISSION (submissionID,bookID,memberID,fine,submitDate,issueDate,renewCount) VALUES (123,'11','11',200,'2019-6-4','2019-6-15',0)";

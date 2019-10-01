@@ -39,22 +39,13 @@ public class AddMemberController implements Initializable {
             AlertMaker.errorAlert("Can`t save","Please fill all the field");
             return;
         }
-        String query = "INSERT INTO MEMBER VALUES ( " +
-                        "'" + memberID + "'," +
-                        "'" + memberName + "'," +
-                              0 + "," +
-                              0 + "," +
-                              0 + "," +
-                              0 + "," +
-                              0 + "," +
-                        "'" + "true" + "'" +
-                ")";
-        System.out.println(query);
+        String query = "INSERT INTO MEMBER (M_ID,MName)VALUES ( '" + memberID + "','" + memberName + "')";
+        
         if(databaseHandler.execAction(query)){      
             AlertMaker.informatinAlert("Success","Insert Member Successfully");
             m_id.setText("");
             m_name.setText("");
-            mainController.refreshGraph();
+            mainController.refreshGraph();          
         }else{
             AlertMaker.errorAlert("Can`t save","This Member ID is alredy exsist");
         }

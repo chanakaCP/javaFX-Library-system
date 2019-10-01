@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -54,6 +54,8 @@ public class BookListController implements Initializable {
     @FXML
     private TableView<Book> tableViewCol;
     @FXML
+    private TableColumn<Book,Integer> nuCol;
+    @FXML
     private TableColumn<Book,String> idCol;
     @FXML
     private TableColumn<Book,String> nameCol;
@@ -62,13 +64,15 @@ public class BookListController implements Initializable {
     @FXML
     private TableColumn<Book,String> publisherCol;
     @FXML
-    private TableColumn<Book,String> dateCol;
+    private TableColumn<Book,String> rDateCol;
     @FXML
-    private TableColumn<Book,Boolean> availabilityCol;
+    private TableColumn<Book,String> aDateCol;
+    @FXML
+    private TableColumn<Book,String> availabilityCol;
     
     DatabaseHandler databaseHandler;
     MainController mainController;
-  
+    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -79,6 +83,7 @@ public class BookListController implements Initializable {
         choiceKey.getItems().add("Author");
         choiceKey.getItems().add("Publisher");
         choiceKey.getItems().add("Recieved Date");
+        choiceKey.getItems().add("Added Date");
         
         choiceKey.valueProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             searchKey.setText("");
@@ -86,7 +91,7 @@ public class BookListController implements Initializable {
             if(newValue.equals("Book ID") || newValue.equals("Book Name") || newValue.equals("Author") || newValue.equals("Publisher") ){
                 searchKey.setDisable(false);
                 datePick.setDisable(true);
-            }else if(newValue.equals("Recieved Date")){
+            }else if(newValue.equals("Recieved Date") || newValue.equals("Added Date")){
                 searchKey.setDisable(true);
                 datePick.setDisable(false);
             }
@@ -97,11 +102,13 @@ public class BookListController implements Initializable {
 
     
     private void initCol() {
+        nuCol.setCellValueFactory(new PropertyValueFactory<>("number"));
         idCol.setCellValueFactory(new PropertyValueFactory<>("b_id"));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("b_name"));
         authorCol.setCellValueFactory(new PropertyValueFactory<>("author"));
         publisherCol.setCellValueFactory(new PropertyValueFactory<>("publisher"));
-        dateCol.setCellValueFactory(new PropertyValueFactory<>("r_date"));
+        rDateCol.setCellValueFactory(new PropertyValueFactory<>("r_date"));
+        aDateCol.setCellValueFactory(new PropertyValueFactory<>("a_date"));
         availabilityCol.setCellValueFactory(new PropertyValueFactory<>("availability"));
     }
 
@@ -114,20 +121,27 @@ public class BookListController implements Initializable {
         String query = "SELECT * FROM BOOK";
 
         ResultSet result = databaseHandler.execQuery(query);
-     
+        int i=0;
         try {
             while (result.next()) {
+                i++;
                 String bookID = result.getString("B_ID");
                 String bookName = result.getString("BName");
                 String bookAuth = result.getString("author");
                 String bookPub = result.getString("publisher");
                 String bookPr = result.getString("price");
                 String bookPg = result.getString("pages");
-                String bookRecDate = result.getString("receiveDate");
+                String bookRecDate = result.getString("receivedDate");
+                String bookAddDate = result.getString("addedDate");
                 String bookDes = result.getString("description");
-                boolean bookAvail = result.getBoolean("isAvail");
+                String bookAvail;
+                if(result.getBoolean("isAvail")){
+                    bookAvail = "Available";
+                }else{
+                    bookAvail = "Not Available";
+                }
                 
-                list.add(new Book(bookID,bookName,bookAuth,bookPub,bookPr,bookPg,bookRecDate,bookDes,bookAvail));
+                list.add(new Book(i,bookID,bookName,bookAuth,bookPub,bookPr,bookPg,bookRecDate,bookAddDate,bookDes,bookAvail));
             }
         } catch (SQLException ex) {
             Logger.getLogger(BookListController.class.getName()).log(Level.SEVERE, null, ex);
@@ -151,21 +165,28 @@ public class BookListController implements Initializable {
         }else{
             query = "SELECT * FROM BOOK WHERE " + stream + " LIKE '%"+value+"%' ";
         }
-//        System.out.println(query);
         ResultSet result = databaseHandler.execQuery(query);
+        int i=0;
         try {
-            while (result.next()) { 
+            while (result.next()) {
+                i++;
                 String bookID = result.getString("B_ID");
                 String bookName = result.getString("BName");
                 String bookAuth = result.getString("author");
                 String bookPub = result.getString("publisher");
                 String bookPr = result.getString("price");
                 String bookPg = result.getString("pages");
-                String bookRecDate = result.getString("receiveDate");
+                String bookRecDate = result.getString("receivedDate");
+                String bookAddDate = result.getString("addedDate");
                 String bookDes = result.getString("description");
-                boolean bookAvail = result.getBoolean("isAvail");
+                String bookAvail;
+                if(result.getBoolean("isAvail")){
+                    bookAvail = "Available";
+                }else{
+                    bookAvail = "Not Available";
+                }
                 
-                list.add(new Book(bookID,bookName,bookAuth,bookPub,bookPr,bookPg,bookRecDate,bookDes,bookAvail));
+                list.add(new Book(i,bookID,bookName,bookAuth,bookPub,bookPr,bookPg,bookRecDate,bookAddDate,bookDes,bookAvail));
             }
         } catch (SQLException ex) {           
             Logger.getLogger(AddBookController.class.getName()).log(Level.SEVERE, null, ex);
@@ -174,8 +195,7 @@ public class BookListController implements Initializable {
     }
      
     
-    public void loadSearchDate(String stream, LocalDate value){
-       
+    public void loadSearchDate(String stream, LocalDate value){    
         if(searchKey.isDisable()){
             searchKey.setDisable(true);
             datePick.setDisable(false);
@@ -187,24 +207,34 @@ public class BookListController implements Initializable {
         list.clear();  
         String query = "SELECT * FROM BOOK WHERE DATE("+stream+") = '"+value+"' ";
         ResultSet result = databaseHandler.execQuery(query);
+        int i=0;
         try {
-            while (result.next()) { 
+            while (result.next()) {
+                i++;
                 String bookID = result.getString("B_ID");
                 String bookName = result.getString("BName");
                 String bookAuth = result.getString("author");
                 String bookPub = result.getString("publisher");
                 String bookPr = result.getString("price");
                 String bookPg = result.getString("pages");
-                String bookRecDate = result.getString("receiveDate");
+                String bookRecDate = result.getString("receivedDate");
+                String bookAddDate = result.getString("addedDate");
                 String bookDes = result.getString("description");
-                boolean bookAvail = result.getBoolean("isAvail");
-                list.add(new Book(bookID,bookName,bookAuth,bookPub,bookPr,bookPg,bookRecDate,bookDes,bookAvail));
+                String bookAvail;
+                if(result.getBoolean("isAvail")){
+                    bookAvail = "Available";
+                }else{
+                    bookAvail = "Not Available";
+                }
+                
+                list.add(new Book(i,bookID,bookName,bookAuth,bookPub,bookPr,bookPg,bookRecDate,bookAddDate,bookDes,bookAvail));
             }
         } catch (SQLException ex) {           
             Logger.getLogger(AddBookController.class.getName()).log(Level.SEVERE, null, ex);
         }
         tableViewCol.setItems(list);
     }
+    
     
     @FXML
     private void bookDeleteAction(ActionEvent event) {
@@ -215,9 +245,9 @@ public class BookListController implements Initializable {
             return;
         }
         String bookId = selectedBook.getB_id();
-        boolean avail = selectedBook.getAvailability();
+        String avail = selectedBook.getAvailability();
         
-        if(avail == false){
+        if(avail.equals("false")){
             AlertMaker.errorAlert("Can`t delete","This book has been ISSUED");
             return; 
         }
@@ -245,9 +275,9 @@ public class BookListController implements Initializable {
             AlertMaker.errorAlert("No book selected","Please select a book for edit");
             return;
         }
-        boolean avail = selectedBook.getAvailability();
+        String avail = selectedBook.getAvailability();
         
-        if(avail == false){
+        if(avail.equals("false")){
             AlertMaker.errorAlert("Can`t edit","This book has been ISSUED");
             return; 
         }  
@@ -302,8 +332,6 @@ public class BookListController implements Initializable {
     } 
     
     
-    
-    
     @FXML
     private void searchAction(ActionEvent event) {
         String choice = choiceKey.getValue();
@@ -336,7 +364,10 @@ public class BookListController implements Initializable {
                 loadSearchData("publisher",searchVal);
                 break;
             case "Recieved Date":
-                loadSearchDate("receiveDate",searchDate);
+                loadSearchDate("receivedDate",searchDate);
+                break;
+            case "Added Date":
+                loadSearchDate("addedDate",searchDate);
                 break;
         }    
     }
@@ -362,6 +393,7 @@ public class BookListController implements Initializable {
     
     public static class Book{
         
+        private final SimpleIntegerProperty number;
         private final SimpleStringProperty b_id;
         private final SimpleStringProperty b_name;
         private final SimpleStringProperty author;
@@ -369,21 +401,27 @@ public class BookListController implements Initializable {
         private final SimpleStringProperty price;
         private final SimpleStringProperty pages;
         private final SimpleStringProperty r_date;
+        private final SimpleStringProperty a_date;
         private final SimpleStringProperty description;
-        private final SimpleBooleanProperty availability;
+        private final SimpleStringProperty availability;
 
-        public Book(String id, String name, String auth, String pub, String pr, String pg, String date, String des, boolean avail){
+        public Book(int no, String id, String name, String auth, String pub, String pr, String pg, String recDate, String addDate, String des, String avail){
+            this.number = new SimpleIntegerProperty(no);
             this.b_id = new SimpleStringProperty(id);
             this.b_name = new SimpleStringProperty(name);
             this.author = new SimpleStringProperty(auth);
             this.publisher = new SimpleStringProperty(pub);
             this.price = new SimpleStringProperty(pr);
             this.pages = new SimpleStringProperty(pg);
-            this.r_date = new SimpleStringProperty(date);
+            this.r_date = new SimpleStringProperty(recDate);
+            this.a_date = new SimpleStringProperty(addDate);
             this.description = new SimpleStringProperty(des);
-            this.availability = new SimpleBooleanProperty(avail);
+            this.availability = new SimpleStringProperty(avail);
         }
 
+        public Integer getNumber() {
+            return number.get();
+        }
         public String getB_id() {
             return b_id.get();
         }
@@ -405,10 +443,13 @@ public class BookListController implements Initializable {
         public String getR_date() {
             return r_date.get();
         }     
+        public String getA_date() {
+            return a_date.get();
+        }
         public String getDescription() {
             return description.get();
         }        
-        public boolean getAvailability() {
+        public String getAvailability() {
             return availability.get();
         }
     }

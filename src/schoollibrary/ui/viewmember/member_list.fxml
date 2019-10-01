@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ContextMenu?>
@@ -13,11 +14,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" prefHeight="986.0" prefWidth="901.0" styleClass="mainFxmlClass" stylesheets="@../resources/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schoollibrary.ui.viewmember.MemberListController">
+<AnchorPane fx:id="rootPane" prefHeight="986.0" prefWidth="896.0" styleClass="mainFxmlClass" stylesheets="@../resources/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schoollibrary.ui.viewmember.MemberListController">
    <children>
       <VBox prefHeight="986.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="841.0" style="-fx-background-color: derive(#263238, -25%); -fx-background-radius: 10;" stylesheets="@../resources/common.css">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="830.0" style="-fx-background-color: derive(#263238, -25%); -fx-background-radius: 10;" stylesheets="@../resources/common.css">
                <children>
                   <JFXComboBox fx:id="choiceKey" focusColor="#2962ff" labelFloat="true" prefHeight="32.0" prefWidth="160.0" promptText="Search by" unFocusColor="#03a9f4">
                      <HBox.margin>
@@ -26,12 +27,17 @@
                   </JFXComboBox>
                   <JFXTextField fx:id="searchKey" alignment="CENTER" focusColor="#2962ff" labelFloat="true" prefHeight="32.0" prefWidth="150.0" promptText="Enter Inputs" unFocusColor="#03a9f4">
                      <HBox.margin>
-                        <Insets left="20.0" right="40.0" />
+                        <Insets right="30.0" />
                      </HBox.margin>
                      <font>
                         <Font name="Roboto Condensed Regular" size="15.0" />
                      </font>
                   </JFXTextField>
+                  <JFXDatePicker fx:id="datePick" defaultColor="#03a9f4" prefHeight="32.0" prefWidth="150.0" promptText="Enter Date" styleClass="date">
+                     <HBox.margin>
+                        <Insets right="30.0" />
+                     </HBox.margin>
+                  </JFXDatePicker>
                   <JFXButton fx:id="searchButton" alignment="CENTER" contentDisplay="CENTER" onAction="#searchAction" prefHeight="32.0" prefWidth="85.0" text="Search ">
                      <font>
                         <Font name="Roboto Condensed Regular" size="12.0" />
@@ -50,14 +56,16 @@
                   <Insets bottom="20.0" left="30.0" right="30.0" top="30.0" />
                </VBox.margin>
             </HBox>
-            <TableView fx:id="tableViewCol" prefHeight="770.0" prefWidth="841.0">
+            <TableView fx:id="tableViewCol" prefHeight="770.0" prefWidth="834.0">
               <columns>
-                <TableColumn fx:id="idCol" prefWidth="211.19991761446" text="Member ID" />
-                <TableColumn fx:id="nameCol" prefWidth="304.80006408691406" text="Name" />
-                  <TableColumn fx:id="valCol" prefWidth="304.80006408691406" text="validity" />
+                  <TableColumn fx:id="nuCol" prefWidth="89.59997415542603" text="NO" />
+                  <TableColumn fx:id="idCol" prefWidth="140.0" text="Member ID" />
+                  <TableColumn fx:id="nameCol" prefWidth="253.5999755859375" text="Name" />
+                  <TableColumn fx:id="aDateCol" prefWidth="169.60000610351562" text="Added Date" />
+                  <TableColumn fx:id="valCol" prefWidth="176.8000366210938" text="Validity" />
               </columns>
                <columnResizePolicy>
-                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                  <!--<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />-->
                </columnResizePolicy>
                <contextMenu>
                   <ContextMenu>

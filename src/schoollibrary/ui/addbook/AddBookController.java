@@ -76,21 +76,8 @@ public class AddBookController implements Initializable {
             return;
         } 
         
-        String query = "INSERT INTO BOOK VALUES ( " +
-                        "'" + bookID + "'," +
-                        "'" + bookName + "'," +
-                        "'" + bookAuthor + "'," +
-                        "'" + bookPublisher + "'," +
-                              bookPrice + "," +
-                              bookPage + "," +
-                        "'" + bookRecieveDate + "'," +
-                        "'" + bookDescription + "'," +
-                              0 + "," +
-                              0 + "," +
-                              0 + "," +
-                              0 + "," +
-                        "'" + "true" + "'" +
-                ")";
+        String query = "INSERT INTO BOOK (B_ID,BName,author,publisher,price,pages,receivedDate,description) "
+        + "VALUES ( '" + bookID + "','" + bookName + "','" + bookAuthor + "','" + bookPublisher + "'," +bookPrice + "," +bookPage + ",'" + bookRecieveDate + "','" + bookDescription + "')";
         
         if(databaseHandler.execAction(query)){
             AlertMaker.informatinAlert("Success","Insert Book Successfully"); 
