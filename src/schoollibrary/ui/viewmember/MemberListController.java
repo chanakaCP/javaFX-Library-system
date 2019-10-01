@@ -1,18 +1,19 @@
 
 package schoollibrary.ui.viewmember;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -48,28 +49,41 @@ public class MemberListController implements Initializable {
     @FXML
     private JFXTextField searchKey;
     @FXML
+    private JFXDatePicker datePick;
+    @FXML
     private AnchorPane rootPane;
     @FXML
     private TableView<Member> tableViewCol;
+    @FXML
+    private TableColumn<Member,Integer> nuCol;
     @FXML
     private TableColumn<Member,String> idCol;
     @FXML
     private TableColumn<Member,String> nameCol;
     @FXML
-    private TableColumn<Member,Boolean> valCol;
+    private TableColumn<Member,String> aDateCol;
+    @FXML
+    private TableColumn<Member,String> valCol;
        
     DatabaseHandler databaseHandler;
     MainController mainController;
-   
     
+     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         choiceKey.getItems().add("Member ID");
         choiceKey.getItems().add("Member Name");
+        choiceKey.getItems().add("Added Date");
+        
         choiceKey.valueProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             searchKey.setText("");
+            datePick.setValue(null);
             if(newValue.equals("Member ID") || newValue.equals("Member Name")){
                 searchKey.setDisable(false);
+                datePick.setDisable(true);
+            }else if(newValue.equals("Added Date")){
+                searchKey.setDisable(true);
+                datePick.setDisable(false);
             }
         });
         initCol();
@@ -77,26 +91,36 @@ public class MemberListController implements Initializable {
     } 
     
     private void initCol() {
+        nuCol.setCellValueFactory(new PropertyValueFactory<>("number"));
         idCol.setCellValueFactory(new PropertyValueFactory<>("m_id"));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("m_name"));
+        aDateCol.setCellValueFactory(new PropertyValueFactory<>("a_date"));
         valCol.setCellValueFactory(new PropertyValueFactory<>("validity"));      
     }
     
     public void loadData() {
         searchKey.setDisable(true);
+        datePick.setDisable(true);
         list.clear();
         databaseHandler = DatabaseHandler.getInstance();
+        
         String query = "SELECT * FROM MEMBER";
-
         ResultSet result = databaseHandler.execQuery(query);
-     
+        int i=0;
         try {
             while (result.next()) {
+                i++;
                 String memberID = result.getString("M_ID");
                 String memberName = result.getString("MName");
-                boolean membervalidity = result.getBoolean("isSubmit");
+                String addDate = result.getString("addedDate");
+                String membervalidity; 
+                if(result.getBoolean("isSubmit")){
+                    membervalidity = "Valid";
+                }else{
+                    membervalidity = "Invalid";
+                }
                 
-                list.add(new Member(memberID,memberName,membervalidity));
+                list.add(new Member(i,memberID,memberName,addDate,membervalidity));
             }
         } catch (SQLException ex) {
             Logger.getLogger(AddBookController.class.getName()).log(Level.SEVERE, null, ex);
@@ -104,7 +128,15 @@ public class MemberListController implements Initializable {
         tableViewCol.setItems(list);
     }
 
+    
     public void loadSearchData(String stream, String value){
+        if(searchKey.isDisable()){
+            searchKey.setDisable(true);
+            datePick.setDisable(false);
+        }else{
+            searchKey.setDisable(false);
+            datePick.setDisable(true);
+        }
         list.clear();  
         String query;
         if(stream.equals("M_ID")){
@@ -112,21 +144,64 @@ public class MemberListController implements Initializable {
         }else{
             query = "SELECT * FROM MEMBER WHERE " + stream + " LIKE '%"+value+"%' ";
         }
-//        System.out.println(query);
         ResultSet result = databaseHandler.execQuery(query);
+        int i=0;
         try {
-            while (result.next()) { 
+            while (result.next()) {
+                i++;
                 String memberID = result.getString("M_ID");
                 String memberName = result.getString("MName");
-                boolean membervalidity = result.getBoolean("isSubmit");
+                String addDate = result.getString("addedDate");
+                String membervalidity; 
+                if(result.getBoolean("isSubmit")){
+                    membervalidity = "Valid";
+                }else{
+                    membervalidity = "Invalid";
+                }
                 
-                list.add(new Member(memberID,memberName,membervalidity));
+                list.add(new Member(i,memberID,memberName,addDate,membervalidity));
             }
         } catch (SQLException ex) {           
             Logger.getLogger(AddBookController.class.getName()).log(Level.SEVERE, null, ex);
         }
         tableViewCol.setItems(list);
     }
+    
+    
+    public void loadSearchDate(String stream, LocalDate value){ 
+        if(searchKey.isDisable()){
+            searchKey.setDisable(true);
+            datePick.setDisable(false);
+        }else{
+            searchKey.setDisable(false);
+            datePick.setDisable(true);
+        }
+        
+        list.clear();  
+        String query = "SELECT * FROM MEMBER WHERE DATE("+stream+") = '"+value+"' ";
+        ResultSet result = databaseHandler.execQuery(query);
+        int i=0;
+        try {
+            while (result.next()) {
+                i++;
+                String memberID = result.getString("M_ID");
+                String memberName = result.getString("MName");
+                String addDate = result.getString("addedDate");
+                String membervalidity; 
+                if(result.getBoolean("isSubmit")){
+                    membervalidity = "Valid";
+                }else{
+                    membervalidity = "Invalid";
+                }
+                
+                list.add(new Member(i,memberID,memberName,addDate,membervalidity));
+            }
+        } catch (SQLException ex) {           
+            Logger.getLogger(AddBookController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        tableViewCol.setItems(list);
+    }
+    
     
     @FXML
     private void memberDeleteAction(ActionEvent event) {
@@ -137,9 +212,9 @@ public class MemberListController implements Initializable {
             return;
         }
         String memberId = selectedMember.getM_id();
-        boolean avail = selectedMember.getValidity();
+        String avail = selectedMember.getValidity();
         
-        if(avail == false){
+        if(avail.equals("false")){
             AlertMaker.errorAlert("Can`t delete","This member has alredy received a book");
             return; 
         }  
@@ -158,6 +233,7 @@ public class MemberListController implements Initializable {
             AlertMaker.errorAlert("Canceled", "Deletion operation canceled");
         }     
     }
+    
    
     @FXML
     private void memberEdtAction(ActionEvent event) {
@@ -167,9 +243,9 @@ public class MemberListController implements Initializable {
             AlertMaker.errorAlert("No member selected","Please select a member for edit");
             return;
         }
-        boolean avail = selectedMember.getValidity();
+        String avail = selectedMember.getValidity();
         
-        if(avail == false){
+        if(avail.equals("false")){
             AlertMaker.errorAlert("Can`t edit","This member has alredy received a book");
             return; 
         } 
@@ -227,13 +303,18 @@ public class MemberListController implements Initializable {
     private void searchAction(ActionEvent event) {
         String choice = choiceKey.getValue();
         String searchVal = searchKey.getText();
-          
+        LocalDate searchDate = datePick.getValue();
+
         if(choice == null){
             AlertMaker.errorAlert("Can`t search","Please select a field for search");
             return;
         } 
-        if(searchVal.isEmpty()){
+        if(datePick.isDisable() && searchVal.isEmpty()){
             AlertMaker.errorAlert("Can`t search","Please enter value for search");
+            return;
+        }
+        if(searchKey.isDisable() && searchDate == null){
+            AlertMaker.errorAlert("Can`t search","Please enter date for search");
             return;
         }
 
@@ -244,9 +325,13 @@ public class MemberListController implements Initializable {
             case "Member Name":
                 loadSearchData("MName",searchVal);
                 break;
+            case "Added Date":
+                loadSearchDate("addedDate",searchDate);
+                break;
         }
     }
 
+    
     @FXML
     private void cancel(ActionEvent event) {
         if(choiceKey.getValue() == null){
@@ -254,38 +339,44 @@ public class MemberListController implements Initializable {
             stage.close();
         }
         searchKey.setText("");
-        choiceKey.setValue(null);        
+        datePick.setValue(null);
         choiceKey.setValue(null);
         loadData();
     }
+    
     
     public void getController(MainController mainController){  
         this.mainController = mainController;
     }
 
   
-    
-    
     public static class Member{
+        private final SimpleIntegerProperty number;
         private final SimpleStringProperty m_id;
         private final SimpleStringProperty m_name;
-        private final SimpleBooleanProperty validity;
+        private final SimpleStringProperty a_date;
+        private final SimpleStringProperty validity;
       
-        public Member(String id, String name, boolean valid){
+        public Member(int no, String id, String name, String aDate, String valid){
+            this.number = new SimpleIntegerProperty(no);
             this.m_id = new SimpleStringProperty(id);
             this.m_name = new SimpleStringProperty(name);
-            this.validity = new SimpleBooleanProperty(valid);
+            this.a_date = new SimpleStringProperty(aDate);
+            this.validity = new SimpleStringProperty(valid);
         }
-
+        public Integer getNumber() {
+            return number.get();
+        }
         public String getM_id() {
             return m_id.get();
         }
-
         public String getM_name() {
             return m_name.get();
+        }      
+        public String getA_date() {
+            return a_date.get();
         }
-        
-        public boolean getValidity() {
+        public String getValidity() {
             return validity.get();
         }
     }
