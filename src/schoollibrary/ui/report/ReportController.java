@@ -1,5 +1,5 @@
 
-package schoollibrary.ui.stat;
+package schoollibrary.ui.report;
 
 import java.net.URL;
 import java.sql.ResultSet;
@@ -15,7 +15,7 @@ import javafx.scene.layout.VBox;
 import schoollibrary.database.DatabaseHandler;
 
 
-public class StatController implements Initializable {
+public class ReportController implements Initializable {
 
     @FXML
     private VBox bookInfoContainer;
@@ -64,7 +64,7 @@ public class StatController implements Initializable {
             result.next();
             countRow = result.getInt("count");
         } catch (SQLException ex) {
-            Logger.getLogger(StatController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
         } 
         return countRow;  
     }
