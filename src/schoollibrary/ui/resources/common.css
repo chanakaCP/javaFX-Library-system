@@ -37,7 +37,9 @@
 #titleLable{
     -fx-text-fill: #cfd8dc;
 }
-
+#titleLable2{
+    -fx-text-fill: derive(#cfd8dc, -20%);
+}
 /* Login */
 #logName, #logPassword{
    -fx-border-color: derive(#00b0ff, -20%);

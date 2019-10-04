@@ -1,34 +1,523 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="711.0" prefWidth="887.0" stylesheets="@../resources/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schoollibrary.ui.report.ReportController">
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="986.0" prefWidth="1294.0" stylesheets="@../resources/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schoollibrary.ui.report.ReportController">
    <children>
       <VBox layoutX="175.0" layoutY="95.0" prefHeight="663.0" prefWidth="820.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox prefHeight="363.0" prefWidth="856.0">
+            <HBox alignment="CENTER" prefHeight="363.0" prefWidth="856.0">
                <children>
-                  <VBox fx:id="bookInfoContainer" prefHeight="310.0" prefWidth="380.0" style="-fx-background-radius: 15;">
+                  <VBox fx:id="bookInfoContainer" alignment="CENTER" prefHeight="310.0" prefWidth="380.0" style="-fx-background-radius: 15;">
                      <padding>
                         <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
                      </padding>
                      <HBox.margin>
-                        <Insets bottom="20.0" left="50.0" right="25.0" top="50.0" />
+                        <Insets bottom="20.0" right="230.0" top="50.0" />
                      </HBox.margin></VBox>
-                  <VBox fx:id="memberInfoContainer" layoutX="10.0" layoutY="10.0" prefHeight="310.0" prefWidth="380.0" style="-fx-background-radius: 15;">
+                  <VBox fx:id="memberInfoContainer" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="310.0" prefWidth="380.0" style="-fx-background-radius: 15;">
                      <padding>
                         <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
                      </padding>
                      <HBox.margin>
-                        <Insets bottom="20.0" left="25.0" right="50.0" top="50.0" />
+                        <Insets bottom="20.0" top="50.0" />
                      </HBox.margin></VBox>
                </children>
                <VBox.margin>
                   <Insets />
                </VBox.margin></HBox>
+            <HBox alignment="CENTER" prefHeight="622.0" prefWidth="1039.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="520.0" style="-fx-background-color: derive(#263238, -20%); -fx-background-radius: 15;">
+                     <HBox.margin>
+                        <Insets bottom="50.0" right="100.0" top="20.0" />
+                     </HBox.margin>
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="58.0" prefWidth="200.0">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                           <children>
+                              <Label fx:id="titleLable2" alignment="CENTER" prefHeight="63.0" prefWidth="500.0" text="Today Report" textFill="#1e00ff">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" top="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="23.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="58.0" prefWidth="200.0">
+                           <children>
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="170.0" text="Book ID  :" textAlignment="RIGHT">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets left="30.0" right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="id_c1" contentDisplay="CENTER" prefHeight="42.0" prefWidth="250.0">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="20.0" right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="58.0" prefWidth="200.0">
+                           <children>
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="170.0" text="Book ID  :" textAlignment="RIGHT">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets left="30.0" right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="id_c11" contentDisplay="CENTER" prefHeight="42.0" prefWidth="250.0">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="20.0" right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="58.0" prefWidth="200.0">
+                           <children>
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="170.0" text="Book ID  :" textAlignment="RIGHT">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets left="30.0" right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="id_c12" contentDisplay="CENTER" prefHeight="42.0" prefWidth="250.0">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="20.0" right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="58.0" prefWidth="200.0">
+                           <children>
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="170.0" text="Book ID  :" textAlignment="RIGHT">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets left="30.0" right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="id_c13" contentDisplay="CENTER" prefHeight="42.0" prefWidth="250.0">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="20.0" right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="58.0" prefWidth="200.0">
+                           <children>
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="170.0" text="Book ID  :" textAlignment="RIGHT">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets left="30.0" right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="id_c14" contentDisplay="CENTER" prefHeight="42.0" prefWidth="250.0">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="20.0" right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="58.0" prefWidth="200.0">
+                           <children>
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="170.0" text="Book ID  :" textAlignment="RIGHT">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets left="30.0" right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="id_c15" contentDisplay="CENTER" prefHeight="42.0" prefWidth="250.0">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="20.0" right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="58.0" prefWidth="200.0">
+                           <children>
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="170.0" text="Book ID  :" textAlignment="RIGHT">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets left="30.0" right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="id_c16" contentDisplay="CENTER" prefHeight="42.0" prefWidth="250.0">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="20.0" right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="58.0" prefWidth="200.0">
+                           <children>
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="170.0" text="Book ID  :" textAlignment="RIGHT">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets left="30.0" right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="id_c17" contentDisplay="CENTER" prefHeight="42.0" prefWidth="250.0">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="20.0" right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="520.0" style="-fx-background-color: derive(#263238, -20%); -fx-background-radius: 15;">
+                     <HBox.margin>
+                        <Insets bottom="50.0" top="20.0" />
+                     </HBox.margin>
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="58.0" prefWidth="200.0">
+                           <children>
+                              <Label fx:id="titleLable2" alignment="CENTER" prefHeight="63.0" prefWidth="500.0" text="All Time Report" textFill="#1e00ff">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="23.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="58.0" prefWidth="200.0">
+                           <children>
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="170.0" text="Book ID  :" textAlignment="RIGHT">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets left="30.0" right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="id_c181" contentDisplay="CENTER" prefHeight="42.0" prefWidth="250.0">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="20.0" right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="58.0" prefWidth="200.0">
+                           <children>
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="170.0" text="Book ID  :" textAlignment="RIGHT">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets left="30.0" right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="id_c182" contentDisplay="CENTER" prefHeight="42.0" prefWidth="250.0">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="20.0" right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="58.0" prefWidth="200.0">
+                           <children>
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="170.0" text="Book ID  :" textAlignment="RIGHT">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets left="30.0" right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="id_c183" contentDisplay="CENTER" prefHeight="42.0" prefWidth="250.0">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="20.0" right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="58.0" prefWidth="200.0">
+                           <children>
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="170.0" text="Book ID  :" textAlignment="RIGHT">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets left="30.0" right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="id_c184" contentDisplay="CENTER" prefHeight="42.0" prefWidth="250.0">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="20.0" right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="58.0" prefWidth="200.0">
+                           <children>
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="170.0" text="Book ID  :" textAlignment="RIGHT">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets left="30.0" right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="id_c185" contentDisplay="CENTER" prefHeight="42.0" prefWidth="250.0">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="20.0" right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="58.0" prefWidth="200.0">
+                           <children>
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="170.0" text="Book ID  :" textAlignment="RIGHT">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets left="30.0" right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="id_c186" contentDisplay="CENTER" prefHeight="42.0" prefWidth="250.0">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="20.0" right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="58.0" prefWidth="200.0">
+                           <children>
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="170.0" text="Book ID  :" textAlignment="RIGHT">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets left="30.0" right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="id_c187" contentDisplay="CENTER" prefHeight="42.0" prefWidth="250.0">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="20.0" right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="58.0" prefWidth="200.0">
+                           <children>
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="170.0" text="Book ID  :" textAlignment="RIGHT">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets left="30.0" right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="id_c188" contentDisplay="CENTER" prefHeight="42.0" prefWidth="250.0">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="20.0" right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" layoutX="10.0" layoutY="24.0" prefHeight="58.0" prefWidth="200.0">
+                           <children>
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="170.0" text="Book ID  :" textAlignment="RIGHT">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets left="30.0" right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="id_c189" contentDisplay="CENTER" prefHeight="42.0" prefWidth="250.0">
+                                 <font>
+                                    <Font name="Roboto Condensed Regular" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="20.0" right="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
          </children></VBox>
    </children>
 </AnchorPane>
