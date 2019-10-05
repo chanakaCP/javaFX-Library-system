@@ -12,7 +12,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Side;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import schoollibrary.database.DatabaseHandler;
 
@@ -122,7 +121,8 @@ public class ReportController implements Initializable {
         
         try{
             String query = "SELECT COUNT(*) as count FROM SUBMISSION WHERE renewCount > 0 ";
-            String query1 = "SELECT SUM(fine)  FROM SUBMISSION ";
+            String query1 = "SELECT SUM(fine) FROM SUBMISSION WHERE isLateSubmit = 'true' ";
+            String query2 = "SELECT COUNT(*) as countLate FROM SUBMISSION WHERE isLateSubmit = 'true' ";
             
             ResultSet result = databaseHandler.execQuery(query);
             result.next();
@@ -132,6 +132,9 @@ public class ReportController implements Initializable {
             result.next();
             arFine_c.setText(String.valueOf(result.getInt(1)));
        
+            result = databaseHandler.execQuery(query2);
+            result.next();
+            arLateSubmit_c.setText(String.valueOf(result.getInt("countLate")));
         }catch (SQLException ex) {
             Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
             return;
