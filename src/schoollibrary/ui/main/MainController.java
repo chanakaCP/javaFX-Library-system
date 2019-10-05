@@ -2,7 +2,6 @@
 package schoollibrary.ui.main;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
@@ -25,8 +24,6 @@ import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Tab;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -99,33 +96,6 @@ public class MainController implements Initializable {
 
     DatabaseHandler databaseHandler;
     Preferences preferences;  
-    @FXML
-    private BorderPane borderPane;
-    @FXML
-    private VBox menubar;
-    @FXML
-    private JFXButton menuBtn;
-    @FXML
-    private JFXTabPane tabbar;
-    @FXML
-    private HBox info;
-    @FXML
-    private VBox issue_btn;
-    @FXML
-    private Tab submissionTab;
-    @FXML
-    private HBox renew_btn;
-    @FXML
-    private JFXButton renewBtn;
-    @FXML
-    private JFXButton subBtn;
-    @FXML
-    private Text subLale1;
-    @FXML
-    private VBox subDetals2;
-    @FXML
-    private Text subLale3;
-    
     
      
     @Override
