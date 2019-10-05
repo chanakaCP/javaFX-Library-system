@@ -126,6 +126,8 @@ public final class DatabaseHandler {
 //                            + " issueDate DATE ,\n "
                             + " renewCount integer DEFAULT 0,\n "
                             + " lastRenewDate DATE DEFAULT CURRENT_DATE,\n "
+                            + " keepDays integer,\n "
+                            + " finePerDay integer,\n "
 //                            + " lastRenewDate DATE ,\n "
                             + " FOREIGN KEY (bookID) REFERENCES BOOK(B_ID),\n "
                             + " FOREIGN KEY (memberID) REFERENCES MEMBER(M_ID) "
@@ -158,6 +160,7 @@ public final class DatabaseHandler {
 //                            + " submitDate DATE  ,\n "
                             + " issueDate DATE ,\n "
                             + " renewCount integer ,\n"
+                            + " isLateSubmit boolean ,\n"
                             + " nuOfDaysKept integer "
                             + " ) " 
                     );        
