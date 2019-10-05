@@ -109,42 +109,36 @@ public class ReportController implements Initializable {
         
 
     public void loadAllTimeData(){
-            int issueCount = countData("ISSUE");
-            int submitCount = countData("SUBMISSION");
-            int bookCount = countData("BOOK");
-            int memberCount = countData("MEMBER");
-            int renewCount = 0;
-            int fine = 0;
-            
-        try{
-            String query = "SELECT COUNT(*) as count FROM BOOK WHERE renewCount > 0 ";
-            String query1 = "SELECT SUM(finePayed) as sum FROM MEMBER ";
-            
-            ResultSet result = databaseHandler.execQuery(query);
-            result.next();
-            int count1 = result.getInt("count");     
-            if(count1 != 0){
-                renewCount = count1;
-            }
-            
-            result = databaseHandler.execQuery(query1);
-//            result.next();
-            int count2 = result.getInt("sum");
-            if(count2 != 0){
-                fine = count2;
-            }
-            
-        }catch (SQLException ex) {
-            Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
-            return;
-        } 
+        int issueCount = countData("ISSUE");
+        int submitCount = countData("SUBMISSION");
+        int bookCount = countData("BOOK");
+        int memberCount = countData("MEMBER");
+
         arBookIssue_c.setText(String.valueOf(issueCount + submitCount));
         arBookSubmit_c.setText(String.valueOf(submitCount));
         arBookWillSubmit_c.setText(String.valueOf(issueCount));
         arBook_c.setText(String.valueOf(bookCount));
         arMember_c.setText(String.valueOf(memberCount));
-        arBookRenew_c.setText(String.valueOf(renewCount));
-        arFine_c.setText(String.valueOf(fine));
+        
+        try{
+            String query = "SELECT COUNT(*) as count FROM SUBMISSION WHERE renewCount > 0 ";
+            String query1 = "SELECT SUM(fine)  FROM SUBMISSION ";
+            
+            ResultSet result = databaseHandler.execQuery(query);
+            result.next();
+            arBookRenew_c.setText(String.valueOf(result.getInt("count")));
+            
+            result = databaseHandler.execQuery(query1);
+            result.next();
+            arFine_c.setText(String.valueOf(result.getInt(1)));
+       
+        }catch (SQLException ex) {
+            Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        }     
     }
+  
+    
+    
     
 }
