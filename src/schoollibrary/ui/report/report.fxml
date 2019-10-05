@@ -48,16 +48,16 @@
                                     <Insets left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
                                  <font>
-                                    <Font name="Roboto Condensed Regular" size="20.0" />
+                                    <Font name="Roboto Condensed Regular" size="22.0" />
                                  </font>
                               </Label>
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="62.0" prefWidth="200.0">
                            <children>
-                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="54.0" prefWidth="260.0" text="Number of books issued  :" textAlignment="RIGHT">
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="54.0" prefWidth="275.0" text="Number of books issued  :" textAlignment="RIGHT">
                                  <font>
-                                    <Font name="Roboto Condensed Regular" size="17.0" />
+                                    <Font name="Roboto Condensed Regular" size="18.0" />
                                  </font>
                                  <padding>
                                     <Insets right="20.0" />
@@ -66,7 +66,7 @@
                                     <Insets left="30.0" right="20.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="id_c1" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
+                              <Label fx:id="trBookIssue_c" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
                                  <font>
                                     <Font name="Roboto Condensed Regular" size="15.0" />
                                  </font>
@@ -81,9 +81,9 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="62.0" prefWidth="200.0">
                            <children>
-                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="260.0" text="Number of books renewed  :" textAlignment="RIGHT">
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="275.0" text="Number of books renewed  :" textAlignment="RIGHT">
                                  <font>
-                                    <Font name="Roboto Condensed Regular" size="17.0" />
+                                    <Font name="Roboto Condensed Regular" size="18.0" />
                                  </font>
                                  <padding>
                                     <Insets right="20.0" />
@@ -92,7 +92,7 @@
                                     <Insets left="30.0" right="20.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="id_c11" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
+                              <Label fx:id="trBookRenew_c" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
                                  <font>
                                     <Font name="Roboto Condensed Regular" size="15.0" />
                                  </font>
@@ -107,9 +107,9 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="62.0" prefWidth="200.0">
                            <children>
-                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="260.0" text="Number of books submitted  :" textAlignment="RIGHT">
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="275.0" text="Number of books submitted  :" textAlignment="RIGHT">
                                  <font>
-                                    <Font name="Roboto Condensed Regular" size="17.0" />
+                                    <Font name="Roboto Condensed Regular" size="18.0" />
                                  </font>
                                  <padding>
                                     <Insets right="20.0" />
@@ -118,7 +118,7 @@
                                     <Insets left="30.0" right="20.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="id_c12" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
+                              <Label fx:id="trBookSubmit_c" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
                                  <font>
                                     <Font name="Roboto Condensed Regular" size="15.0" />
                                  </font>
@@ -133,9 +133,9 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="62.0" prefWidth="200.0">
                            <children>
-                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="260.0" text="Number of books to be Submited  :" textAlignment="RIGHT">
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="275.0" text="Number of books to be Submited  :" textAlignment="RIGHT">
                                  <font>
-                                    <Font name="Roboto Condensed Regular" size="17.0" />
+                                    <Font name="Roboto Condensed Regular" size="18.0" />
                                  </font>
                                  <padding>
                                     <Insets right="20.0" />
@@ -144,7 +144,7 @@
                                     <Insets left="30.0" right="20.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="id_c13" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
+                              <Label fx:id="trBookWillSubmit_c" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
                                  <font>
                                     <Font name="Roboto Condensed Regular" size="15.0" />
                                  </font>
@@ -159,9 +159,9 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="62.0" prefWidth="200.0">
                            <children>
-                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="260.0" text="Number of books late submitted  :" textAlignment="RIGHT">
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="275.0" text="Number of books late submited  :" textAlignment="RIGHT">
                                  <font>
-                                    <Font name="Roboto Condensed Regular" size="17.0" />
+                                    <Font name="Roboto Condensed Regular" size="18.0" />
                                  </font>
                                  <padding>
                                     <Insets right="20.0" />
@@ -170,7 +170,7 @@
                                     <Insets left="30.0" right="20.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="id_c14" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
+                              <Label fx:id="trLateSubmit_c" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
                                  <font>
                                     <Font name="Roboto Condensed Regular" size="15.0" />
                                  </font>
@@ -185,9 +185,9 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="62.0" prefWidth="200.0">
                            <children>
-                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="260.0" text="Total fine collected  :" textAlignment="RIGHT">
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="275.0" text="Total fine collected  :" textAlignment="RIGHT">
                                  <font>
-                                    <Font name="Roboto Condensed Regular" size="17.0" />
+                                    <Font name="Roboto Condensed Regular" size="18.0" />
                                  </font>
                                  <padding>
                                     <Insets right="20.0" />
@@ -196,7 +196,7 @@
                                     <Insets left="30.0" right="20.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="id_c15" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
+                              <Label fx:id="trFine_c" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
                                  <font>
                                     <Font name="Roboto Condensed Regular" size="15.0" />
                                  </font>
@@ -211,9 +211,9 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="62.0" prefWidth="200.0">
                            <children>
-                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="260.0" text="Number of newly added books  :  " textAlignment="RIGHT">
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="275.0" text="Number of newly added books  :  " textAlignment="RIGHT">
                                  <font>
-                                    <Font name="Roboto Condensed Regular" size="17.0" />
+                                    <Font name="Roboto Condensed Regular" size="18.0" />
                                  </font>
                                  <padding>
                                     <Insets right="20.0" />
@@ -222,7 +222,7 @@
                                     <Insets left="30.0" right="20.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="id_c16" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
+                              <Label fx:id="trNewBook_c" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
                                  <font>
                                     <Font name="Roboto Condensed Regular" size="15.0" />
                                  </font>
@@ -237,9 +237,9 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="62.0" prefWidth="200.0">
                            <children>
-                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="54.0" prefWidth="260.0" text="Number of newly added members  :  " textAlignment="RIGHT">
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="54.0" prefWidth="275.0" text="Number of newly added members  :  " textAlignment="RIGHT">
                                  <font>
-                                    <Font name="Roboto Condensed Regular" size="17.0" />
+                                    <Font name="Roboto Condensed Regular" size="18.0" />
                                  </font>
                                  <padding>
                                     <Insets right="20.0" />
@@ -248,7 +248,7 @@
                                     <Insets left="30.0" right="20.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="id_c17" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
+                              <Label fx:id="trNewMember_c" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
                                  <font>
                                     <Font name="Roboto Condensed Regular" size="15.0" />
                                  </font>
@@ -282,9 +282,9 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="62.0" prefWidth="200.0">
                            <children>
-                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="260.0" text="Number of books issued  :" textAlignment="RIGHT">
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="275.0" text="Number of books issued  :" textAlignment="RIGHT">
                                  <font>
-                                    <Font name="Roboto Condensed Regular" size="17.0" />
+                                    <Font name="Roboto Condensed Regular" size="18.0" />
                                  </font>
                                  <padding>
                                     <Insets right="20.0" />
@@ -293,7 +293,7 @@
                                     <Insets left="30.0" right="20.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="id_c181" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
+                              <Label fx:id="arBookIssue_c" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
                                  <font>
                                     <Font name="Roboto Condensed Regular" size="15.0" />
                                  </font>
@@ -308,9 +308,9 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="62.0" prefWidth="200.0">
                            <children>
-                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="260.0" text="Number of books renewed  :" textAlignment="RIGHT">
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="275.0" text="Number of books renewed  :" textAlignment="RIGHT">
                                  <font>
-                                    <Font name="Roboto Condensed Regular" size="17.0" />
+                                    <Font name="Roboto Condensed Regular" size="18.0" />
                                  </font>
                                  <padding>
                                     <Insets right="20.0" />
@@ -319,7 +319,7 @@
                                     <Insets left="30.0" right="20.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="id_c182" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
+                              <Label fx:id="arBookRenew_c" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
                                  <font>
                                     <Font name="Roboto Condensed Regular" size="15.0" />
                                  </font>
@@ -334,9 +334,9 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="62.0" prefWidth="200.0">
                            <children>
-                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="260.0" text="Number of books submitted  :" textAlignment="RIGHT">
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="275.0" text="Number of books submitted  :" textAlignment="RIGHT">
                                  <font>
-                                    <Font name="Roboto Condensed Regular" size="17.0" />
+                                    <Font name="Roboto Condensed Regular" size="18.0" />
                                  </font>
                                  <padding>
                                     <Insets right="20.0" />
@@ -345,7 +345,7 @@
                                     <Insets left="30.0" right="20.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="id_c183" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
+                              <Label fx:id="arBookSubmit_c" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
                                  <font>
                                     <Font name="Roboto Condensed Regular" size="15.0" />
                                  </font>
@@ -360,9 +360,9 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="62.0" prefWidth="200.0">
                            <children>
-                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="260.0" text="Number of books to be Submited  :" textAlignment="RIGHT">
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="275.0" text="Number of books to be Submited  :" textAlignment="RIGHT">
                                  <font>
-                                    <Font name="Roboto Condensed Regular" size="17.0" />
+                                    <Font name="Roboto Condensed Regular" size="18.0" />
                                  </font>
                                  <padding>
                                     <Insets right="20.0" />
@@ -371,7 +371,7 @@
                                     <Insets left="30.0" right="20.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="id_c184" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
+                              <Label fx:id="arBookWillSubmit_c" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
                                  <font>
                                     <Font name="Roboto Condensed Regular" size="15.0" />
                                  </font>
@@ -386,9 +386,9 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="62.0" prefWidth="200.0">
                            <children>
-                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="260.0" text="Number of books late submitted  :" textAlignment="RIGHT">
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="275.0" text="Number of books late submited  :" textAlignment="RIGHT">
                                  <font>
-                                    <Font name="Roboto Condensed Regular" size="17.0" />
+                                    <Font name="Roboto Condensed Regular" size="18.0" />
                                  </font>
                                  <padding>
                                     <Insets right="20.0" />
@@ -397,7 +397,7 @@
                                     <Insets left="30.0" right="20.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="id_c185" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
+                              <Label fx:id="arLateSubmit_c" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
                                  <font>
                                     <Font name="Roboto Condensed Regular" size="15.0" />
                                  </font>
@@ -412,9 +412,9 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="62.0" prefWidth="200.0">
                            <children>
-                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="260.0" text="Total fine collected  :" textAlignment="RIGHT">
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="275.0" text="Total fine collected  :" textAlignment="RIGHT">
                                  <font>
-                                    <Font name="Roboto Condensed Regular" size="17.0" />
+                                    <Font name="Roboto Condensed Regular" size="18.0" />
                                  </font>
                                  <padding>
                                     <Insets right="20.0" />
@@ -423,7 +423,7 @@
                                     <Insets left="30.0" right="20.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="id_c186" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
+                              <Label fx:id="arFine_c" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
                                  <font>
                                     <Font name="Roboto Condensed Regular" size="15.0" />
                                  </font>
@@ -438,9 +438,9 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="62.0" prefWidth="200.0">
                            <children>
-                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="260.0" text="Number of newly added books  :  " textAlignment="RIGHT">
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="275.0" text="Number of books  :  " textAlignment="RIGHT">
                                  <font>
-                                    <Font name="Roboto Condensed Regular" size="17.0" />
+                                    <Font name="Roboto Condensed Regular" size="18.0" />
                                  </font>
                                  <padding>
                                     <Insets right="20.0" />
@@ -449,7 +449,7 @@
                                     <Insets left="30.0" right="20.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="id_c187" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
+                              <Label fx:id="arBook_c" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
                                  <font>
                                     <Font name="Roboto Condensed Regular" size="15.0" />
                                  </font>
@@ -464,9 +464,9 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="62.0" prefWidth="200.0">
                            <children>
-                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="260.0" text="Number of newly added members  :  " textAlignment="RIGHT">
+                              <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="275.0" text="Number of members  :  " textAlignment="RIGHT">
                                  <font>
-                                    <Font name="Roboto Condensed Regular" size="17.0" />
+                                    <Font name="Roboto Condensed Regular" size="18.0" />
                                  </font>
                                  <padding>
                                     <Insets right="20.0" />
@@ -475,7 +475,7 @@
                                     <Insets left="30.0" right="20.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="id_c188" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
+                              <Label fx:id="arMember_c" contentDisplay="CENTER" prefHeight="42.0" prefWidth="100.0">
                                  <font>
                                     <Font name="Roboto Condensed Regular" size="15.0" />
                                  </font>

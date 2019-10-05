@@ -11,6 +11,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Side;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import schoollibrary.database.DatabaseHandler;
 
@@ -25,11 +27,47 @@ public class ReportController implements Initializable {
     PieChart bookChart;
     PieChart memberChart;
     DatabaseHandler databaseHandler;
+  
+    @FXML
+    private Label trBookIssue_c;
+    @FXML
+    private Label trBookRenew_c;
+    @FXML
+    private Label trBookSubmit_c;
+    @FXML
+    private Label trBookWillSubmit_c;
+    @FXML
+    private Label trLateSubmit_c;
+    @FXML
+    private Label trFine_c;
+    @FXML
+    private Label trNewBook_c;
+    @FXML
+    private Label trNewMember_c;
+    @FXML
+    private Label arBookIssue_c;
+    @FXML
+    private Label arBookRenew_c;
+    @FXML
+    private Label arBookSubmit_c;
+    @FXML
+    private Label arBookWillSubmit_c;
+    @FXML
+    private Label arLateSubmit_c;
+    @FXML
+    private Label arFine_c;
+    @FXML
+    private Label arBook_c;
+    @FXML
+    private Label arMember_c;
+   
+    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         databaseHandler = DatabaseHandler.getInstance();
-        initGraph();          
+        initGraph();   
+        loadAllTimeData();
     }    
     
   
@@ -70,24 +108,43 @@ public class ReportController implements Initializable {
     }
         
 
-//    no of book is to be submit today
-//    no of boos late to submit
-
-//    no of book issued in a week
-//    chart for book issued in a week
-
-//    no of book submit in a week
-//    chart for book submit in a week
-
-//    no of book issued in a month
-//    chart for book issued in a month
-
-//    no of book submit in a month
-//    chart for book submit in a month
- 
-    
-//    total fine collect
-//    book issued in this week
-//    
+    public void loadAllTimeData(){
+            int issueCount = countData("ISSUE");
+            int submitCount = countData("SUBMISSION");
+            int bookCount = countData("BOOK");
+            int memberCount = countData("MEMBER");
+            int renewCount = 0;
+            int fine = 0;
+            
+        try{
+            String query = "SELECT COUNT(*) as count FROM BOOK WHERE renewCount > 0 ";
+            String query1 = "SELECT SUM(finePayed) as sum FROM MEMBER ";
+            
+            ResultSet result = databaseHandler.execQuery(query);
+            result.next();
+            int count1 = result.getInt("count");     
+            if(count1 != 0){
+                renewCount = count1;
+            }
+            
+            result = databaseHandler.execQuery(query1);
+//            result.next();
+            int count2 = result.getInt("sum");
+            if(count2 != 0){
+                fine = count2;
+            }
+            
+        }catch (SQLException ex) {
+            Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        } 
+        arBookIssue_c.setText(String.valueOf(issueCount + submitCount));
+        arBookSubmit_c.setText(String.valueOf(submitCount));
+        arBookWillSubmit_c.setText(String.valueOf(issueCount));
+        arBook_c.setText(String.valueOf(bookCount));
+        arMember_c.setText(String.valueOf(memberCount));
+        arBookRenew_c.setText(String.valueOf(renewCount));
+        arFine_c.setText(String.valueOf(fine));
+    }
     
 }
