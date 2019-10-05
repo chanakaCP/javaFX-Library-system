@@ -79,14 +79,18 @@
 
 /* Book Card */
 
-#id_c, #name_c, #author_c, #publisher_c, #price_c, #pages_c, #date_c, #description_c, #avail_c, #validity_c, #issueCount_c, #subCount_c, #renewCount_c, #fineCount_c, #dateCount_c, #col1{
+#id_c, #name_c, #author_c, #publisher_c, #price_c, #pages_c, #date_c, #description_c, #avail_c, #validity_c, #issueCount_c, #subCount_c, #renewCount_c, #fineCount_c, #dateCount_c, #aDate_c,
+#col1, #trBookIssue_c, #trBookRenew_c, #trBookSubmit_c, #trBookWillSubmit_c, #trLateSubmit_c, #trFine_c, #trNewBook_c, #trNewMember_c, #arBookIssue_c, #arBookRenew_c, #arBookSubmit_c, 
+#arBookWillSubmit_c, #arLateSubmit_c, #arFine_c, #arBook_c, #arMember_c{
     -fx-background-color: transparent;
     -fx-text-fill: #03a9f4;
     -jfx-focus-color: #cfd8dc;
     -fx-text-alignment: center;
 }
-#id_c:hover, #name_c:hover, #author_c:hover, #publisher_c:hover, #price_c:hover, #pages_c:hover #date_c:hover, 
-#description_c:hover, #avail_c:hover, #validity_c:hover, #issueCount_c:hover, #subCount_c:hover, #renewCount_c:hover, #fineCount_c:hover, #dateCount_c:hover{
+#id_c:hover, #name_c:hover, #author_c:hover, #publisher_c:hover, #price_c:hover, #pages_c:hover, #date_c:hover, #description_c:hover, #avail_c:hover, #validity_c:hover, #aDate_c:hover, 
+#issueCount_c:hover, #subCount_c:hover, #renewCount_c:hover, #fineCount_c:hover, #dateCount_c:hover, #trBookIssue_c:hover, #trBookRenew_c:hover, #trBookSubmit_c:hover,
+#trBookWillSubmit_c:hover, #trLateSubmit_c:hover, #trFine_c:hover, #trNewBook_c:hover, #trNewMember_c:hover, #arBookIssue_c:hover, #arBookRenew_c:hover, #arBookSubmit_c:hover, 
+#arBookWillSubmit_c:hover, #arLateSubmit_c:hover, #arFine_c:hover, #arBook_c:hover, #arMember_c:hover{
     -fx-text-fill: white;
     -jfx-focus-color: #cfd8dc;
 }

@@ -58,7 +58,7 @@ public class BookDetailsController implements Initializable {
     }    
     
     public void viewData(String bookId){
-       String query = "SELECT * FROM BOOK WHERE B_ID = '" + bookId + "' " ;
+        String query = "SELECT * FROM BOOK WHERE B_ID = '" + bookId + "' " ;
         ResultSet result = databaseHandler.execQuery(query);
         try {
             if(result.next()){
