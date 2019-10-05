@@ -368,10 +368,13 @@ public class MainController implements Initializable {
                 Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             }     
             
-            String query4 = "INSERT INTO ISSUE (bookID,memberID) VALUES ( " +
+            String query4 = "INSERT INTO ISSUE (bookID,memberID,keepDays,finePerDay) VALUES ( " +
                     "'" + bookId + "'," +
-                    "'" + memberId + "'" +
+                    "'" + memberId + "'," +
+                    preferences.getnOfDays() + ", " +
+                    preferences.getFinePerDay() +
                     ")";
+            System.out.println(query4);
             String query5 = "UPDATE BOOK SET isAvail = false , issueCount = issueCount+1   WHERE B_ID = '" + bookId + "' ";
             String query6 = "UPDATE MEMBER SET isSubmit = false , issueCount = issueCount+1  WHERE M_ID = '" + memberId + "' ";                
             if(databaseHandler.execAction(query4) && databaseHandler.execAction(query5) && databaseHandler.execAction(query6)){
@@ -412,8 +415,8 @@ public class MainController implements Initializable {
                     subLale2.setText("Member");
                     
                     String memberId = result.getString("memberID");  
-                    int totalFine = countTotalFine(result.getString("lastRenewDate"));
-                    int dateDelayed = delayedDates(result.getString("lastRenewDate"));
+                    int totalFine = countTotalFine(result.getString("lastRenewDate"), Integer.parseInt(result.getString("keepDays")) ,Integer.parseInt(result.getString("finePerDay")) );
+                    int dateDelayed = delayedDates(result.getString("lastRenewDate"), Integer.parseInt(result.getString("keepDays")));
                     issue_date.setText("Date  :  "+result.getString("issueDate"));
                     renew_count.setText("Renew count  :  "+result.getString("renewCount"));
                     date_delayed.setText("Date delayed  :  "+dateDelayed);
@@ -453,6 +456,7 @@ public class MainController implements Initializable {
         String issueDate;
         int renew_Count;
         int fine;
+        int maxDate;
    
         try{
             String query = "SELECT COUNT(bookID) as count FROM ISSUE WHERE bookID = '" + bookId + "' ";
@@ -476,23 +480,31 @@ public class MainController implements Initializable {
                 renew_Count = result.getInt("renewCount");
                 memberId = result.getString("memberID");
                 String dateFrom = result.getString("lastRenewDate");
-                fine = countTotalFine(dateFrom);
+                maxDate = Integer.parseInt(result.getString("keepDays"));
+                fine = countTotalFine(dateFrom, maxDate, Integer.parseInt(result.getString("finePerDay")));
                 
                 Optional<ButtonType> responce = AlertMaker.confirmationAlert("Confirm Submission Operation","Are you sure want to submit the book");
                 if(responce.get() == ButtonType.OK){
-                    int delayedDateCount = delayedDates(dateFrom);
+                    int delayedDateCount = delayedDates(dateFrom,maxDate);
                     int dateCount = countDays(dateFrom);
-                    String query1 = "INSERT INTO SUBMISSION (bookID,memberID,issueDate,fine,renewCount,nuOfDaysKept) VALUES ( " +
+                    boolean isLate;
+                    if(delayedDateCount == 0){
+                        isLate = false;
+                    }else{
+                        isLate = true;
+                    }
+                    String query1 = "INSERT INTO SUBMISSION (bookID,memberID,issueDate,isLateSubmit,fine,renewCount,nuOfDaysKept) VALUES ( " +
                                     "'" + bookId + "'," +
                                     "'" + memberId + "'," +
                                     "'" + issueDate + "'," +
+                                    "'" + isLate + "'," +
                                     fine + ", " +
                                     renew_Count+ ", "  +
                                     dateCount  +
                                     ")";
                     String query2 = "DELETE FROM ISSUE WHERE bookID = '" + bookId + "'";
                     String query3 = "UPDATE BOOK SET isAvail = true, subCount = subCount+1, fineCollect = fineCollect +'" + fine + "'  WHERE B_ID = '" + bookId + "' ";
-                    String query4 = "UPDATE MEMBER SET isSubmit = true, subCount = subCount+1, finePayed = finePayed +'" + fine + "' , delayedDateCount = delayedDateCount +'" + delayedDateCount + "'  WHERE M_ID = '" + memberId + "' ";
+                    String query4 = "UPDATE MEMBER SET isSubmit = true, subCount = subCount+1, finePayed = finePayed + '" + fine + "' , delayedDateCount = delayedDateCount + '" + delayedDateCount + "'  WHERE M_ID = '" + memberId + "' ";
                     if(databaseHandler.execAction(query1) && databaseHandler.execAction(query2) && databaseHandler.execAction(query3) && databaseHandler.execAction(query4)){
                         AlertMaker.informatinAlert("Success","Book submission complete");
                         bookIdInput2.setText("");
@@ -562,6 +574,7 @@ public class MainController implements Initializable {
         renew_count.setText("Renew Count");  
         book_name.setText("Book Name");
         description.setText("Description");
+        date_delayed.setText("No of days delayed");
         member_id.setText("Member ID");
         member_name.setText("Name");
         subLale2.setText("Member");
@@ -594,31 +607,28 @@ public class MainController implements Initializable {
         memberChart.setData(databaseHandler.getMemberStatistic());
     }
    
-    int countTotalFine(String dateIssue){  
-        int finePerDay = preferences.getFinePerDay();
-        int maxNoOfDays = preferences.getnOfDays();
+    int countTotalFine(String dateIssue,int days,int fine){  
         LocalDate dateFrom = LocalDate.parse(dateIssue); 
         LocalDate dateTo = LocalDate.now();
         Period intervalPeriod = Period.between(dateFrom, dateTo);
         int dateCount = (intervalPeriod.getDays() + intervalPeriod.getMonths()*30 + intervalPeriod.getYears()*365);
    
-        if(dateCount > maxNoOfDays){
-            return ((dateCount-maxNoOfDays)*finePerDay);
+        if(dateCount > days){
+            return ((dateCount-days)*fine);
         }else{
             return dateCount*0;
         }
     }
 
     
-    int delayedDates(String dateIssue){
-        int maxNoOfDays = preferences.getnOfDays();
+    int delayedDates(String dateIssue,int maxDate){
         LocalDate dateFrom = LocalDate.parse(dateIssue); 
         LocalDate dateTo = LocalDate.now();
         Period intervalPeriod = Period.between(dateFrom, dateTo);
         int dateCount = (intervalPeriod.getDays() + intervalPeriod.getMonths() + intervalPeriod.getYears());
    
-        if(dateCount > maxNoOfDays){
-            return (dateCount-maxNoOfDays);
+        if(dateCount > maxDate){
+            return (dateCount-maxDate);
         }else{
             return (dateCount*0);
         }
@@ -661,8 +671,8 @@ public class MainController implements Initializable {
 //        String query4 = "INSERT INTO BOOK VALUES ( '5','book5','auth5','pub1', 12 ,12,'2013-2-12','asdasdasasda','true')";
 //        String query5 = "INSERT INTO BOOK VALUES ( '6','book6','auth5','pub1', 12 ,12,'2013-2-12','asdasdasasda','true')";
            
-//    
-//          String query1 = "INSERT INTO ISSUE (bookID,memberID,issueDate,renewCount,lastRenewDate) VALUES ( '11','11','2019-9-20',0,'2019-9-20')";
+//   
+//          String query1 = "INSERT INTO ISSUE (bookID,memberID,issueDate,renewCount,lastRenewDate,keepDays,finePerDay) VALUES ( '3','3','2019-9-20',0,'2019-9-20',5,5)";
 //            if(databaseHandler.execAction(query1)){
 //            System.out.println("success");
 //        }  
