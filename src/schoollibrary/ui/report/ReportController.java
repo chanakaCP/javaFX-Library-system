@@ -4,6 +4,7 @@ package schoollibrary.ui.report;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,11 +23,6 @@ public class ReportController implements Initializable {
     private VBox bookInfoContainer;
     @FXML
     private VBox memberInfoContainer;
-
-    PieChart bookChart;
-    PieChart memberChart;
-    DatabaseHandler databaseHandler;
-  
     @FXML
     private Label trBookIssue_c;
     @FXML
@@ -60,13 +56,16 @@ public class ReportController implements Initializable {
     @FXML
     private Label arMember_c;
    
-    
+    PieChart bookChart;
+    PieChart memberChart;
+    DatabaseHandler databaseHandler;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         databaseHandler = DatabaseHandler.getInstance();
         initGraph();   
         loadAllTimeData();
+        loadTodayData();
     }    
     
   
@@ -97,6 +96,26 @@ public class ReportController implements Initializable {
         int countRow = 0;
         try {
             String query = "SELECT COUNT(*) as count FROM "+ table + " ";
+            ResultSet result = databaseHandler.execQuery(query);
+            result.next();
+            countRow = result.getInt("count");
+        } catch (SQLException ex) {
+            Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        return countRow;  
+    }
+    
+    int countTodayData(String table, String dateCol){      
+        int countRow = 0;
+        LocalDate date = LocalDate.now();
+
+        try {
+            String query;
+            if(dateCol.equals("lastRenewDate")){
+                query = "SELECT COUNT(*) as count FROM "+ table + " WHERE DATE("+ dateCol +") = '"+ date +"' AND renewCount > 0 ";
+            }else{
+                query = "SELECT COUNT(*) as count FROM "+ table + " WHERE DATE("+ dateCol +") = '"+ date +"' ";
+            }
             ResultSet result = databaseHandler.execQuery(query);
             result.next();
             countRow = result.getInt("count");
@@ -136,12 +155,28 @@ public class ReportController implements Initializable {
             result.next();
             arLateSubmit_c.setText(String.valueOf(result.getInt("countLate")));
         }catch (SQLException ex) {
+//           ------ Cant load data error ------
             Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
             return;
         }     
     }
   
     
+    
+    public void loadTodayData(){
+        int issueCount = countTodayData("ISSUE","issueDate") + countTodayData("SUBMISSION","issueDate");
+        int renewCount = countTodayData("ISSUE","lastRenewDate") + countTodayData("SUBMISSION","lastRenewDate");
+        int submitCount = countTodayData("SUBMISSION","submitDate");
+        int bookCount = countTodayData("BOOK","addedDate");
+        int memberCount = countTodayData("MEMBER","addedDate"); 
+        
+        trBookIssue_c.setText(String.valueOf(issueCount));
+        trBookRenew_c.setText(String.valueOf(renewCount));
+        trBookSubmit_c.setText(String.valueOf(submitCount));
+        trNewBook_c.setText(String.valueOf(bookCount));
+        trNewMember_c.setText(String.valueOf(memberCount));
+
+    }
     
     
 }
