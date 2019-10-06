@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" prefHeight="986.0" prefWidth="1254.0" styleClass="mainFxmlClass" stylesheets="@../resources/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schoollibrary.ui.submission.SubmissionController">
+<AnchorPane fx:id="rootPane" prefHeight="986.0" prefWidth="1260.0" styleClass="mainFxmlClass" stylesheets="@../resources/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schoollibrary.ui.submission.SubmissionController">
    <children>
       <VBox prefHeight="664.0" prefWidth="1125.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -63,7 +63,7 @@
                   <TableColumn fx:id="s_timeCol" prefWidth="198.4000244140625" text="Submission Date" />
                   <TableColumn fx:id="countCol" prefWidth="155.99993896484375" text="Renew Count" />
                   <TableColumn fx:id="dateCountCol" prefWidth="152.00006103515625" text="No: Of Days" />
-                  <TableColumn fx:id="fineCol" maxWidth="151.2000732421875" prefWidth="151.2000732421875" text="Fine" />
+                  <TableColumn fx:id="fineCol" maxWidth="152.00004882812505" prefWidth="152.00004882812505" text="Fine" />
                </columns>
                <VBox.margin>
                   <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />

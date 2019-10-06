@@ -149,8 +149,8 @@ public class SubmissionController implements Initializable {
             query = "SELECT * FROM SUBMISSION";
             searchKey.setDisable(true);
             datePick.setDisable(true);
-        }else{
-            query = "SELECT * FROM SUBMISSION WHERE " + stream + " = '"+value+"' ";
+        }else{          
+            query = "SELECT * FROM SUBMISSION WHERE " + stream + " LIKE '%"+value+"%' ";               
             if(searchKey.isDisable()){
                 searchKey.setDisable(true);
                 datePick.setDisable(false);

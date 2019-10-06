@@ -7,8 +7,10 @@ import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Calendar;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -51,27 +53,42 @@ public class IssueBookController implements Initializable {
     @FXML
     private TableColumn<IssueBook,String> timeCol;
     @FXML
+    private TableColumn<IssueBook,String> renewCol;
+    @FXML
     private TableColumn<IssueBook,Integer> countCol;  
     @FXML
     private TableColumn<IssueBook,Integer> dateCountCol;
+    @FXML
+    private TableColumn<IssueBook,Integer> fineCol;
 
     DatabaseHandler databaseHandler;   
-    
+   
     
     @Override
     public void initialize(URL url, ResourceBundle rb) { 
+        choiceKey.getItems().add("View All");
         choiceKey.getItems().add("Book ID");
         choiceKey.getItems().add("Member ID");
         choiceKey.getItems().add("Issue Date");
         choiceKey.valueProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             searchKey.setText("");
             datePick.setValue(null);
-            if(!newValue.equals("Issue Date")){
-                searchKey.setDisable(false);
-                datePick.setDisable(true);
-            }else {
-                searchKey.setDisable(true);
-                datePick.setDisable(false);
+             switch (newValue) {
+                case "View All":                   
+                    searchKey.setDisable(true);
+                    datePick.setDisable(true);
+                    break;
+                case "Book ID":
+                case "Member ID":
+                    searchKey.setDisable(false);
+                    datePick.setDisable(true);
+                    break;
+                case "Issue Date":
+                    searchKey.setDisable(true);
+                    datePick.setDisable(false);
+                    break;
+                default:
+                    break;
             }
         });
         initCol();
@@ -83,8 +100,10 @@ public class IssueBookController implements Initializable {
         b_idCol.setCellValueFactory(new PropertyValueFactory<>("b_id"));
         m_idCol.setCellValueFactory(new PropertyValueFactory<>("m_id"));
         timeCol.setCellValueFactory(new PropertyValueFactory<>("issue_date"));
+        renewCol.setCellValueFactory(new PropertyValueFactory<>("renew_date"));
         countCol.setCellValueFactory(new PropertyValueFactory<>("r_count"));
         dateCountCol.setCellValueFactory(new PropertyValueFactory<>("d_count"));
+        fineCol.setCellValueFactory(new PropertyValueFactory<>("fine"));
     }
 
     public void loadData() {
@@ -92,7 +111,13 @@ public class IssueBookController implements Initializable {
         datePick.setDisable(true);
         list.clear();
         databaseHandler = DatabaseHandler.getInstance();
-        String query = "SELECT * FROM ISSUE";
+        
+        LocalDate sDate = LocalDate.now();
+        SimpleDateFormat sdf =  new SimpleDateFormat("yyyy-MM-dd");  
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_MONTH, -7);
+        
+        String query = "SELECT * FROM ISSUE WHERE issueDate <= '"+ sDate +"' AND issueDate >= '"+ sdf.format(cal.getTime())+"' ";
         ResultSet result = databaseHandler.execQuery(query);
         int i=0;
         try {
@@ -102,8 +127,15 @@ public class IssueBookController implements Initializable {
                 String memberID = result.getString("memberID");
                 String issueTime = result.getString("issueDate");
                 int rCount = Integer.parseInt(result.getString("renewCount"));
+                String renewDate; 
+                if(rCount == 0){
+                    renewDate = "Not renewed";
+                }else{
+                    renewDate = result.getString("lastRenewDate");    
+                }                
                 int dCount = countDays(result.getString("lastRenewDate"));
-                list.add(new IssueBook(i,bookID,memberID,issueTime,rCount,dCount));
+                int fine = Integer.parseInt(result.getString("finePerDay"));
+                list.add(new IssueBook(i,bookID,memberID,issueTime,renewDate,rCount,dCount,fine));
             }
         } catch (SQLException ex) {
             Logger.getLogger(IssueBookController.class.getName()).log(Level.SEVERE, null, ex);
@@ -111,18 +143,25 @@ public class IssueBookController implements Initializable {
         tableViewCol.setItems(list);
     }
 
-    public void loadSearchData(String stream, String value){
-       
-        if(searchKey.isDisable()){
+    public void loadSearchData(String stream, String value){    
+        String query; 
+        if(stream.equals("All")){
+            query = "SELECT * FROM ISSUE";
             searchKey.setDisable(true);
-            datePick.setDisable(false);
-        }else{
-            searchKey.setDisable(false);
             datePick.setDisable(true);
+        }else{          
+            query = "SELECT * FROM ISSUE WHERE " + stream + " LIKE '%"+value+"%' ";               
+            if(searchKey.isDisable()){
+                searchKey.setDisable(true);
+                datePick.setDisable(false);
+            }else{
+
+                searchKey.setDisable(false);
+                datePick.setDisable(true);
+            }
         }
         
         list.clear();  
-        String query = "SELECT * FROM ISSUE WHERE " + stream + " = '%"+value+"%' ";
         ResultSet result = databaseHandler.execQuery(query);
         int i=0;
         try {
@@ -132,8 +171,15 @@ public class IssueBookController implements Initializable {
                 String memberID = result.getString("memberID");
                 String issueTime = result.getString("issueDate");
                 int rCount = Integer.parseInt(result.getString("renewCount"));
+                String renewDate; 
+                if(rCount == 0){
+                    renewDate = "Not renewed";
+                }else{
+                    renewDate = result.getString("lastRenewDate");    
+                }                
                 int dCount = countDays(result.getString("lastRenewDate"));
-                list.add(new IssueBook(i,bookID,memberID,issueTime,rCount,dCount));
+                int fine = Integer.parseInt(result.getString("finePerDay"));
+                list.add(new IssueBook(i,bookID,memberID,issueTime,renewDate,rCount,dCount,fine));
             }
         } catch (SQLException ex) {           
             Logger.getLogger(IssueBookController.class.getName()).log(Level.SEVERE, null, ex);
@@ -162,8 +208,15 @@ public class IssueBookController implements Initializable {
                 String memberID = result.getString("memberID");
                 String issueTime = result.getString("issueDate");
                 int rCount = Integer.parseInt(result.getString("renewCount"));
+                String renewDate; 
+                if(rCount == 0){
+                    renewDate = "Not renewed";
+                }else{
+                    renewDate = result.getString("lastRenewDate");    
+                }                
                 int dCount = countDays(result.getString("lastRenewDate"));
-                list.add(new IssueBook(i,bookID,memberID,issueTime,rCount,dCount));
+                int fine = Integer.parseInt(result.getString("finePerDay"));
+                list.add(new IssueBook(i,bookID,memberID,issueTime,renewDate,rCount,dCount,fine));
             }
         } catch (SQLException ex) {           
             Logger.getLogger(IssueBookController.class.getName()).log(Level.SEVERE, null, ex);
@@ -181,6 +234,10 @@ public class IssueBookController implements Initializable {
             AlertMaker.errorAlert("Can`t search","Please select a field for search");
             return;
         } 
+        if(choice.equals("View All")){
+            loadSearchData("All",searchVal);
+            return;
+        }
         if(datePick.isDisable() && searchVal.isEmpty()){
             AlertMaker.errorAlert("Can`t search","Please enter value for search");
             return;
@@ -230,16 +287,20 @@ public class IssueBookController implements Initializable {
        public final SimpleStringProperty b_id;
        public final SimpleStringProperty m_id;
        public final SimpleStringProperty issue_date;
+       public final SimpleStringProperty renew_date;
        public final SimpleIntegerProperty r_count;
        public final SimpleIntegerProperty d_count;
+       public final SimpleIntegerProperty fine;
        
-       public IssueBook(int no, String bid, String mid, String time, int count, int dates){
+       public IssueBook(int no, String bid, String mid, String time, String renewDate, int count, int dates, int fine){
             this.number = new SimpleIntegerProperty(no);
             this.b_id = new SimpleStringProperty(bid);
             this.m_id = new SimpleStringProperty(mid);
             this.issue_date = new SimpleStringProperty(time);
+            this.renew_date = new SimpleStringProperty(renewDate);
             this.r_count = new SimpleIntegerProperty(count);
             this.d_count = new SimpleIntegerProperty(dates);
+            this.fine = new SimpleIntegerProperty(fine);
         }
 
         public Integer getNumber() {
@@ -254,11 +315,21 @@ public class IssueBookController implements Initializable {
         public String getIssue_date() {
             return issue_date.get();
         }
+        public String getRenew_date() {
+            return renew_date.get();
+        }       
         public Integer getR_count() {
             return r_count.get();
         }
         public Integer getD_count() {
             return d_count.get();
         }
+        public Integer getFine() {
+            return fine.get();
+        }
+        
     }
+    
+    
+    
 }
