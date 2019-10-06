@@ -138,12 +138,7 @@ public class MemberListController implements Initializable {
             datePick.setDisable(true);
         }
         list.clear();  
-        String query;
-        if(stream.equals("M_ID")){
-            query = "SELECT * FROM MEMBER WHERE " + stream + " = '"+value+"' ";
-        }else{
-            query = "SELECT * FROM MEMBER WHERE " + stream + " LIKE '%"+value+"%' ";
-        }
+        String query = "SELECT * FROM MEMBER WHERE " + stream + " LIKE '%"+value+"%' ";       
         ResultSet result = databaseHandler.execQuery(query);
         int i=0;
         try {

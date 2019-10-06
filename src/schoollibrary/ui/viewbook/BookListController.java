@@ -159,12 +159,7 @@ public class BookListController implements Initializable {
             datePick.setDisable(true);
         }
         list.clear(); 
-        String query;
-        if(stream.equals("B_ID")){
-            query = "SELECT * FROM BOOK WHERE " + stream + " = '"+value+"' ";
-        }else{
-            query = "SELECT * FROM BOOK WHERE " + stream + " LIKE '%"+value+"%' ";
-        }
+        String query = "SELECT * FROM BOOK WHERE " + stream + " LIKE '%"+value+"%' ";     
         ResultSet result = databaseHandler.execQuery(query);
         int i=0;
         try {
