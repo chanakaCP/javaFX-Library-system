@@ -5,6 +5,7 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -157,15 +158,16 @@ public class ReportController implements Initializable {
         }catch (SQLException ex) {
 //           ------ Cant load data error ------
             Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
-            return;
         }     
     }
   
     
     
     public void loadTodayData(){
-        int issueCount = countTodayData("ISSUE","issueDate") + countTodayData("SUBMISSION","issueDate");
-        int renewCount = countTodayData("ISSUE","lastRenewDate") + countTodayData("SUBMISSION","lastRenewDate");
+        LocalDate date = LocalDate.now();
+         
+        int issueCount = countTodayData("ISSUE","issueDate");
+        int renewCount = countTodayData("ISSUE","lastRenewDate");
         int submitCount = countTodayData("SUBMISSION","submitDate");
         int bookCount = countTodayData("BOOK","addedDate");
         int memberCount = countTodayData("MEMBER","addedDate"); 
@@ -176,7 +178,36 @@ public class ReportController implements Initializable {
         trNewBook_c.setText(String.valueOf(bookCount));
         trNewMember_c.setText(String.valueOf(memberCount));
 
+        try{
+            String query = "SELECT COUNT(*) as count FROM ISSUE WHERE  DATE(willSubmit) = '"+ date +"' ";
+            String query1 = "SELECT SUM(fine) FROM SUBMISSION WHERE isLateSubmit = 'true' AND DATE(submitDate) = '"+ date +"' ";
+            String query2 = "SELECT COUNT(*) as countLate FROM SUBMISSION WHERE isLateSubmit = 'true' AND DATE(submitDate) = '"+ date +"' ";
+            
+            ResultSet result = databaseHandler.execQuery(query);
+            result.next();
+            trBookWillSubmit_c.setText(String.valueOf(result.getInt("count")));
+            
+            result = databaseHandler.execQuery(query1);
+            result.next();
+            trFine_c.setText(String.valueOf(result.getInt(1)));
+       
+            result = databaseHandler.execQuery(query2);
+            result.next();
+            trLateSubmit_c.setText(String.valueOf(result.getInt("countLate")));
+        }catch (SQLException ex) {
+//           ------ Cant load data error ------
+            Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
+
+        }  
     }
     
+    
+    int countDays(String dateIssue){
+        LocalDate dateFrom = LocalDate.parse(dateIssue); 
+        LocalDate dateTo = LocalDate.now();
+        Period intervalPeriod = Period.between(dateFrom, dateTo);
+        int dateCount = (intervalPeriod.getDays() + intervalPeriod.getMonths() + intervalPeriod.getYears());
+        return dateCount;
+    }
     
 }
