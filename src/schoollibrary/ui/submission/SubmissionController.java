@@ -120,7 +120,7 @@ public class SubmissionController implements Initializable {
         LocalDate sDate = LocalDate.now();
         SimpleDateFormat sdf =  new SimpleDateFormat("yyyy-MM-dd");  
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DAY_OF_MONTH, -30);
+        cal.add(Calendar.DAY_OF_MONTH, -14);
         
         String query = "SELECT * FROM SUBMISSION WHERE submitDate <= '"+ sDate +"' AND submitDate >= '"+ sdf.format(cal.getTime())+"' ";
         ResultSet result = databaseHandler.execQuery(query);
