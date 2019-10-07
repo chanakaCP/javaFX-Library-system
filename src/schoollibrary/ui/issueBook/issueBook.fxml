@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" prefHeight="986.0" prefWidth="1109.0" styleClass="mainFxmlClass" stylesheets="@../resources/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schoollibrary.ui.issueBook.IssueBookController">
+<AnchorPane fx:id="rootPane" prefHeight="986.0" prefWidth="1236.0" styleClass="mainFxmlClass" stylesheets="@../resources/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schoollibrary.ui.issueBook.IssueBookController">
    <children>
       <VBox prefHeight="664.0" prefWidth="1125.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -60,9 +60,10 @@
                   <TableColumn fx:id="m_idCol" prefWidth="140.0" text="Member ID" />
                   <TableColumn fx:id="timeCol" prefWidth="150.0" text="Issue Date" />
                   <TableColumn fx:id="renewCol" prefWidth="150.0" text="Renew Date" />
+                  <TableColumn fx:id="subCol" prefWidth="150.0" text="Will submit" />
                   <TableColumn fx:id="countCol" prefWidth="120.0" text="Renew Count" />
                   <TableColumn fx:id="dateCountCol" prefWidth="120.0" text="No: Of Days" />
-                  <TableColumn fx:id="fineCol" prefWidth="153.59991455078125" text="Fine per Day" />
+                  <TableColumn fx:id="fineCol" prefWidth="131.2000976562499" text="Fine per Day" />
                </columns>
                <VBox.margin>
                   <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />

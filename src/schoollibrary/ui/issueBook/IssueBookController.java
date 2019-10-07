@@ -1,9 +1,11 @@
 
 package schoollibrary.ui.issueBook;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
+import com.sun.java.swing.plaf.windows.resources.windows;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -55,6 +57,8 @@ public class IssueBookController implements Initializable {
     @FXML
     private TableColumn<IssueBook,String> renewCol;
     @FXML
+    private TableColumn<IssueBook,String> subCol;
+    @FXML
     private TableColumn<IssueBook,Integer> countCol;  
     @FXML
     private TableColumn<IssueBook,Integer> dateCountCol;
@@ -62,8 +66,8 @@ public class IssueBookController implements Initializable {
     private TableColumn<IssueBook,Integer> fineCol;
 
     DatabaseHandler databaseHandler;   
-   
-    
+ 
+       
     @Override
     public void initialize(URL url, ResourceBundle rb) { 
         choiceKey.getItems().add("View All");
@@ -101,6 +105,7 @@ public class IssueBookController implements Initializable {
         m_idCol.setCellValueFactory(new PropertyValueFactory<>("m_id"));
         timeCol.setCellValueFactory(new PropertyValueFactory<>("issue_date"));
         renewCol.setCellValueFactory(new PropertyValueFactory<>("renew_date"));
+        subCol.setCellValueFactory(new PropertyValueFactory<>("will_sub"));
         countCol.setCellValueFactory(new PropertyValueFactory<>("r_count"));
         dateCountCol.setCellValueFactory(new PropertyValueFactory<>("d_count"));
         fineCol.setCellValueFactory(new PropertyValueFactory<>("fine"));
@@ -133,9 +138,10 @@ public class IssueBookController implements Initializable {
                 }else{
                     renewDate = result.getString("lastRenewDate");    
                 }                
+                String subDay = result.getString("willSubmit");
                 int dCount = countDays(result.getString("lastRenewDate"));
                 int fine = Integer.parseInt(result.getString("finePerDay"));
-                list.add(new IssueBook(i,bookID,memberID,issueTime,renewDate,rCount,dCount,fine));
+                list.add(new IssueBook(i,bookID,memberID,issueTime,renewDate,subDay,rCount,dCount,fine));
             }
         } catch (SQLException ex) {
             Logger.getLogger(IssueBookController.class.getName()).log(Level.SEVERE, null, ex);
@@ -177,9 +183,10 @@ public class IssueBookController implements Initializable {
                 }else{
                     renewDate = result.getString("lastRenewDate");    
                 }                
+                String subDay = result.getString("willSubmit");
                 int dCount = countDays(result.getString("lastRenewDate"));
                 int fine = Integer.parseInt(result.getString("finePerDay"));
-                list.add(new IssueBook(i,bookID,memberID,issueTime,renewDate,rCount,dCount,fine));
+                list.add(new IssueBook(i,bookID,memberID,issueTime,renewDate,subDay,rCount,dCount,fine));
             }
         } catch (SQLException ex) {           
             Logger.getLogger(IssueBookController.class.getName()).log(Level.SEVERE, null, ex);
@@ -214,9 +221,10 @@ public class IssueBookController implements Initializable {
                 }else{
                     renewDate = result.getString("lastRenewDate");    
                 }                
+                String subDay = result.getString("willSubmit");
                 int dCount = countDays(result.getString("lastRenewDate"));
                 int fine = Integer.parseInt(result.getString("finePerDay"));
-                list.add(new IssueBook(i,bookID,memberID,issueTime,renewDate,rCount,dCount,fine));
+                list.add(new IssueBook(i,bookID,memberID,issueTime,renewDate,subDay,rCount,dCount,fine));
             }
         } catch (SQLException ex) {           
             Logger.getLogger(IssueBookController.class.getName()).log(Level.SEVERE, null, ex);
@@ -288,16 +296,18 @@ public class IssueBookController implements Initializable {
        public final SimpleStringProperty m_id;
        public final SimpleStringProperty issue_date;
        public final SimpleStringProperty renew_date;
+       public final SimpleStringProperty will_sub;
        public final SimpleIntegerProperty r_count;
        public final SimpleIntegerProperty d_count;
        public final SimpleIntegerProperty fine;
        
-       public IssueBook(int no, String bid, String mid, String time, String renewDate, int count, int dates, int fine){
+       public IssueBook(int no, String bid, String mid, String time, String renewDate, String willSub, int count, int dates, int fine){
             this.number = new SimpleIntegerProperty(no);
             this.b_id = new SimpleStringProperty(bid);
             this.m_id = new SimpleStringProperty(mid);
             this.issue_date = new SimpleStringProperty(time);
             this.renew_date = new SimpleStringProperty(renewDate);
+            this.will_sub = new SimpleStringProperty(willSub);
             this.r_count = new SimpleIntegerProperty(count);
             this.d_count = new SimpleIntegerProperty(dates);
             this.fine = new SimpleIntegerProperty(fine);
@@ -318,6 +328,9 @@ public class IssueBookController implements Initializable {
         public String getRenew_date() {
             return renew_date.get();
         }       
+        public String getWill_sub() {
+            return will_sub.get();
+        }
         public Integer getR_count() {
             return r_count.get();
         }
