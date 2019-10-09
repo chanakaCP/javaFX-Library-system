@@ -59,6 +59,7 @@ public final class DatabaseHandler {
                 stmt.execute( " CREATE TABLE " + TABLE_NAME + " ( "
                             + " B_ID varchar(100) primary key,\n "
                             + " BName varchar(200),\n "
+                            + " category varchar(200),\n "
                             + " author varchar(200),\n "
                             + " publisher varchar(200),\n "
                             + " price decimal(6,2),\n "
