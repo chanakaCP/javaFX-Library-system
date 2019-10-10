@@ -77,14 +77,10 @@ public class BookListController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         databaseHandler = DatabaseHandler.getInstance();
-        
-        choiceKey.getItems().add("Book ID");
-        choiceKey.getItems().add("Book Name");
-        choiceKey.getItems().add("Author");
-        choiceKey.getItems().add("Publisher");
-        choiceKey.getItems().add("Recieved Date");
-        choiceKey.getItems().add("Added Date");
-        
+        initDropdown();
+        searchKey.setDisable(true);
+        datePick.setDisable(true);
+               
         choiceKey.valueProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             searchKey.setText("");
             datePick.setValue(null);
@@ -100,136 +96,6 @@ public class BookListController implements Initializable {
         loadData();
     }    
 
-    
-    private void initCol() {
-        nuCol.setCellValueFactory(new PropertyValueFactory<>("number"));
-        idCol.setCellValueFactory(new PropertyValueFactory<>("b_id"));
-        nameCol.setCellValueFactory(new PropertyValueFactory<>("b_name"));
-        authorCol.setCellValueFactory(new PropertyValueFactory<>("author"));
-        publisherCol.setCellValueFactory(new PropertyValueFactory<>("publisher"));
-        rDateCol.setCellValueFactory(new PropertyValueFactory<>("r_date"));
-        aDateCol.setCellValueFactory(new PropertyValueFactory<>("a_date"));
-        availabilityCol.setCellValueFactory(new PropertyValueFactory<>("availability"));
-    }
-
-    
-    public void loadData() {
-        searchKey.setDisable(true);
-        datePick.setDisable(true);
-        list.clear();
-        
-        String query = "SELECT * FROM BOOK";
-
-        ResultSet result = databaseHandler.execQuery(query);
-        int i=0;
-        try {
-            while (result.next()) {
-                i++;
-                String bookID = result.getString("B_ID");
-                String bookName = result.getString("BName");
-                String bookAuth = result.getString("author");
-                String bookPub = result.getString("publisher");
-                String bookPr = result.getString("price");
-                String bookPg = result.getString("pages");
-                String bookRecDate = result.getString("receivedDate");
-                String bookAddDate = result.getString("addedDate");
-                String bookDes = result.getString("description");
-                String bookAvail;
-                if(result.getBoolean("isAvail")){
-                    bookAvail = "Available";
-                }else{
-                    bookAvail = "Not Available";
-                }
-                
-                list.add(new Book(i,bookID,bookName,bookAuth,bookPub,bookPr,bookPg,bookRecDate,bookAddDate,bookDes,bookAvail));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(BookListController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        tableViewCol.setItems(list);
-    }
-
-    
-    public void loadSearchData(String stream, String value){
-        if(searchKey.isDisable()){
-            searchKey.setDisable(true);
-            datePick.setDisable(false);
-        }else{
-            searchKey.setDisable(false);
-            datePick.setDisable(true);
-        }
-        list.clear(); 
-        String query = "SELECT * FROM BOOK WHERE " + stream + " LIKE '%"+value+"%' ";     
-        ResultSet result = databaseHandler.execQuery(query);
-        int i=0;
-        try {
-            while (result.next()) {
-                i++;
-                String bookID = result.getString("B_ID");
-                String bookName = result.getString("BName");
-                String bookAuth = result.getString("author");
-                String bookPub = result.getString("publisher");
-                String bookPr = result.getString("price");
-                String bookPg = result.getString("pages");
-                String bookRecDate = result.getString("receivedDate");
-                String bookAddDate = result.getString("addedDate");
-                String bookDes = result.getString("description");
-                String bookAvail;
-                if(result.getBoolean("isAvail")){
-                    bookAvail = "Available";
-                }else{
-                    bookAvail = "Not Available";
-                }
-                
-                list.add(new Book(i,bookID,bookName,bookAuth,bookPub,bookPr,bookPg,bookRecDate,bookAddDate,bookDes,bookAvail));
-            }
-        } catch (SQLException ex) {           
-            Logger.getLogger(AddBookController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        tableViewCol.setItems(list);
-    }
-     
-    
-    public void loadSearchDate(String stream, LocalDate value){    
-        if(searchKey.isDisable()){
-            searchKey.setDisable(true);
-            datePick.setDisable(false);
-        }else{
-            searchKey.setDisable(false);
-            datePick.setDisable(true);
-        }
-        
-        list.clear();  
-        String query = "SELECT * FROM BOOK WHERE DATE("+stream+") = '"+value+"' ";
-        ResultSet result = databaseHandler.execQuery(query);
-        int i=0;
-        try {
-            while (result.next()) {
-                i++;
-                String bookID = result.getString("B_ID");
-                String bookName = result.getString("BName");
-                String bookAuth = result.getString("author");
-                String bookPub = result.getString("publisher");
-                String bookPr = result.getString("price");
-                String bookPg = result.getString("pages");
-                String bookRecDate = result.getString("receivedDate");
-                String bookAddDate = result.getString("addedDate");
-                String bookDes = result.getString("description");
-                String bookAvail;
-                if(result.getBoolean("isAvail")){
-                    bookAvail = "Available";
-                }else{
-                    bookAvail = "Not Available";
-                }
-                
-                list.add(new Book(i,bookID,bookName,bookAuth,bookPub,bookPr,bookPg,bookRecDate,bookAddDate,bookDes,bookAvail));
-            }
-        } catch (SQLException ex) {           
-            Logger.getLogger(AddBookController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        tableViewCol.setItems(list);
-    }
-    
     
     @FXML
     private void bookDeleteAction(ActionEvent event) {
@@ -370,21 +236,158 @@ public class BookListController implements Initializable {
     
     @FXML
     private void cancel(ActionEvent event) {   
-        if(choiceKey.getValue() == null){
+        if(choiceKey.getValue() == null ||  (datePick.getValue() == null && searchKey.getText().equals("")) ){  
             Stage stage = (Stage) rootPane.getScene().getWindow();
             stage.close();
+            return;
         }
         datePick.setValue(null);
-        searchKey.setText("");
-        choiceKey.setValue(null); 
-        loadData();
+        searchKey.setText("");    
+        loadData();  
     }
 
+     
+    private void initCol() {
+        nuCol.setCellValueFactory(new PropertyValueFactory<>("number"));
+        idCol.setCellValueFactory(new PropertyValueFactory<>("b_id"));
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("b_name"));
+        authorCol.setCellValueFactory(new PropertyValueFactory<>("author"));
+        publisherCol.setCellValueFactory(new PropertyValueFactory<>("publisher"));
+        rDateCol.setCellValueFactory(new PropertyValueFactory<>("r_date"));
+        aDateCol.setCellValueFactory(new PropertyValueFactory<>("a_date"));
+        availabilityCol.setCellValueFactory(new PropertyValueFactory<>("availability"));
+    }
+
+    
+    public void loadData() {    
+        list.clear();
+        
+        String query = "SELECT * FROM BOOK";
+        ResultSet result = databaseHandler.execQuery(query);
+        int i=0;
+        try {
+            while (result.next()) {
+                i++;
+                String bookID = result.getString("B_ID");
+                String bookName = result.getString("BName");
+                String bookAuth = result.getString("author");
+                String bookPub = result.getString("publisher");
+                String bookPr = result.getString("price");
+                String bookPg = result.getString("pages");
+                String bookRecDate = result.getString("receivedDate");
+                String bookAddDate = result.getString("addedDate");
+                String bookDes = result.getString("description");
+                String bookAvail;
+                if(result.getBoolean("isAvail")){
+                    bookAvail = "Available";
+                }else{
+                    bookAvail = "Not Available";
+                }
+                
+                list.add(new Book(i,bookID,bookName,bookAuth,bookPub,bookPr,bookPg,bookRecDate,bookAddDate,bookDes,bookAvail));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BookListController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        tableViewCol.setItems(list);
+    }
+
+    
+    public void loadSearchData(String stream, String value){
+        if(searchKey.isDisable()){
+            searchKey.setDisable(true);
+            datePick.setDisable(false);
+        }else{
+            searchKey.setDisable(false);
+            datePick.setDisable(true);
+        }
+        list.clear(); 
+        String query = "SELECT * FROM BOOK WHERE " + stream + " LIKE '%"+value+"%' ";     
+        ResultSet result = databaseHandler.execQuery(query);
+        int i=0;
+        try {
+            while (result.next()) {
+                i++;
+                String bookID = result.getString("B_ID");
+                String bookName = result.getString("BName");
+                String bookAuth = result.getString("author");
+                String bookPub = result.getString("publisher");
+                String bookPr = result.getString("price");
+                String bookPg = result.getString("pages");
+                String bookRecDate = result.getString("receivedDate");
+                String bookAddDate = result.getString("addedDate");
+                String bookDes = result.getString("description");
+                String bookAvail;
+                if(result.getBoolean("isAvail")){
+                    bookAvail = "Available";
+                }else{
+                    bookAvail = "Not Available";
+                }
+                
+                list.add(new Book(i,bookID,bookName,bookAuth,bookPub,bookPr,bookPg,bookRecDate,bookAddDate,bookDes,bookAvail));
+            }
+        } catch (SQLException ex) {           
+            Logger.getLogger(AddBookController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        tableViewCol.setItems(list);
+    }
+     
+    
+    public void loadSearchDate(String stream, LocalDate value){    
+        if(searchKey.isDisable()){
+            searchKey.setDisable(true);
+            datePick.setDisable(false);
+        }else{
+            searchKey.setDisable(false);
+            datePick.setDisable(true);
+        }
+        
+        list.clear();  
+        String query = "SELECT * FROM BOOK WHERE DATE("+stream+") = '"+value+"' ";
+        ResultSet result = databaseHandler.execQuery(query);
+        int i=0;
+        try {
+            while (result.next()) {
+                i++;
+                String bookID = result.getString("B_ID");
+                String bookName = result.getString("BName");
+                String bookAuth = result.getString("author");
+                String bookPub = result.getString("publisher");
+                String bookPr = result.getString("price");
+                String bookPg = result.getString("pages");
+                String bookRecDate = result.getString("receivedDate");
+                String bookAddDate = result.getString("addedDate");
+                String bookDes = result.getString("description");
+                String bookAvail;
+                if(result.getBoolean("isAvail")){
+                    bookAvail = "Available";
+                }else{
+                    bookAvail = "Not Available";
+                }
+                
+                list.add(new Book(i,bookID,bookName,bookAuth,bookPub,bookPr,bookPg,bookRecDate,bookAddDate,bookDes,bookAvail));
+            }
+        } catch (SQLException ex) {           
+            Logger.getLogger(AddBookController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        tableViewCol.setItems(list);
+    }
+    
     
     public void getController(MainController mainController){  
         this.mainController = mainController;
     }
  
+    
+    private void initDropdown() {
+        choiceKey.getItems().add("Book ID");
+        choiceKey.getItems().add("Book Name");
+        choiceKey.getItems().add("Author");
+        choiceKey.getItems().add("Publisher");
+        choiceKey.getItems().add("Recieved Date");
+        choiceKey.getItems().add("Added Date");
+    }
+    
     
     public static class Book{
         

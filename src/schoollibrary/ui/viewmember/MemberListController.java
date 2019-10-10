@@ -71,9 +71,10 @@ public class MemberListController implements Initializable {
      
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        choiceKey.getItems().add("Member ID");
-        choiceKey.getItems().add("Member Name");
-        choiceKey.getItems().add("Added Date");
+        databaseHandler = DatabaseHandler.getInstance();
+        initDropdown();
+        searchKey.setDisable(true);
+        datePick.setDisable(true);
         
         choiceKey.valueProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             searchKey.setText("");
@@ -89,113 +90,6 @@ public class MemberListController implements Initializable {
         initCol();
         loadData();
     } 
-    
-    private void initCol() {
-        nuCol.setCellValueFactory(new PropertyValueFactory<>("number"));
-        idCol.setCellValueFactory(new PropertyValueFactory<>("m_id"));
-        nameCol.setCellValueFactory(new PropertyValueFactory<>("m_name"));
-        aDateCol.setCellValueFactory(new PropertyValueFactory<>("a_date"));
-        valCol.setCellValueFactory(new PropertyValueFactory<>("validity"));      
-    }
-    
-    public void loadData() {
-        searchKey.setDisable(true);
-        datePick.setDisable(true);
-        list.clear();
-        databaseHandler = DatabaseHandler.getInstance();
-        
-        String query = "SELECT * FROM MEMBER";
-        ResultSet result = databaseHandler.execQuery(query);
-        int i=0;
-        try {
-            while (result.next()) {
-                i++;
-                String memberID = result.getString("M_ID");
-                String memberName = result.getString("MName");
-                String addDate = result.getString("addedDate");
-                String membervalidity; 
-                if(result.getBoolean("isSubmit")){
-                    membervalidity = "Valid";
-                }else{
-                    membervalidity = "Invalid";
-                }
-                
-                list.add(new Member(i,memberID,memberName,addDate,membervalidity));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(AddBookController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        tableViewCol.setItems(list);
-    }
-
-    
-    public void loadSearchData(String stream, String value){
-        if(searchKey.isDisable()){
-            searchKey.setDisable(true);
-            datePick.setDisable(false);
-        }else{
-            searchKey.setDisable(false);
-            datePick.setDisable(true);
-        }
-        list.clear();  
-        String query = "SELECT * FROM MEMBER WHERE " + stream + " LIKE '%"+value+"%' ";       
-        ResultSet result = databaseHandler.execQuery(query);
-        int i=0;
-        try {
-            while (result.next()) {
-                i++;
-                String memberID = result.getString("M_ID");
-                String memberName = result.getString("MName");
-                String addDate = result.getString("addedDate");
-                String membervalidity; 
-                if(result.getBoolean("isSubmit")){
-                    membervalidity = "Valid";
-                }else{
-                    membervalidity = "Invalid";
-                }
-                
-                list.add(new Member(i,memberID,memberName,addDate,membervalidity));
-            }
-        } catch (SQLException ex) {           
-            Logger.getLogger(AddBookController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        tableViewCol.setItems(list);
-    }
-    
-    
-    public void loadSearchDate(String stream, LocalDate value){ 
-        if(searchKey.isDisable()){
-            searchKey.setDisable(true);
-            datePick.setDisable(false);
-        }else{
-            searchKey.setDisable(false);
-            datePick.setDisable(true);
-        }
-        
-        list.clear();  
-        String query = "SELECT * FROM MEMBER WHERE DATE("+stream+") = '"+value+"' ";
-        ResultSet result = databaseHandler.execQuery(query);
-        int i=0;
-        try {
-            while (result.next()) {
-                i++;
-                String memberID = result.getString("M_ID");
-                String memberName = result.getString("MName");
-                String addDate = result.getString("addedDate");
-                String membervalidity; 
-                if(result.getBoolean("isSubmit")){
-                    membervalidity = "Valid";
-                }else{
-                    membervalidity = "Invalid";
-                }
-                
-                list.add(new Member(i,memberID,memberName,addDate,membervalidity));
-            }
-        } catch (SQLException ex) {           
-            Logger.getLogger(AddBookController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        tableViewCol.setItems(list);
-    }
     
     
     @FXML
@@ -329,14 +223,120 @@ public class MemberListController implements Initializable {
     
     @FXML
     private void cancel(ActionEvent event) {
-        if(choiceKey.getValue() == null){
+        if(choiceKey.getValue() == null ||  (datePick.getValue() == null && searchKey.getText().equals("")) ){  
             Stage stage = (Stage) rootPane.getScene().getWindow();
             stage.close();
+            return;
         }
-        searchKey.setText("");
         datePick.setValue(null);
-        choiceKey.setValue(null);
+        searchKey.setText("");    
         loadData();
+    }
+    
+    
+    private void initCol() {
+        nuCol.setCellValueFactory(new PropertyValueFactory<>("number"));
+        idCol.setCellValueFactory(new PropertyValueFactory<>("m_id"));
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("m_name"));
+        aDateCol.setCellValueFactory(new PropertyValueFactory<>("a_date"));
+        valCol.setCellValueFactory(new PropertyValueFactory<>("validity"));      
+    }
+    
+    
+    public void loadData() {
+        list.clear();
+        
+        String query = "SELECT * FROM MEMBER";
+        ResultSet result = databaseHandler.execQuery(query);
+        int i=0;
+        try {
+            while (result.next()) {
+                i++;
+                String memberID = result.getString("M_ID");
+                String memberName = result.getString("MName");
+                String addDate = result.getString("addedDate");
+                String membervalidity; 
+                if(result.getBoolean("isSubmit")){
+                    membervalidity = "Valid";
+                }else{
+                    membervalidity = "Invalid";
+                }
+                
+                list.add(new Member(i,memberID,memberName,addDate,membervalidity));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AddBookController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        tableViewCol.setItems(list);
+    }
+
+    
+    public void loadSearchData(String stream, String value){
+        if(searchKey.isDisable()){
+            searchKey.setDisable(true);
+            datePick.setDisable(false);
+        }else{
+            searchKey.setDisable(false);
+            datePick.setDisable(true);
+        }
+        list.clear();  
+        String query = "SELECT * FROM MEMBER WHERE " + stream + " LIKE '%"+value+"%' ";       
+        ResultSet result = databaseHandler.execQuery(query);
+        int i=0;
+        try {
+            while (result.next()) {
+                i++;
+                String memberID = result.getString("M_ID");
+                String memberName = result.getString("MName");
+                String addDate = result.getString("addedDate");
+                String membervalidity; 
+                if(result.getBoolean("isSubmit")){
+                    membervalidity = "Valid";
+                }else{
+                    membervalidity = "Invalid";
+                }
+                
+                list.add(new Member(i,memberID,memberName,addDate,membervalidity));
+            }
+        } catch (SQLException ex) {           
+            Logger.getLogger(AddBookController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        tableViewCol.setItems(list);
+    }
+    
+    
+    public void loadSearchDate(String stream, LocalDate value){ 
+        if(searchKey.isDisable()){
+            searchKey.setDisable(true);
+            datePick.setDisable(false);
+        }else{
+            searchKey.setDisable(false);
+            datePick.setDisable(true);
+        }
+        
+        list.clear();  
+        String query = "SELECT * FROM MEMBER WHERE DATE("+stream+") = '"+value+"' ";
+        ResultSet result = databaseHandler.execQuery(query);
+        int i=0;
+        try {
+            while (result.next()) {
+                i++;
+                String memberID = result.getString("M_ID");
+                String memberName = result.getString("MName");
+                String addDate = result.getString("addedDate");
+                String membervalidity; 
+                if(result.getBoolean("isSubmit")){
+                    membervalidity = "Valid";
+                }else{
+                    membervalidity = "Invalid";
+                }
+                
+                list.add(new Member(i,memberID,memberName,addDate,membervalidity));
+            }
+        } catch (SQLException ex) {           
+            Logger.getLogger(AddBookController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        tableViewCol.setItems(list);
     }
     
     
@@ -344,6 +344,13 @@ public class MemberListController implements Initializable {
         this.mainController = mainController;
     }
 
+    
+    private void initDropdown() {
+        choiceKey.getItems().add("Member ID");
+        choiceKey.getItems().add("Member Name");
+        choiceKey.getItems().add("Added Date");
+    }
+    
   
     public static class Member{
         private final SimpleIntegerProperty number;

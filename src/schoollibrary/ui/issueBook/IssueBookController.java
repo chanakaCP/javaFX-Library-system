@@ -1,11 +1,9 @@
 
 package schoollibrary.ui.issueBook;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
-import com.sun.java.swing.plaf.windows.resources.windows;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -70,10 +68,10 @@ public class IssueBookController implements Initializable {
        
     @Override
     public void initialize(URL url, ResourceBundle rb) { 
-        choiceKey.getItems().add("View All");
-        choiceKey.getItems().add("Book ID");
-        choiceKey.getItems().add("Member ID");
-        choiceKey.getItems().add("Issue Date");
+        searchKey.setDisable(true);
+        datePick.setDisable(true);
+        initDropdown();
+        
         choiceKey.valueProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             searchKey.setText("");
             datePick.setValue(null);
@@ -112,15 +110,13 @@ public class IssueBookController implements Initializable {
     }
 
     public void loadData() {
-        searchKey.setDisable(true);
-        datePick.setDisable(true);
         list.clear();
         databaseHandler = DatabaseHandler.getInstance();
         
         LocalDate sDate = LocalDate.now();
         SimpleDateFormat sdf =  new SimpleDateFormat("yyyy-MM-dd");  
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DAY_OF_MONTH, -7);
+        cal.add(Calendar.DAY_OF_MONTH, -14);
         
         String query = "SELECT * FROM ISSUE WHERE issueDate <= '"+ sDate +"' AND issueDate >= '"+ sdf.format(cal.getTime())+"' ";
         ResultSet result = databaseHandler.execQuery(query);
@@ -269,14 +265,13 @@ public class IssueBookController implements Initializable {
 
     @FXML
     private void cancel(ActionEvent event) {
-        if(choiceKey.getValue() == null){
+        if(choiceKey.getValue() == null ||  (datePick.getValue() == null && searchKey.getText().equals(""))){
             Stage stage = (Stage) rootPane.getScene().getWindow();
             stage.close();
         }
-        searchKey.setText("");
         datePick.setValue(null);
-        choiceKey.setValue(null);
-        loadData();
+        searchKey.setText("");    
+        loadData(); 
     }
     
     
@@ -288,7 +283,12 @@ public class IssueBookController implements Initializable {
         return dateCount;
     }
     
-    
+     private void initDropdown() {
+        choiceKey.getItems().add("View All");
+        choiceKey.getItems().add("Book ID");
+        choiceKey.getItems().add("Member ID");
+        choiceKey.getItems().add("Issue Date");
+    }
     
     public static class IssueBook{
        public final SimpleIntegerProperty number;
