@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
@@ -12,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" prefHeight="790.0" prefWidth="552.0" stylesheets="@../resources/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schoollibrary.ui.editbook.EditBookController">
+<AnchorPane fx:id="rootPane" prefHeight="906.0" prefWidth="552.0" stylesheets="@../resources/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schoollibrary.ui.editbook.EditBookController">
    <children>
       <VBox id="vbox1" prefHeight="546.0" prefWidth="414.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -49,12 +50,35 @@
                   <Insets top="10.0" />
                </padding>
             </JFXTextField>
+            <HBox prefHeight="88.0" prefWidth="411.0">
+               <children>
+                  <JFXComboBox fx:id="catSelector" focusColor="#2962ff" labelFloat="true" prefHeight="40.0" prefWidth="153.0" promptText="Category" unFocusColor="#03a9f4">
+                     <HBox.margin>
+                        <Insets top="33.0" />
+                     </HBox.margin>
+                  </JFXComboBox>
+                  <JFXTextField fx:id="category" focusColor="#2962ff" labelFloat="true" prefHeight="38.0" prefWidth="205.0" promptText="New Category" unFocusColor="#03a9f4">
+                     <font>
+                        <Font name="Roboto Condensed Regular" size="20.0" />
+                     </font>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets left="55.0" top="35.0" />
+                     </HBox.margin>
+                  </JFXTextField>
+               </children>
+               <VBox.margin>
+                  <Insets left="70.0" right="70.0" />
+               </VBox.margin>
+            </HBox>
             <JFXTextField fx:id="author" focusColor="#2962ff" labelFloat="true" layoutX="50.0" layoutY="111.0" promptText="Author" unFocusColor="#03a9f4">
                <font>
                   <Font name="Roboto Condensed Regular" size="20.0" />
                </font>
                <VBox.margin>
-                  <Insets left="70.0" right="70.0" top="35.0" />
+                  <Insets left="70.0" right="70.0" top="20.0" />
                </VBox.margin>
                <padding>
                   <Insets top="10.0" />

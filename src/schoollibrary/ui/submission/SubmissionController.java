@@ -67,14 +67,16 @@ public class SubmissionController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        choiceKey.getItems().add("View All");
-        choiceKey.getItems().add("Book ID");
-        choiceKey.getItems().add("Member ID");
-        choiceKey.getItems().add("Issue Date");
-        choiceKey.getItems().add("Submission Date");
+//        choiceKey.getItems().add("View All");
+//        choiceKey.getItems().add("Book ID");
+//        choiceKey.getItems().add("Member ID");
+//        choiceKey.getItems().add("Issue Date");
+//        choiceKey.getItems().add("Submission Date");
+        searchKey.setDisable(true);
+        datePick.setDisable(true);
+        initCombo();
         choiceKey.valueProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
-            searchKey.setText("");
-            datePick.setValue(null);
+            
             switch (newValue) {
                 case "View All":                   
                     searchKey.setDisable(true);
@@ -112,8 +114,8 @@ public class SubmissionController implements Initializable {
 
     
     private void loadData() {
-        searchKey.setDisable(true);
-        datePick.setDisable(true);
+        choiceKey.setValue(null);
+        System.out.println("56");
         list.clear();
         databaseHandler = DatabaseHandler.getInstance();
         
@@ -257,14 +259,27 @@ public class SubmissionController implements Initializable {
     
     @FXML
     private void cancel(ActionEvent event) {
-        if(choiceKey.getValue() == null){
+        if(searchKey.getText().equals("") && datePick.getValue() == null){        
             Stage stage = (Stage) rootPane.getScene().getWindow();
             stage.close();
+            return;
         }
         datePick.setValue(null);
-        searchKey.setText("");
-        choiceKey.setValue(null);
+        searchKey.setText("");    
+        System.out.println("6");      
         loadData();
+        System.out.println("5");
+    }
+
+    private void initCombo() {
+        System.out.println("62");
+        choiceKey.getItems().clear();
+        System.out.println("2");
+        choiceKey.getItems().add("View All");
+        choiceKey.getItems().add("Book ID");
+        choiceKey.getItems().add("Member ID");
+        choiceKey.getItems().add("Issue Date");
+        choiceKey.getItems().add("Submission Date");
     }
     
     
