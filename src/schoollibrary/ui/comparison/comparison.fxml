@@ -19,12 +19,12 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: derive(#263238, -25%); -fx-background-radius: 10;">
                      <children>
-                        <JFXComboBox fx:id="timeSelector" labelFloat="true" layoutX="143.0" layoutY="44.0" prefHeight="32.0" prefWidth="131.0" promptText="Time Period">
+                        <JFXComboBox fx:id="timeSelect" labelFloat="true" layoutX="143.0" layoutY="44.0" prefHeight="32.0" prefWidth="131.0" promptText="Time Period">
                            <HBox.margin>
                               <Insets right="25.0" />
                            </HBox.margin>
                         </JFXComboBox>
-                        <JFXComboBox fx:id="catSelector" labelFloat="true" layoutX="10.0" layoutY="10.0" prefHeight="32.0" prefWidth="163.0" promptText="Search By">
+                        <JFXComboBox fx:id="catSelect" labelFloat="true" layoutX="10.0" layoutY="10.0" prefHeight="32.0" prefWidth="163.0" promptText="Search By">
                            <HBox.margin>
                               <Insets right="25.0" />
                            </HBox.margin>
