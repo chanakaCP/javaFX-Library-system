@@ -111,40 +111,38 @@ public final class DatabaseHandler {
     }
     
     
-    void setupIssueTable(){
-        String TABLE_NAME = "ISSUE";
-        try{
-            stmt = conn.createStatement();
-            DatabaseMetaData dbm = conn.getMetaData();
-            ResultSet tables = dbm.getTables(null, null, TABLE_NAME.toUpperCase(),null);
-            if(tables.next()){
-                System.out.println("Table " + TABLE_NAME + " Already exist.. ready for go...");
-            }else{
-                stmt.execute( " CREATE TABLE " + TABLE_NAME + " ( "
-                            + " bookID varchar(100) primary key,\n "
-                            + " memberID varchar(100) ,\n "
-                            + " issueDate DATE DEFAULT CURRENT_DATE,\n "
-//                            + " issueDate DATE ,\n "
-                            + " renewCount integer DEFAULT 0,\n "
-                            + " lastRenewDate DATE DEFAULT CURRENT_DATE,\n "
-                            + " keepDays integer,\n "
-                            + " willSubmit DATE,\n "
-                            + " finePerDay integer,\n "
-//                            + " lastRenewDate DATE ,\n "
-                            + " FOREIGN KEY (bookID) REFERENCES BOOK(B_ID),\n "
-                            + " FOREIGN KEY (memberID) REFERENCES MEMBER(M_ID) "
-                            + " ) " 
-                    );        
-            }   
-        }catch(SQLException e){
-            System.err.println(e.getMessage() + "  ...setupDatabase...");
-        }finally{
-        }
-    }
+//    void setupIssueTable(){
+//        String TABLE_NAME = "ISSUE";
+//        try{
+//            stmt = conn.createStatement();
+//            DatabaseMetaData dbm = conn.getMetaData();
+//            ResultSet tables = dbm.getTables(null, null, TABLE_NAME.toUpperCase(),null);
+//            if(tables.next()){
+//                System.out.println("Table " + TABLE_NAME + " Already exist.. ready for go...");
+//            }else{
+//                stmt.execute( " CREATE TABLE " + TABLE_NAME + " ( "
+//                            + " bookID varchar(100) primary key,\n "
+//                            + " memberID varchar(100) ,\n "
+//                            + " issueDate DATE DEFAULT CURRENT_DATE,\n "
+//                            + " renewCount integer DEFAULT 0,\n "
+//                            + " lastRenewDate DATE DEFAULT CURRENT_DATE,\n "
+//                            + " keepDays integer,\n "
+//                            + " willSubmit DATE,\n "
+//                            + " finePerDay integer,\n "
+//                            + " FOREIGN KEY (bookID) REFERENCES BOOK(B_ID),\n "
+//                            + " FOREIGN KEY (memberID) REFERENCES MEMBER(M_ID) "
+//                            + " ) " 
+//                    );        
+//            }   
+//        }catch(SQLException e){
+//            System.err.println(e.getMessage() + "  ...setupDatabase...");
+//        }finally{
+//        }
+//    }
     
     
     void setupSubmissionTable(){
-        String TABLE_NAME = "SUBMISSION";
+        String TABLE_NAME = "REPORT";
         try{
             stmt = conn.createStatement();
             DatabaseMetaData dbm = conn.getMetaData();
@@ -153,17 +151,19 @@ public final class DatabaseHandler {
                 System.out.println("Table " + TABLE_NAME + " Already exist.. ready for go...");
             }else{
                 stmt.execute( " CREATE TABLE " + TABLE_NAME + " ( " 
-                            + " submissionID INT primary key GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),\n "
-//                            + " submissionID INT primary key ,\n "
+                            + " reportID INT primary key GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),\n "
                             + " bookID varchar(100) ,\n "
                             + " memberID varchar(100) ,\n "
+                            + " issueDate DATE DEFAULT CURRENT_DATE,\n "
+                            + " lastRenewDate DATE DEFAULT CURRENT_DATE,\n "
+                            + " willSubmit DATE,\n "
+                            + " keepDays integer,\n "
+                            + " finePerDay integer,\n "
                             + " fine integer ,\n "
+                            + " renewCount integer DEFAULT 0,\n"
                             + " submitDate DATE DEFAULT CURRENT_DATE ,\n "
-//                            + " submitDate DATE  ,\n "
-                            + " issueDate DATE ,\n "
-                            + " lastRenewDate DATE ,\n "
-                            + " renewCount integer ,\n"
-                            + " isLateSubmit boolean ,\n"
+                            + " isSubmit boolean ,\n"
+                            + " isLateSubmit boolean ,\n"                        
                             + " nuOfDaysKept integer "
                             + " ) " 
                     );        
