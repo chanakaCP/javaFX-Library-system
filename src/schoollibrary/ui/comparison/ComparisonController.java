@@ -5,10 +5,10 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import java.net.URL;
 import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Calendar;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -73,21 +73,32 @@ public class ComparisonController implements Initializable {
     
     @FXML
     private void searchAction(ActionEvent event) {
+        
         String timeSec = timeSelect.getValue();
         String catSec = catSelect.getValue();
         
         if(timeSec == null || catSec == null){
             AlertMaker.errorAlert("Can`t search","Please select a field for search");
             return;
-        } 
-        
+        }    
+        switch (timeSec) {
+            case "All time":
+                loadAllTimeData(catSec);
+                break;
+            case "This month":
+                loadThisMonthData(catSec);
+                break;     
+            case "Last month":
+                loadLastMonthData(catSec);
+                break;
+            default:
+                break;
+        }
     }
 
     
     @FXML
     private void cancel(ActionEvent event) {
-        System.out.println(timeSelect.getValue());
-        System.out.println(catSelect.getValue());
         if(timeSelect.getValue() == null && catSelect.getValue() == null){
             Stage stage = (Stage) rootPane.getScene().getWindow();
             stage.close();
@@ -95,24 +106,61 @@ public class ComparisonController implements Initializable {
         } 
         timeSelect.getItems().clear();
         catSelect.getItems().clear();
-        
+        list.clear();
+        initDropdown();
 //        loadData();
     }
 
     
-    private void loadData() {
+//    private void loadData() {
+//        list.clear();
+//        
+//        LocalDate sDate = LocalDate.now();
+//        SimpleDateFormat sdf =  new SimpleDateFormat("yyyy-MM-dd");  
+//        Calendar cal = Calendar.getInstance();
+//        cal.add(Calendar.DAY_OF_MONTH, -14);
+//        
+//        String query = "SELECT * FROM ISSUE WHERE issueDate <= '"+ sDate +"' AND issueDate >= '"+ sdf.format(cal.getTime())+"' ";
+//        ResultSet result = databaseHandler.execQuery(query);
+//        int i=0;
+//
+//        
+////        to modify
+//         
+//    }
+    
+    
+    private void loadAllTimeData(String category) {
+        String query1 = null,id = null;
+        switch (category) {
+            case "By book":
+                query1 =  "SELECT bookID, COUNT(issueDate) as count1, COUNT(submitDate) as count2 FROM REPORT GROUP BY bookID";
+                id = "bookID";
+                break;
+            case "By member":
+                query1 = "SELECT memberID, COUNT(issueDate) as count1, COUNT(submitDate) as count2 FROM REPORT GROUP BY memberID";
+                id = "memberID";
+                break;
+            case "By date":
+                break;
+            default:
+                break;
+        }
         list.clear();
-        
-        LocalDate sDate = LocalDate.now();
-        SimpleDateFormat sdf =  new SimpleDateFormat("yyyy-MM-dd");  
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DAY_OF_MONTH, -14);
-        
-        String query = "SELECT * FROM ISSUE WHERE issueDate <= '"+ sDate +"' AND issueDate >= '"+ sdf.format(cal.getTime())+"' ";
-        ResultSet result = databaseHandler.execQuery(query);
+        ResultSet result = databaseHandler.execQuery(query1);
         int i=0;
-       
-         
+        try {
+            while (result.next()){
+                i++;
+                int countRow1 = result.getInt("count1");
+                int countRow2 = result.getInt("count2");
+                String rowId = result.getString(id);
+                list.add(new Comparison(i,rowId,countRow1,countRow2));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ComparisonController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        tableViewCol.setItems(list);    
     }
     
     
@@ -126,7 +174,15 @@ public class ComparisonController implements Initializable {
         catSelect.getItems().add("By date");
     }
 
-       
+    private void loadThisMonthData(String category) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void loadLastMonthData(String category) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+      
     public static class Comparison{
         private final SimpleIntegerProperty number;
         private final SimpleStringProperty searchID;
