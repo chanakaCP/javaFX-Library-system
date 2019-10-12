@@ -68,6 +68,7 @@ public class IssueBookController implements Initializable {
        
     @Override
     public void initialize(URL url, ResourceBundle rb) { 
+        databaseHandler = DatabaseHandler.getInstance();
         searchKey.setDisable(true);
         datePick.setDisable(true);
         initDropdown();
@@ -97,6 +98,7 @@ public class IssueBookController implements Initializable {
         loadData();
     }    
     
+    
     private void initCol() {
         noCol.setCellValueFactory(new PropertyValueFactory<>("number"));
         b_idCol.setCellValueFactory(new PropertyValueFactory<>("b_id"));
@@ -109,16 +111,16 @@ public class IssueBookController implements Initializable {
         fineCol.setCellValueFactory(new PropertyValueFactory<>("fine"));
     }
 
+    
     public void loadData() {
         list.clear();
-        databaseHandler = DatabaseHandler.getInstance();
-        
+              
         LocalDate sDate = LocalDate.now();
         SimpleDateFormat sdf =  new SimpleDateFormat("yyyy-MM-dd");  
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_MONTH, -14);
         
-        String query = "SELECT * FROM ISSUE WHERE issueDate <= '"+ sDate +"' AND issueDate >= '"+ sdf.format(cal.getTime())+"' ";
+        String query = "SELECT * FROM REPORT WHERE (issueDate <= '"+ sDate +"' AND issueDate >= '"+ sdf.format(cal.getTime())+"') AND isSubmit = 'false'";
         ResultSet result = databaseHandler.execQuery(query);
         int i=0;
         try {
@@ -145,14 +147,15 @@ public class IssueBookController implements Initializable {
         tableViewCol.setItems(list);
     }
 
+    
     public void loadSearchData(String stream, String value){    
         String query; 
         if(stream.equals("All")){
-            query = "SELECT * FROM ISSUE";
+            query = "SELECT * FROM REPORT WHERE isSubmit = 'false' ";
             searchKey.setDisable(true);
             datePick.setDisable(true);
         }else{          
-            query = "SELECT * FROM ISSUE WHERE " + stream + " LIKE '%"+value+"%' ";               
+            query = "SELECT * FROM REPORT WHERE " + stream + " LIKE '%"+value+"%' AND isSubmit = 'false' ";               
             if(searchKey.isDisable()){
                 searchKey.setDisable(true);
                 datePick.setDisable(false);
@@ -190,6 +193,7 @@ public class IssueBookController implements Initializable {
         tableViewCol.setItems(list);
     }
     
+    
     public void loadSearchDate(String stream, LocalDate value){
         
         if(searchKey.isDisable()){
@@ -201,7 +205,7 @@ public class IssueBookController implements Initializable {
         }
         
         list.clear();  
-        String query = "SELECT * FROM ISSUE WHERE DATE("+stream+") = '"+value+"' ";
+        String query = "SELECT * FROM REPORT WHERE DATE("+stream+") = '"+value+"' AND isSubmit = 'false' ";
         ResultSet result = databaseHandler.execQuery(query);
         int i=0;
         try {
@@ -227,6 +231,7 @@ public class IssueBookController implements Initializable {
         }
         tableViewCol.setItems(list);
     }
+    
     
     @FXML
     private void searchAction(ActionEvent event) {
@@ -263,6 +268,7 @@ public class IssueBookController implements Initializable {
         }    
     }
 
+    
     @FXML
     private void cancel(ActionEvent event) {
         if(choiceKey.getValue() == null ||  (datePick.getValue() == null && searchKey.getText().equals(""))){
@@ -283,23 +289,25 @@ public class IssueBookController implements Initializable {
         return dateCount;
     }
     
-     private void initDropdown() {
+    
+    private void initDropdown() {
         choiceKey.getItems().add("View All");
         choiceKey.getItems().add("Book ID");
         choiceKey.getItems().add("Member ID");
         choiceKey.getItems().add("Issue Date");
     }
     
+     
     public static class IssueBook{
-       public final SimpleIntegerProperty number;
-       public final SimpleStringProperty b_id;
-       public final SimpleStringProperty m_id;
-       public final SimpleStringProperty issue_date;
-       public final SimpleStringProperty renew_date;
-       public final SimpleStringProperty will_sub;
-       public final SimpleIntegerProperty r_count;
-       public final SimpleIntegerProperty d_count;
-       public final SimpleIntegerProperty fine;
+       private final SimpleIntegerProperty number;
+       private final SimpleStringProperty b_id;
+       private final SimpleStringProperty m_id;
+       private final SimpleStringProperty issue_date;
+       private final SimpleStringProperty renew_date;
+       private final SimpleStringProperty will_sub;
+       private final SimpleIntegerProperty r_count;
+       private final SimpleIntegerProperty d_count;
+       private final SimpleIntegerProperty fine;
        
        public IssueBook(int no, String bid, String mid, String time, String renewDate, String willSub, int count, int dates, int fine){
             this.number = new SimpleIntegerProperty(no);

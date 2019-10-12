@@ -171,7 +171,7 @@ public class SubmissionController implements Initializable {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_MONTH, -14);
         
-        String query = "SELECT * FROM SUBMISSION WHERE submitDate <= '"+ sDate +"' AND submitDate >= '"+ sdf.format(cal.getTime())+"' ";
+        String query = "SELECT * FROM REPORT WHERE ( submitDate <= '"+ sDate +"' AND submitDate >= '"+ sdf.format(cal.getTime())+"' ) AND isSubmit = 'true' ";
         ResultSet result = databaseHandler.execQuery(query);
         int i=0;
         try {
@@ -195,11 +195,11 @@ public class SubmissionController implements Initializable {
     public void loadSearchData(String stream, String value){
         String query; 
         if(stream.equals("All")){
-            query = "SELECT * FROM SUBMISSION";
+            query = "SELECT * FROM REPORT WHERE isSubmit = 'true'";
             searchKey.setDisable(true);
             datePick.setDisable(true);
         }else{          
-            query = "SELECT * FROM SUBMISSION WHERE " + stream + " LIKE '%"+value+"%' ";               
+            query = "SELECT * FROM REPORT WHERE " + stream + " LIKE '%"+value+"%' AND isSubmit = 'true' ";               
             if(searchKey.isDisable()){
                 searchKey.setDisable(true);
                 datePick.setDisable(false);
@@ -242,7 +242,7 @@ public class SubmissionController implements Initializable {
         }
         
         list.clear();  
-        String query = "SELECT * FROM SUBMISSION WHERE DATE("+stream+") = '"+value+"' ";
+        String query = "SELECT * FROM REPORT WHERE DATE("+stream+") = '"+value+"' AND isSubmit = 'true' ";
         ResultSet result = databaseHandler.execQuery(query);
         int i=0;
         try {
@@ -275,14 +275,14 @@ public class SubmissionController implements Initializable {
     
     
     public static class Submission{
-       public final SimpleIntegerProperty number;
-       public final SimpleStringProperty b_id;
-       public final SimpleStringProperty m_id;
-       public final SimpleStringProperty issue_date;
-       public final SimpleStringProperty submission_date;
-       public final SimpleIntegerProperty r_count;
-       public final SimpleIntegerProperty count_date;
-       public final SimpleIntegerProperty fine;
+       private final SimpleIntegerProperty number;
+       private final SimpleStringProperty b_id;
+       private final SimpleStringProperty m_id;
+       private final SimpleStringProperty issue_date;
+       private final SimpleStringProperty submission_date;
+       private final SimpleIntegerProperty r_count;
+       private final SimpleIntegerProperty count_date;
+       private final SimpleIntegerProperty fine;
        
        public Submission(int no, String bid, String mid, String i_date, String s_date, int count, int d_count, int fine){
             this.number = new SimpleIntegerProperty(no);

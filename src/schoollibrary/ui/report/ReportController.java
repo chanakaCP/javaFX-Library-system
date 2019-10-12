@@ -77,14 +77,14 @@ public class ReportController implements Initializable {
         memberChart = new PieChart(databaseHandler.getMemberStatistic());
         memberInfoContainer.getChildren().add(memberChart); 
         
-        count = countData("BOOK");
+        count = countData("BOOK",false);
         bookChart.setTitle("Total Books  :  "+count);
         bookChart.setTitleSide(Side.TOP);
         bookChart.setLegendVisible(true);
         bookChart.setLabelsVisible(false);
         bookChart.setLegendSide(Side.BOTTOM); 
        
-        count = countData("MEMBER");
+        count = countData("MEMBER",false);
         memberChart.setTitle("Total Members  :  "+count);
         memberChart.setTitleSide(Side.TOP);
         memberChart.setLegendVisible(true);
@@ -93,10 +93,16 @@ public class ReportController implements Initializable {
     }
     
     
-    int countData(String table){      
+    int countData(String table,boolean temp){      
         int countRow = 0;
+        String query;
         try {
-            String query = "SELECT COUNT(*) as count FROM "+ table + " ";
+            if(temp){
+                query = "SELECT COUNT(*) as count FROM "+ table + " WHERE isSubmit = 'true' ";
+            }else{
+                query = "SELECT COUNT(*) as count FROM "+ table + " ";
+            }
+            
             ResultSet result = databaseHandler.execQuery(query);
             result.next();
             countRow = result.getInt("count");
@@ -106,17 +112,25 @@ public class ReportController implements Initializable {
         return countRow;  
     }
     
+    
     int countTodayData(String table, String dateCol){      
         int countRow = 0;
         LocalDate date = LocalDate.now();
 
         try {
             String query;
-            if(dateCol.equals("lastRenewDate")){
-                query = "SELECT COUNT(*) as count FROM "+ table + " WHERE DATE("+ dateCol +") = '"+ date +"' AND renewCount > 0 ";
-            }else{
-                query = "SELECT COUNT(*) as count FROM "+ table + " WHERE DATE("+ dateCol +") = '"+ date +"' ";
+            switch (dateCol) {
+                case "lastRenewDate":
+                    query = "SELECT COUNT(*) as count FROM "+ table + " WHERE DATE("+ dateCol +") = '"+ date +"' AND renewCount > 0 ";
+                    break;
+                case "submitDate":
+                    query = "SELECT COUNT(*) as count FROM "+ table + " WHERE DATE("+ dateCol +") = '"+ date +"' AND isSubmit = 'true' ";
+                    break;
+                default:
+                    query = "SELECT COUNT(*) as count FROM "+ table + " WHERE DATE("+ dateCol +") = '"+ date +"' ";
+                    break;
             }
+            
             ResultSet result = databaseHandler.execQuery(query);
             result.next();
             countRow = result.getInt("count");
@@ -128,21 +142,21 @@ public class ReportController implements Initializable {
         
 
     public void loadAllTimeData(){
-        int issueCount = countData("ISSUE");
-        int submitCount = countData("SUBMISSION");
-        int bookCount = countData("BOOK");
-        int memberCount = countData("MEMBER");
+        int issueCount = countData("REPORT",false);
+        int submitCount = countData("REPORT",true);
+        int bookCount = countData("BOOK",false);
+        int memberCount = countData("MEMBER",false);
 
-        arBookIssue_c.setText(String.valueOf(issueCount + submitCount));
+        arBookIssue_c.setText(String.valueOf(issueCount));
         arBookSubmit_c.setText(String.valueOf(submitCount));
-        arBookWillSubmit_c.setText(String.valueOf(issueCount));
+        arBookWillSubmit_c.setText(String.valueOf(issueCount - submitCount));
         arBook_c.setText(String.valueOf(bookCount));
         arMember_c.setText(String.valueOf(memberCount));
         
         try{
-            String query = "SELECT COUNT(*) as count FROM SUBMISSION WHERE renewCount > 0 ";
-            String query1 = "SELECT SUM(fine) FROM SUBMISSION WHERE isLateSubmit = 'true' ";
-            String query2 = "SELECT COUNT(*) as countLate FROM SUBMISSION WHERE isLateSubmit = 'true' ";
+            String query  = "SELECT COUNT(*) as count FROM REPORT WHERE renewCount > 0 ";
+            String query1 = "SELECT SUM(fine) FROM REPORT WHERE isLateSubmit = 'true' ";
+            String query2 = "SELECT COUNT(*) as countLate FROM REPORT WHERE isLateSubmit = 'true' ";
             
             ResultSet result = databaseHandler.execQuery(query);
             result.next();
@@ -166,9 +180,9 @@ public class ReportController implements Initializable {
     public void loadTodayData(){
         LocalDate date = LocalDate.now();
          
-        int issueCount = countTodayData("ISSUE","issueDate");
-        int renewCount = countTodayData("ISSUE","lastRenewDate");
-        int submitCount = countTodayData("SUBMISSION","submitDate");
+        int issueCount = countTodayData("REPORT","issueDate");
+        int renewCount = countTodayData("REPORT","lastRenewDate");
+        int submitCount = countTodayData("REPORT","submitDate");
         int bookCount = countTodayData("BOOK","addedDate");
         int memberCount = countTodayData("MEMBER","addedDate"); 
         
@@ -179,9 +193,9 @@ public class ReportController implements Initializable {
         trNewMember_c.setText(String.valueOf(memberCount));
 
         try{
-            String query = "SELECT COUNT(*) as count FROM ISSUE WHERE  DATE(willSubmit) = '"+ date +"' ";
-            String query1 = "SELECT SUM(fine) FROM SUBMISSION WHERE isLateSubmit = 'true' AND DATE(submitDate) = '"+ date +"' ";
-            String query2 = "SELECT COUNT(*) as countLate FROM SUBMISSION WHERE isLateSubmit = 'true' AND DATE(submitDate) = '"+ date +"' ";
+            String query  = "SELECT COUNT(*) as count FROM REPORT WHERE DATE(willSubmit) = '"+ date +"' AND isSubmit = 'false' ";
+            String query1 = "SELECT SUM(fine) FROM REPORT WHERE isLateSubmit = 'true' AND DATE(submitDate) = '"+ date +"' AND isSubmit = 'true' ";
+            String query2 = "SELECT COUNT(*) as countLate FROM REPORT WHERE isLateSubmit = 'true' AND DATE(submitDate) = '"+ date +"' AND isSubmit = 'true' ";
             
             ResultSet result = databaseHandler.execQuery(query);
             result.next();
