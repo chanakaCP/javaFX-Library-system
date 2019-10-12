@@ -1,10 +1,16 @@
 package schoollibrary.ui.editbook;
 
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,6 +29,10 @@ public class EditBookController implements Initializable {
     @FXML
     private JFXTextField b_name;
     @FXML
+    private JFXComboBox<String> catSelector;
+    @FXML
+    private JFXTextField category;
+    @FXML
     private JFXTextField author;
     @FXML
     private JFXTextField publisher;
@@ -37,13 +47,25 @@ public class EditBookController implements Initializable {
 
     DatabaseHandler databaseHandler;
     BookListController bookListController;
-
-
+    
+   
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         databaseHandler = DatabaseHandler.getInstance();
+        category.setDisable(true);
+        initComboBox();
+        
+        catSelector.valueProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            category.setText("");
+            if(newValue != null && newValue.equals("Add New Category")){
+                category.setDisable(false);
+            }else{
+                category.setDisable(true);
+            }
+        });
     }    
 
+    
     @FXML
     private void updateBook(ActionEvent event) {
         String bookID = b_id.getText();
@@ -54,7 +76,7 @@ public class EditBookController implements Initializable {
         String bookPrice = price.getText();
         String bookPage = pages.getText();
         LocalDate bookRecieveDate = r_date.getValue();
-        
+        String bookCategory;
         try{
             float bookPricefloat = Float.parseFloat(bookPrice);
         }catch (NumberFormatException e ) {
@@ -67,14 +89,21 @@ public class EditBookController implements Initializable {
             AlertMaker.errorAlert("Invalid input","Please enter valid arguments for NO OF PAGES");
             return;
         }  
-        
+              
         if(bookID.trim().isEmpty()||bookName.trim().isEmpty()||bookAuthor.trim().isEmpty()||bookPublisher.trim().isEmpty()||
            bookPrice.trim().isEmpty()||bookPage.trim().isEmpty()||bookRecieveDate == null){
             
             AlertMaker.errorAlert("Error","Please fill all the fields");
             return;
         }
+        
+        if(category.isDisable()){
+            bookCategory = catSelector.getValue();
+        }else{
+            bookCategory = category.getText();
+        }
         String query = "UPDATE BOOK SET BName = '" + bookName + "', "
+                        + "category = '" + bookCategory + "',"
                         + "author = '" + bookAuthor + "',"
                         + "publisher = '" + bookPublisher + "',"
                         + "price = " + bookPrice + ","
@@ -99,12 +128,30 @@ public class EditBookController implements Initializable {
     }
     
     
+    private void initComboBox() {
+        catSelector.getItems().clear();
+        catSelector.getItems().add("Add New Category");
+       
+        String query = "SELECT DISTINCT category FROM BOOK";
+        ResultSet result = databaseHandler.execQuery(query);
+        try {
+            while (result.next()) {
+                catSelector.getItems().add(result.getString("category"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EditBookController.class.getName()).log(Level.SEVERE, null, ex);
+        }   
+    }
+    
+    
     public void inflateUI(BookListController.Book book,BookListController bookListController){
         String date = book.getR_date();
         LocalDate localDate = LocalDate.parse(date);
         b_id.setText(book.getB_id());
         b_id.setEditable(false);
         b_name.setText(book.getB_name());
+        category.setText(book.getCategory());
+        category.setDisable(true);
         author.setText(book.getAuthor());
         publisher.setText(book.getPublisher());
         price.setText(book.getPrice());

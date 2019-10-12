@@ -270,6 +270,7 @@ public class BookListController implements Initializable {
                 i++;
                 String bookID = result.getString("B_ID");
                 String bookName = result.getString("BName");
+                String category = result.getString("category");
                 String bookAuth = result.getString("author");
                 String bookPub = result.getString("publisher");
                 String bookPr = result.getString("price");
@@ -284,7 +285,7 @@ public class BookListController implements Initializable {
                     bookAvail = "Not Available";
                 }
                 
-                list.add(new Book(i,bookID,bookName,bookAuth,bookPub,bookPr,bookPg,bookRecDate,bookAddDate,bookDes,bookAvail));
+                list.add(new Book(i,bookID,bookName,category,bookAuth,bookPub,bookPr,bookPg,bookRecDate,bookAddDate,bookDes,bookAvail));
             }
         } catch (SQLException ex) {
             Logger.getLogger(BookListController.class.getName()).log(Level.SEVERE, null, ex);
@@ -310,6 +311,7 @@ public class BookListController implements Initializable {
                 i++;
                 String bookID = result.getString("B_ID");
                 String bookName = result.getString("BName");
+                String category = result.getString("category");
                 String bookAuth = result.getString("author");
                 String bookPub = result.getString("publisher");
                 String bookPr = result.getString("price");
@@ -324,7 +326,7 @@ public class BookListController implements Initializable {
                     bookAvail = "Not Available";
                 }
                 
-                list.add(new Book(i,bookID,bookName,bookAuth,bookPub,bookPr,bookPg,bookRecDate,bookAddDate,bookDes,bookAvail));
+                list.add(new Book(i,bookID,bookName,category,bookAuth,bookPub,bookPr,bookPg,bookRecDate,bookAddDate,bookDes,bookAvail));
             }
         } catch (SQLException ex) {           
             Logger.getLogger(AddBookController.class.getName()).log(Level.SEVERE, null, ex);
@@ -351,6 +353,7 @@ public class BookListController implements Initializable {
                 i++;
                 String bookID = result.getString("B_ID");
                 String bookName = result.getString("BName");
+                String category = result.getString("category");
                 String bookAuth = result.getString("author");
                 String bookPub = result.getString("publisher");
                 String bookPr = result.getString("price");
@@ -365,7 +368,7 @@ public class BookListController implements Initializable {
                     bookAvail = "Not Available";
                 }
                 
-                list.add(new Book(i,bookID,bookName,bookAuth,bookPub,bookPr,bookPg,bookRecDate,bookAddDate,bookDes,bookAvail));
+                list.add(new Book(i,bookID,bookName,category,bookAuth,bookPub,bookPr,bookPg,bookRecDate,bookAddDate,bookDes,bookAvail));
             }
         } catch (SQLException ex) {           
             Logger.getLogger(AddBookController.class.getName()).log(Level.SEVERE, null, ex);
@@ -394,6 +397,7 @@ public class BookListController implements Initializable {
         private final SimpleIntegerProperty number;
         private final SimpleStringProperty b_id;
         private final SimpleStringProperty b_name;
+        private final SimpleStringProperty category;
         private final SimpleStringProperty author;
         private final SimpleStringProperty publisher;
         private final SimpleStringProperty price;
@@ -403,10 +407,11 @@ public class BookListController implements Initializable {
         private final SimpleStringProperty description;
         private final SimpleStringProperty availability;
 
-        public Book(int no, String id, String name, String auth, String pub, String pr, String pg, String recDate, String addDate, String des, String avail){
+        public Book(int no, String id, String name, String cat, String auth, String pub, String pr, String pg, String recDate, String addDate, String des, String avail){
             this.number = new SimpleIntegerProperty(no);
             this.b_id = new SimpleStringProperty(id);
             this.b_name = new SimpleStringProperty(name);
+            this.category = new SimpleStringProperty(cat);
             this.author = new SimpleStringProperty(auth);
             this.publisher = new SimpleStringProperty(pub);
             this.price = new SimpleStringProperty(pr);
@@ -425,6 +430,9 @@ public class BookListController implements Initializable {
         }
         public String getB_name() {
             return b_name.get();
+        }
+        public String getCategory() {
+            return category.get();
         }
         public String getAuthor() {
             return author.get();
