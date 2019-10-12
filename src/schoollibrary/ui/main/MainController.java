@@ -80,8 +80,6 @@ public class MainController implements Initializable {
     private Text total_fine;
     @FXML
     private StackPane rootPane;
-//    @FXML
-//    private BorderPane borderPane;
     @FXML
     private Text subLale2;
     @FXML
@@ -98,14 +96,14 @@ public class MainController implements Initializable {
 
     DatabaseHandler databaseHandler;
     Preferences preferences;  
-    
-     
+   
+   
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         databaseHandler = DatabaseHandler.getInstance();
         preferences = Preferences.getPreferences();        
         initGraph();          
-        testData();
+//        testData();
     }    
     
      
@@ -156,6 +154,11 @@ public class MainController implements Initializable {
     private void loadReport(ActionEvent event) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/report/report.fxml"));
         loadWindow("Report", loader);
+    }
+    @FXML
+    private void loadComparison(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/comparison/comparison.fxml"));
+        loadWindow("Comparison", loader);
     }
     @FXML
     private void menuClose(ActionEvent event) {
@@ -373,13 +376,12 @@ public class MainController implements Initializable {
             SimpleDateFormat sdf =  new SimpleDateFormat("yyyy-MM-dd");  
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.DAY_OF_MONTH,preferences.getnOfDays());
-            System.out.println(sdf.format(cal.getTime()) );
             
-            String query4 = "INSERT INTO ISSUE (bookID,memberID,keepDays,willSubmit,finePerDay) VALUES ( " +
+            String query4 = "INSERT INTO REPORT (bookID,memberID,willSubmit,keepDays,finePerDay) VALUES ( " +
                     "'" + bookId + "'," +
                     "'" + memberId + "'," +
-                    preferences.getnOfDays() + ", " +
                     "'" + sdf.format(cal.getTime()) + "', " +
+                    preferences.getnOfDays() + ", " +
                     preferences.getFinePerDay() +
                     ")";
             String query5 = "UPDATE BOOK SET isAvail = false , issueCount = issueCount+1   WHERE B_ID = '" + bookId + "' ";
@@ -413,7 +415,7 @@ public class MainController implements Initializable {
             setSubmssionContent();
         }
         else{
-            String query1 = "SELECT * FROM ISSUE WHERE bookID = '" + bookId + "' ";
+            String query1 = "SELECT * FROM REPORT WHERE bookID = '" + bookId + "' AND isSubmit = 'false'";
             ResultSet result = databaseHandler.execQuery(query1);
             try {
                 if(result.next()){
@@ -460,13 +462,11 @@ public class MainController implements Initializable {
     private void submitBookOperation(ActionEvent event) {
         String bookId = bookIdInput2.getText().trim();
         String memberId;
-        String issueDate;
-        int renew_Count;
-        int fine;
-        int maxDate;
+        int id,fine,maxDate,dateCount,delayedDateCount;
+        boolean isLate;
    
         try{
-            String query = "SELECT COUNT(bookID) as count FROM ISSUE WHERE bookID = '" + bookId + "' ";
+            String query = "SELECT COUNT(bookID) as count FROM REPORT WHERE bookID = '" + bookId + "' AND isSubmit = 'false' ";
             ResultSet result = databaseHandler.execQuery(query);
             result.next();
             int count1 = result.getInt("count");     
@@ -479,41 +479,39 @@ public class MainController implements Initializable {
             return;
         }
         
-        String query = "SELECT * FROM ISSUE WHERE bookID = '" + bookId + "' ";
+        String query = "SELECT * FROM REPORT WHERE bookID = '" + bookId + "' AND isSubmit = 'false' ";
         ResultSet result = databaseHandler.execQuery(query);  
         try {
-            if (result.next()) {              
-                issueDate = result.getString("issueDate");
-                renew_Count = result.getInt("renewCount");
+            if (result.next()) { 
+                id = Integer.parseInt(result.getString("reportID"));
                 memberId = result.getString("memberID");
                 String dateFrom = result.getString("lastRenewDate");
                 maxDate = Integer.parseInt(result.getString("keepDays"));
                 fine = countTotalFine(dateFrom, maxDate, Integer.parseInt(result.getString("finePerDay")));
+                delayedDateCount = delayedDates(dateFrom,maxDate);
+                dateCount = countDays(dateFrom);
+                
+                if(delayedDateCount == 0){
+                    isLate = false;
+                }else{
+                    isLate = true;
+                }
                 
                 Optional<ButtonType> responce = AlertMaker.confirmationAlert("Confirm Submission Operation","Are you sure want to submit the book");
+                
                 if(responce.get() == ButtonType.OK){
-                    int delayedDateCount = delayedDates(dateFrom,maxDate);
-                    int dateCount = countDays(dateFrom);
-                    boolean isLate;
-                    if(delayedDateCount == 0){
-                        isLate = false;
-                    }else{
-                        isLate = true;
-                    }
-                    String query1 = "INSERT INTO SUBMISSION (bookID,memberID,issueDate,lastRenewDate,isLateSubmit,fine,renewCount,nuOfDaysKept) VALUES ( " +
-                                    "'" + bookId + "'," +
-                                    "'" + memberId + "'," +
-                                    "'" + issueDate + "'," +
-                                    "'" + dateFrom + "'," +
-                                    "'" + isLate + "'," +
-                                    fine + ", " +
-                                    renew_Count+ ", "  +
-                                    dateCount  +
-                                    ")";
-                    String query2 = "DELETE FROM ISSUE WHERE bookID = '" + bookId + "'";  
-                    String query3 = "UPDATE BOOK SET isAvail = true, subCount = subCount+1, fineCollect = fineCollect +'" + fine + "'  WHERE B_ID = '" + bookId + "' ";
-                    String query4 = "UPDATE MEMBER SET isSubmit = true, subCount = subCount+1, finePayed = finePayed + '" + fine + "' , delayedDateCount = delayedDateCount + '" + delayedDateCount + "'  WHERE M_ID = '" + memberId + "' ";
-                    if(databaseHandler.execAction(query1) && databaseHandler.execAction(query2) && databaseHandler.execAction(query3) && databaseHandler.execAction(query4)){
+                    
+                    LocalDate submitDate = LocalDate.now();
+                    String query1 = "UPDATE REPORT SET fine = " + fine + "," 
+                                    + "submitDate = '" + submitDate + "',"
+                                    + "isSubmit = '" + true + "',"
+                                    + "isLateSubmit = '" + isLate + "',"
+                                    + "nuOfDaysKept = " + dateCount 
+                                    + "WHERE reportID = " + id +" ";
+                    
+                    String query2 = "UPDATE BOOK SET isAvail = true, subCount = subCount+1, fineCollect = fineCollect +'" + fine + "'  WHERE B_ID = '" + bookId + "' ";
+                    String query3 = "UPDATE MEMBER SET isSubmit = true, subCount = subCount+1, finePayed = finePayed + '" + fine + "' , delayedDateCount = delayedDateCount + '" + delayedDateCount + "'  WHERE M_ID = '" + memberId + "' ";
+                    if(databaseHandler.execAction(query1) && databaseHandler.execAction(query2) && databaseHandler.execAction(query3)){
                         AlertMaker.informatinAlert("Success","Book submission complete");
                         bookIdInput2.setText("");
                         setSubmssionContent();
@@ -535,8 +533,9 @@ public class MainController implements Initializable {
     private void renewBookOperation(ActionEvent event) {
         String bookId = bookIdInput2.getText().trim();
         String memberId = null;
+        int id = 0;
         try{
-            String query = "SELECT COUNT(bookID) as count FROM ISSUE WHERE bookID = '" + bookId + "' ";
+            String query = "SELECT COUNT(bookID) as count FROM REPORT WHERE bookID = '" + bookId + "' AND isSubmit = 'false' ";
             ResultSet result = databaseHandler.execQuery(query);
             result.next();
             int count1 = result.getInt("count");     
@@ -545,10 +544,11 @@ public class MainController implements Initializable {
                 return;
             }
             
-            query = "SELECT memberID FROM ISSUE WHERE bookID = '" + bookId + "' ";
+            query = "SELECT memberID,reportID FROM REPORT WHERE bookID = '" + bookId + "' AND isSubmit = 'false' ";
             result = databaseHandler.execQuery(query);
             if(result.next()){
                 memberId = result.getString("memberID"); 
+                id = Integer.parseInt(result.getString("reportID"));
             }
             
         }catch (SQLException ex) {
@@ -564,9 +564,20 @@ public class MainController implements Initializable {
  
         if(responce.get() == ButtonType.OK){
             LocalDate renewDate = LocalDate.now();
-            String query1 = "UPDATE ISSUE SET renewCount = renewCount+1, lastRenewDate = '"+renewDate+"', willSubmit = '"+sdf.format(cal.getTime())+"'  WHERE bookID = '" + bookId + "' "; 
+            String query1 = "UPDATE REPORT SET renewCount = renewCount+1, "
+                                                + "lastRenewDate = '"+renewDate+"', "
+                                                + "willSubmit = '"+sdf.format(cal.getTime())+"', "
+                                                + "keepDays = " + preferences.getnOfDays() + ", "
+                                                + "finePerDay = "+ preferences.getFinePerDay() +"  "
+                                                + "WHERE reportID = " + id + "" ;
+            System.out.println(query1);
+            
             String query2 = "UPDATE BOOK SET renewCount = renewCount+1  WHERE B_ID = '" + bookId + "' ";
+                        System.out.println(query2);
+
             String query3 = "UPDATE MEMBER SET renewCount = renewCount+1  WHERE M_ID = '" + memberId + "' ";
+                        System.out.println(query3);
+
             
             if(databaseHandler.execAction(query1) && databaseHandler.execAction(query2) && databaseHandler.execAction(query3)){
                 AlertMaker.informatinAlert("Success","Book has been renewed"); 
@@ -654,72 +665,15 @@ public class MainController implements Initializable {
         int dateCount = (intervalPeriod.getDays() + intervalPeriod.getMonths() + intervalPeriod.getYears());
         return dateCount;
     }
-//  test
     
     
-    private void testData() {
-        
-        
-//        String query6 = "INSERT INTO SUBMISSION (submissionID,bookID,memberID,issueDate,submitDate,fine,renewCount) VALUES (11, '11','11','2019-6-2','2019-6-9', 1 ,1)";
-//        String query7 = "INSERT INTO SUBMISSION (submissionID,bookID,memberID,issueDate,submitDate,fine,renewCount) VALUES (12, '12','12','2019-6-3','2019-6-10', 1 ,1)";
-//        String query6 = "INSERT INTO SUBMISSION (submissionID,bookID,memberID,fine,submitDate,issueDate,renewCount) VALUES (123,'11','11',200,'2019-6-4','2019-6-15',0)";
-//        String query4 = "INSERT INTO SUBMISSION (submissionID,bookID,memberID,issueDate,submitDate,fine,renewCount) VALUES (13, '13','13','2019-6-5','2019-6-12', 1 ,1)";
-//        String query5 = "INSERT INTO SUBMISSION (submissionID,bookID,memberID,issueDate,submitDate,fine,renewCount) VALUES (14, '14','14','2019-6-6','2019-6-13', 1 ,1)";
-//        String query8 = "INSERT INTO SUBMISSION (submissionID,bookID,memberID,issueDate,submitDate,fine,renewCount) VALUES (15, '15','15','2019-6-6','2019-6-13', 1 ,1)";
-//        String query6 = "INSERT INTO SUBMISSION VALUES (55,'5','5',0,'2019-6-25','2019-7-5',1)";
-//        System.out.println(query6);
-//        if(databaseHandler.execAction(query6)){
-//            System.out.println("success");
-//        }        
-//        String query1 = "INSERT INTO MEMBER VALUES ( '2','asd','true')";
-//        String query2 = "INSERT INTO MEMBER VALUES ( '3','aasd','true')";
-//        String query3 = "INSERT INTO MEMBER VALUES ( '4','asdasd','true')";
-//        String query4 = "INSERT INTO MEMBER VALUES ( '5','asdadf','true')";
-//        String query5 = "INSERT INTO MEMBER VALUES ( '6','asdew','true')";
-            
-//        String query1 = "INSERT INTO BOOK VALUES ( '2','book2','auth2','pub3', 12 ,12,'2013-2-12','asdasdasasda','true')";
-//        String query2 = "INSERT INTO BOOK VALUES ( '3','book3','auth3','pub2', 12 ,12,'2013-2-12','asdasdasasda','true')";
-//        String query3 = "INSERT INTO BOOK VALUES ( '4','book4','auth2','pub3', 12 ,12,'2013-2-12','asdasdasasda','true')";
-//        String query4 = "INSERT INTO BOOK VALUES ( '5','book5','auth5','pub1', 12 ,12,'2013-2-12','asdasdasasda','true')";
-//        String query5 = "INSERT INTO BOOK VALUES ( '6','book6','auth5','pub1', 12 ,12,'2013-2-12','asdasdasasda','true')";
-           
-//            SimpleDateFormat sdf =  new SimpleDateFormat("yyyy-MM-dd");  
-//            Calendar cal = Calendar.getInstance();
-//            cal.add(Calendar.DAY_OF_MONTH,- preferences.getnOfDays() );
-//            
-//        System.out.println(cal.getTime());
-        String query1 = "INSERT INTO ISSUE (bookID,memberID,issueDate,renewCount,lastRenewDate,keepDays,finePerDay,willSubmit) VALUES ( '2','2','2019-10-1',0,'2019-10-1',7,7,'2019-10-8' )";
-        System.out.println(query1);
-            if(databaseHandler.execAction(query1)){
-            System.out.println("success");
-        }  
-//          String query7 = "UPDATE BOOK SET isAvail = true WHERE B_ID = '5' ";
-//          String query8 = "UPDATE MEMBER SET isSubmit = true WHERE M_ID = '5' ";  
-//             String query9 = "DELETE FROM ISSUE WHERE bookID = '5' ";
-//                    String query8 = "UPDATE BOOK SET isAvail = true WHERE B_ID = '4' ";
-//                    String query9 = "UPDATE MEMBER SET isSubmit = true WHERE M_ID = '4' ";
-//
-//
-//          System.out.println(query6);
-//          System.out.println(query7);
-//          System.out.println(query8);
-//          System.out.println(query9);
-//    
-//    
-//           if(databaseHandler.execAction(query8) && databaseHandler.execAction(query7) && databaseHandler.execAction(query6) ){
-//               System.out.println("success");
-//           }else{
-//               System.out.println("fasle");
-//           }
-//        if(databaseHandler.execAction(query7) && databaseHandler.execAction(query8) && databaseHandler.execAction(query9) ){
-//                        System.out.println("success");
-//                       
-//        }
-//                              
-   }
+      //  test
+    
 
-   
-   
+//    private void testData() {
+             
+//   }
 
+    
     
 }
