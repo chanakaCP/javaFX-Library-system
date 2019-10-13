@@ -25,7 +25,6 @@ public final class DatabaseHandler {
         createConnection();
         setupBookTable();
         setupMemberTable();
-        setupIssueTable();
         setupSubmissionTable();
     }
     
@@ -109,36 +108,7 @@ public final class DatabaseHandler {
         }finally{
         }
     }
-    
-    
-//    void setupIssueTable(){
-//        String TABLE_NAME = "ISSUE";
-//        try{
-//            stmt = conn.createStatement();
-//            DatabaseMetaData dbm = conn.getMetaData();
-//            ResultSet tables = dbm.getTables(null, null, TABLE_NAME.toUpperCase(),null);
-//            if(tables.next()){
-//                System.out.println("Table " + TABLE_NAME + " Already exist.. ready for go...");
-//            }else{
-//                stmt.execute( " CREATE TABLE " + TABLE_NAME + " ( "
-//                            + " bookID varchar(100) primary key,\n "
-//                            + " memberID varchar(100) ,\n "
-//                            + " issueDate DATE DEFAULT CURRENT_DATE,\n "
-//                            + " renewCount integer DEFAULT 0,\n "
-//                            + " lastRenewDate DATE DEFAULT CURRENT_DATE,\n "
-//                            + " keepDays integer,\n "
-//                            + " willSubmit DATE,\n "
-//                            + " finePerDay integer,\n "
-//                            + " FOREIGN KEY (bookID) REFERENCES BOOK(B_ID),\n "
-//                            + " FOREIGN KEY (memberID) REFERENCES MEMBER(M_ID) "
-//                            + " ) " 
-//                    );        
-//            }   
-//        }catch(SQLException e){
-//            System.err.println(e.getMessage() + "  ...setupDatabase...");
-//        }finally{
-//        }
-//    }
+   
     
     
     void setupSubmissionTable(){
@@ -159,12 +129,12 @@ public final class DatabaseHandler {
                             + " willSubmit DATE,\n "
                             + " keepDays integer,\n "
                             + " finePerDay integer,\n "
-                            + " fine integer ,\n "
+                            + " fine integer DEFAULT 0,\n "
                             + " renewCount integer DEFAULT 0,\n"
-                            + " submitDate DATE DEFAULT CURRENT_DATE ,\n "
-                            + " isSubmit boolean ,\n"
-                            + " isLateSubmit boolean ,\n"                        
-                            + " nuOfDaysKept integer "
+                            + " submitDate DATE DEFAULT NULL ,\n "
+                            + " isSubmit boolean DEFAULT false,\n"
+                            + " isLateSubmit boolean DEFAULT false,\n"                        
+                            + " nuOfDaysKept integer DEFAULT 0"
                             + " ) " 
                     );        
             }   
@@ -206,7 +176,7 @@ public final class DatabaseHandler {
         
         try {
             String query1 = "SELECT COUNT(*) FROM BOOK";
-            String query2 = "SELECT COUNT(*) FROM ISSUE";
+            String query2 = "SELECT COUNT(*) FROM REPORT WHERE isSubmit = 'false' ";
             ResultSet result = execQuery(query1);
             int count = 0;
             if(result.next()){
@@ -230,7 +200,7 @@ public final class DatabaseHandler {
         
         try {
             String query1 = "SELECT COUNT(*) FROM MEMBER";
-            String query2 = "SELECT COUNT(*) FROM ISSUE";
+            String query2 = "SELECT COUNT(*) FROM REPORT WHERE isSubmit = 'false'";
             ResultSet result = execQuery(query1);
             int count = 0;
             if(result.next()){

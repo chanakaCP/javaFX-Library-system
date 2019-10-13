@@ -21,6 +21,8 @@ public class BookDetailsController implements Initializable {
     @FXML
     private Label name_c;
     @FXML
+    private Label cat_c;
+    @FXML
     private Label author_c;
     @FXML
     private Label publisher_c;
@@ -48,8 +50,6 @@ public class BookDetailsController implements Initializable {
     
     DatabaseHandler databaseHandler;
     BookListController bookListController;   
-  
-    
     
     
     @Override
@@ -64,7 +64,9 @@ public class BookDetailsController implements Initializable {
             if(result.next()){
                 id_c.setText(bookId);
                 name_c.setText(result.getString("BName"));
-                name_c.setWrapText(true);
+                name_c.setWrapText(true);    
+                cat_c.setText(result.getString("category"));
+                cat_c.setWrapText(true);
                 author_c.setText(result.getString("author"));
                 author_c.setWrapText(true);
                 publisher_c.setText(result.getString("publisher"));

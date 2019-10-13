@@ -1,7 +1,6 @@
 
 package schoollibrary.ui.comparison;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -32,10 +31,6 @@ public class ComparisonController implements Initializable {
 
     @FXML
     private AnchorPane rootPane;
-    @FXML
-    private JFXButton searchButton;
-    @FXML
-    private JFXButton cancelButton;
     @FXML
     private JFXComboBox<String> timeSelect;
     @FXML
@@ -133,15 +128,17 @@ public class ComparisonController implements Initializable {
     private void loadAllTimeData(String category) {
         String query1 = null,id = null;
         switch (category) {
-            case "By book":
+            case "Book":
                 query1 =  "SELECT bookID, COUNT(issueDate) as count1, COUNT(submitDate) as count2 FROM REPORT GROUP BY bookID";
                 id = "bookID";
                 break;
-            case "By member":
+            case "Member":
                 query1 = "SELECT memberID, COUNT(issueDate) as count1, COUNT(submitDate) as count2 FROM REPORT GROUP BY memberID";
                 id = "memberID";
                 break;
-            case "By date":
+            case "Date":
+                id = "issueDate";
+                query1 = "SELECT issueDate,COUNT(issueDate) as count1, COUNT(submitDate) as count2 FROM REPORT GROUP BY issueDate";
                 break;
             default:
                 break;
@@ -169,9 +166,9 @@ public class ComparisonController implements Initializable {
         timeSelect.getItems().add("All time");
         timeSelect.getItems().add("This month");
         timeSelect.getItems().add("Last month");
-        catSelect.getItems().add("By book");
-        catSelect.getItems().add("By member");
-        catSelect.getItems().add("By date");
+        catSelect.getItems().add("Book");
+        catSelect.getItems().add("Member");
+        catSelect.getItems().add("Date");
     }
 
     private void loadThisMonthData(String category) {

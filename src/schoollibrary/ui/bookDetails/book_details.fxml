@@ -65,6 +65,32 @@
                   </Label>
                </children>
             </HBox>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="79.0" prefHeight="58.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="170.0" text="Category  :" textAlignment="RIGHT">
+                     <font>
+                        <Font name="Roboto Condensed Regular" size="15.0" />
+                     </font>
+                     <padding>
+                        <Insets right="20.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets left="30.0" right="20.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="cat_c" contentDisplay="CENTER" prefHeight="42.0" prefWidth="250.0" stylesheets="@../resources/common.css">
+                     <font>
+                        <Font name="Roboto Condensed Regular" size="15.0" />
+                     </font>
+                     <padding>
+                        <Insets left="20.0" right="20.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
             <HBox alignment="CENTER" prefHeight="58.0" prefWidth="200.0">
                <children>
                   <Label fx:id="col1" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="170.0" text="Author  :" textAlignment="RIGHT">
