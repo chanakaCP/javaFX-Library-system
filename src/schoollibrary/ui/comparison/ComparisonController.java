@@ -5,7 +5,15 @@ import com.jfoenix.controls.JFXComboBox;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import static java.util.Spliterators.iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -71,6 +79,10 @@ public class ComparisonController implements Initializable {
         
         String timeSec = timeSelect.getValue();
         String catSec = catSelect.getValue();
+        LocalDate sDate = LocalDate.now();
+        int year = sDate.getYear();
+        int month = sDate.getMonth().getValue();
+        int pastMonth = sDate.minusMonths(1).getMonth().getValue();
         
         if(timeSec == null || catSec == null){
             AlertMaker.errorAlert("Can`t search","Please select a field for search");
@@ -81,10 +93,10 @@ public class ComparisonController implements Initializable {
                 loadAllTimeData(catSec);
                 break;
             case "This month":
-                loadThisMonthData(catSec);
+                loadMonthData(catSec,year,month);
                 break;     
             case "Last month":
-                loadLastMonthData(catSec);
+                loadMonthData(catSec,year,pastMonth);
                 break;
             default:
                 break;
@@ -138,7 +150,7 @@ public class ComparisonController implements Initializable {
                 break;
             case "Date":
                 id = "issueDate";
-                query1 = "SELECT issueDate,COUNT(issueDate) as count1, COUNT(submitDate) as count2 FROM REPORT GROUP BY issueDate";
+                query1 = "SELECT issueDate, COUNT(issueDate) as count1, COUNT(submitDate) as count2 FROM REPORT GROUP BY issueDate";
                 break;
             default:
                 break;
@@ -161,6 +173,73 @@ public class ComparisonController implements Initializable {
     }
     
     
+    
+    private void loadMonthData(String category, int year, int month) {
+        System.out.println(year);
+        System.out.println(month);
+        list.clear();      
+        String query1 = null, query2 = null, id = null;
+        
+        HashMap<String, List<Integer>> countMap = new HashMap<>();
+        
+        switch (category) {
+            case "Book":
+                query1 =  "SELECT DISTINCT bookID, COUNT(issueDate) as count1 FROM REPORT WHERE issueDate >= '"+year+"-"+month+"-1' AND issueDate <= '"+year+"-"+month+"-31' GROUP BY bookID";
+                query2 =  "SELECT DISTINCT bookID, COUNT(submitDate) as count2 FROM REPORT WHERE submitDate >= '"+year+"-"+month+"-1' AND submitDate <= '"+year+"-"+month+"-31' AND isSubmit = 'true' GROUP BY bookID";
+                System.out.println(query1);
+                System.out.println(query2);
+                id = "bookID";
+                break;
+            case "Member":
+                query1 =  "SELECT DISTINCT memberID, COUNT(issueDate) as count1 FROM REPORT WHERE issueDate >= '"+year+"-"+month+"-1' AND issueDate <= '"+year+"-"+month+"-31' GROUP BY memberID";
+                query2 =  "SELECT DISTINCT memberID, COUNT(submitDate) as count2 FROM REPORT WHERE submitDate >= '"+year+"-"+month+"-1' AND submitDate <= '"+year+"-"+month+"-31' AND isSubmit = 'true' GROUP BY memberID";
+                id = "memberID";
+                break;              
+            case "Date":
+                id = "issueDate";
+                query1 = "SELECT issueDate , COUNT(issueDate) as count1, COUNT(submitDate) as count2 FROM REPORT GROUP BY submitDate,issueDate";
+                break;
+            default:
+                break;
+        }
+         
+        int i=0;
+        String rowId;
+        try {
+            ResultSet result1 = databaseHandler.execQuery(query1);
+            ResultSet result2 = databaseHandler.execQuery(query2);
+            
+            while (result1.next()) {
+                rowId = result1.getString(id);
+                countMap.put(rowId,new ArrayList<>());
+                countMap.get(rowId).add(0, result1.getInt("count1"));
+                countMap.get(rowId).add(1, 0);
+            }
+            while (result2.next()) {
+                rowId = result2.getString(id);
+                if(countMap.get(rowId) == null){
+                    countMap.put(rowId,new ArrayList<>());
+                    countMap.get(rowId).add(0,0);
+                    countMap.get(rowId).add(1,result2.getInt("count2"));
+                } else{
+                    countMap.get(rowId).add(1, result2.getInt("count2"));
+                }                          
+            }
+            for (Map.Entry cmiterator : countMap.entrySet()) {
+                i++;
+                String key = String.valueOf(cmiterator.getKey());
+                int issueCount = countMap.get(key).get(0);
+                int submitCount = countMap.get(key).get(1);
+                list.add(new Comparison(i,key,issueCount,submitCount));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ComparisonController.class.getName()).log(Level.SEVERE, null, ex);
+        }       
+        tableViewCol.setItems(list);   
+        countMap.clear();
+    }
+
+    
     private void initDropdown() {
         
         timeSelect.getItems().add("All time");
@@ -169,14 +248,6 @@ public class ComparisonController implements Initializable {
         catSelect.getItems().add("Book");
         catSelect.getItems().add("Member");
         catSelect.getItems().add("Date");
-    }
-
-    private void loadThisMonthData(String category) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void loadLastMonthData(String category) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
       
