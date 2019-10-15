@@ -5,15 +5,14 @@ import com.jfoenix.controls.JFXComboBox;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import static java.util.Spliterators.iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -36,7 +35,8 @@ import schoollibrary.database.DatabaseHandler;
 public class ComparisonController implements Initializable {
     
     ObservableList<ComparisonController.Comparison> list = FXCollections.observableArrayList();
-
+    
+    
     @FXML
     private AnchorPane rootPane;
     @FXML
@@ -90,7 +90,11 @@ public class ComparisonController implements Initializable {
         }    
         switch (timeSec) {
             case "All time":
-                loadAllTimeData(catSec);
+                if(catSec.equals("Date")){
+                    loadData(catSec);
+                }else{
+                    loadAllTimeData(catSec);
+                }          
                 break;
             case "This month":
                 loadMonthData(catSec,year,month);
@@ -119,26 +123,62 @@ public class ComparisonController implements Initializable {
     }
 
     
-//    private void loadData() {
-//        list.clear();
-//        
-//        LocalDate sDate = LocalDate.now();
-//        SimpleDateFormat sdf =  new SimpleDateFormat("yyyy-MM-dd");  
-//        Calendar cal = Calendar.getInstance();
-//        cal.add(Calendar.DAY_OF_MONTH, -14);
-//        
-//        String query = "SELECT * FROM ISSUE WHERE issueDate <= '"+ sDate +"' AND issueDate >= '"+ sdf.format(cal.getTime())+"' ";
-//        ResultSet result = databaseHandler.execQuery(query);
-//        int i=0;
-//
-//        
-////        to modify
-//         
-//    }
+    private void loadData(String category) {
+        HashMap<String, List<Integer>> countMap = new HashMap<>();
+        list.clear();
+        String query1,query2,rowId;
+        
+        LocalDate sDate = LocalDate.now();
+        SimpleDateFormat sdf =  new SimpleDateFormat("yyyy-MM-dd");  
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_MONTH, -14);
+        
+        if(category.equals("Date")){
+            query1 = "SELECT DISTINCT issueDate, COUNT(*) as count1 FROM REPORT GROUP BY issueDate";
+            query2 = "SELECT DISTINCT submitDate, COUNT(*) as count2 FROM REPORT GROUP BY submitDate";
+        }else{
+            query1 = "SELECT issueDate, COUNT(*) as count1 FROM REPORT WHERE issueDate <= '"+ sDate +"' AND issueDate >= '"+ sdf.format(cal.getTime())+"' GROUP BY issueDate ";
+            query2 = "SELECT submitDate, COUNT(*) as count1 FROM REPORT WHERE submitDate <= '"+ sDate +"' AND submitDate >= '"+ sdf.format(cal.getTime())+"' GROUP BY submitDate ";
+        }
+
+        try {
+            ResultSet result1 = databaseHandler.execQuery(query1);
+            ResultSet result2 = databaseHandler.execQuery(query2);
+            
+            while (result1.next()) {            
+                rowId = result1.getString("issueDate");
+                countMap.put(rowId,new ArrayList<>());
+                countMap.get(rowId).add(0, result1.getInt("count1"));
+                countMap.get(rowId).add(1, 0);
+            }
+            while (result2.next()) {                 
+                rowId = result2.getString("submitDate"); 
+                if(countMap.get(rowId) == null){
+                    countMap.put(rowId,new ArrayList<>());
+                    countMap.get(rowId).add(0,0);
+                } 
+                countMap.get(rowId).add(1,result2.getInt("count2"));  
+            }
+            int issueCount,submitCount,i=0;
+            for (Map.Entry cmIterator : countMap.entrySet()) {
+                i++;
+                String key = String.valueOf(cmIterator.getKey());
+                issueCount = countMap.get(key).get(0);
+                submitCount = countMap.get(key).get(1);
+                list.add(new Comparison(i,key,issueCount,submitCount));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ComparisonController.class.getName()).log(Level.SEVERE, null, ex);
+        }       
+        tableViewCol.setItems(list);   
+        countMap.clear();
+
+    }
     
     
     private void loadAllTimeData(String category) {
-        String query1 = null,id = null;
+        list.clear();
+        String query1 = null, query2 = null, id = null;
         switch (category) {
             case "Book":
                 query1 =  "SELECT bookID, COUNT(issueDate) as count1, COUNT(submitDate) as count2 FROM REPORT GROUP BY bookID";
@@ -148,14 +188,10 @@ public class ComparisonController implements Initializable {
                 query1 = "SELECT memberID, COUNT(issueDate) as count1, COUNT(submitDate) as count2 FROM REPORT GROUP BY memberID";
                 id = "memberID";
                 break;
-            case "Date":
-                id = "issueDate";
-                query1 = "SELECT issueDate, COUNT(issueDate) as count1, COUNT(submitDate) as count2 FROM REPORT GROUP BY issueDate";
-                break;
             default:
                 break;
         }
-        list.clear();
+        
         ResultSet result = databaseHandler.execQuery(query1);
         int i=0;
         try {
@@ -175,19 +211,14 @@ public class ComparisonController implements Initializable {
     
     
     private void loadMonthData(String category, int year, int month) {
-        System.out.println(year);
-        System.out.println(month);
+        HashMap<String, List<Integer>> countMap = new HashMap<>();
         list.clear();      
         String query1 = null, query2 = null, id = null;
-        
-        HashMap<String, List<Integer>> countMap = new HashMap<>();
-        
+             
         switch (category) {
             case "Book":
                 query1 =  "SELECT DISTINCT bookID, COUNT(issueDate) as count1 FROM REPORT WHERE issueDate >= '"+year+"-"+month+"-1' AND issueDate <= '"+year+"-"+month+"-31' GROUP BY bookID";
                 query2 =  "SELECT DISTINCT bookID, COUNT(submitDate) as count2 FROM REPORT WHERE submitDate >= '"+year+"-"+month+"-1' AND submitDate <= '"+year+"-"+month+"-31' AND isSubmit = 'true' GROUP BY bookID";
-                System.out.println(query1);
-                System.out.println(query2);
                 id = "bookID";
                 break;
             case "Member":
@@ -196,8 +227,9 @@ public class ComparisonController implements Initializable {
                 id = "memberID";
                 break;              
             case "Date":
+                query1 =  "SELECT DISTINCT issueDate, COUNT(*) as count1 FROM REPORT WHERE issueDate >= '"+year+"-"+month+"-1' AND issueDate <= '"+year+"-"+month+"-31' GROUP BY issueDate";
+                query2 =  "SELECT DISTINCT submitDate, COUNT(*) as count2 FROM REPORT WHERE submitDate >= '"+year+"-"+month+"-1' AND submitDate <= '"+year+"-"+month+"-31' AND isSubmit = 'true' GROUP BY submitDate";
                 id = "issueDate";
-                query1 = "SELECT issueDate , COUNT(issueDate) as count1, COUNT(submitDate) as count2 FROM REPORT GROUP BY submitDate,issueDate";
                 break;
             default:
                 break;
@@ -216,20 +248,24 @@ public class ComparisonController implements Initializable {
                 countMap.get(rowId).add(1, 0);
             }
             while (result2.next()) {
-                rowId = result2.getString(id);
+                if(id.equals("issueDate")){
+                    rowId = result2.getString("submitDate"); 
+                }else{
+                    rowId = result2.getString(id);    
+                }
+                
                 if(countMap.get(rowId) == null){
                     countMap.put(rowId,new ArrayList<>());
                     countMap.get(rowId).add(0,0);
-                    countMap.get(rowId).add(1,result2.getInt("count2"));
-                } else{
-                    countMap.get(rowId).add(1, result2.getInt("count2"));
-                }                          
+                } 
+                countMap.get(rowId).add(1,result2.getInt("count2"));                         
             }
-            for (Map.Entry cmiterator : countMap.entrySet()) {
+            int issueCount, submitCount;
+            for (Map.Entry cmIterator : countMap.entrySet()) {
                 i++;
-                String key = String.valueOf(cmiterator.getKey());
-                int issueCount = countMap.get(key).get(0);
-                int submitCount = countMap.get(key).get(1);
+                String key = String.valueOf(cmIterator.getKey());
+                issueCount = countMap.get(key).get(0);
+                submitCount = countMap.get(key).get(1);
                 list.add(new Comparison(i,key,issueCount,submitCount));
             }
         } catch (SQLException ex) {
