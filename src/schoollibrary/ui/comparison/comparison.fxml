@@ -37,7 +37,7 @@
                               <Insets right="30.0" />
                            </HBox.margin>
                         </JFXButton>
-                        <JFXButton fx:id="cancelButton" onAction="#cancel" prefHeight="32.0" prefWidth="80.0" text="Cancel" textAlignment="CENTER">
+                        <JFXButton fx:id="cancelButton" onAction="#cancel" prefHeight="32.0" prefWidth="80.0" text="Close" textAlignment="CENTER">
                            <font>
                               <Font name="Roboto Condensed Regular" size="12.0" />
                            </font>

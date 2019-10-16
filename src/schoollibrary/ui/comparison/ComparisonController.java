@@ -1,6 +1,7 @@
 
 package schoollibrary.ui.comparison;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -40,6 +41,8 @@ public class ComparisonController implements Initializable {
     @FXML
     private AnchorPane rootPane;
     @FXML
+    private JFXButton cancelButton;
+    @FXML
     private JFXComboBox<String> timeSelect;
     @FXML
     private JFXComboBox<String> catSelect;
@@ -56,13 +59,15 @@ public class ComparisonController implements Initializable {
    
     
     DatabaseHandler databaseHandler;   
-
+    
+    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         databaseHandler = DatabaseHandler.getInstance();
         initDropdown();
         initCol();
+        loadData("non");
     }    
 
     
@@ -119,13 +124,13 @@ public class ComparisonController implements Initializable {
         catSelect.getItems().clear();
         list.clear();
         initDropdown();
-//        loadData();
+        loadData("non");
     }
 
     
     private void loadData(String category) {
-        HashMap<String, List<Integer>> countMap = new HashMap<>();
         list.clear();
+        HashMap<String, List<Integer>> countMap = new HashMap<>();
         String query1,query2,rowId;
         
         LocalDate sDate = LocalDate.now();
@@ -134,14 +139,17 @@ public class ComparisonController implements Initializable {
         cal.add(Calendar.DAY_OF_MONTH, -14);
         
         if(category.equals("Date")){
-            query1 = "SELECT DISTINCT issueDate, COUNT(*) as count1 FROM REPORT GROUP BY issueDate";
-            query2 = "SELECT DISTINCT submitDate, COUNT(*) as count2 FROM REPORT GROUP BY submitDate";
+            cancelButton.setText("Cancel");
+            query1 = "SELECT issueDate, COUNT(*) as count1 FROM REPORT GROUP BY issueDate";
+            query2 = "SELECT submitDate, COUNT(*) as count2 FROM REPORT WHERE isSubmit = 'true' GROUP BY submitDate  ";
         }else{
+            cancelButton.setText("Close");
             query1 = "SELECT issueDate, COUNT(*) as count1 FROM REPORT WHERE issueDate <= '"+ sDate +"' AND issueDate >= '"+ sdf.format(cal.getTime())+"' GROUP BY issueDate ";
-            query2 = "SELECT submitDate, COUNT(*) as count1 FROM REPORT WHERE submitDate <= '"+ sDate +"' AND submitDate >= '"+ sdf.format(cal.getTime())+"' GROUP BY submitDate ";
+            query2 = "SELECT submitDate, COUNT(*) as count2 FROM REPORT WHERE submitDate <= '"+ sDate +"' AND submitDate >= '"+ sdf.format(cal.getTime())+"' AND isSubmit = 'true' GROUP BY submitDate ";
         }
 
         try {
+            int i=0;
             ResultSet result1 = databaseHandler.execQuery(query1);
             ResultSet result2 = databaseHandler.execQuery(query2);
             
@@ -152,14 +160,14 @@ public class ComparisonController implements Initializable {
                 countMap.get(rowId).add(1, 0);
             }
             while (result2.next()) {                 
-                rowId = result2.getString("submitDate"); 
+                rowId = result2.getString("submitDate");      
                 if(countMap.get(rowId) == null){
                     countMap.put(rowId,new ArrayList<>());
                     countMap.get(rowId).add(0,0);
                 } 
                 countMap.get(rowId).add(1,result2.getInt("count2"));  
             }
-            int issueCount,submitCount,i=0;
+            int issueCount, submitCount;
             for (Map.Entry cmIterator : countMap.entrySet()) {
                 i++;
                 String key = String.valueOf(cmIterator.getKey());
@@ -177,6 +185,7 @@ public class ComparisonController implements Initializable {
     
     
     private void loadAllTimeData(String category) {
+        cancelButton.setText("Cancel");
         list.clear();
         String query1 = null, query2 = null, id = null;
         switch (category) {
@@ -211,6 +220,7 @@ public class ComparisonController implements Initializable {
     
     
     private void loadMonthData(String category, int year, int month) {
+        cancelButton.setText("Cancel");
         HashMap<String, List<Integer>> countMap = new HashMap<>();
         list.clear();      
         String query1 = null, query2 = null, id = null;
