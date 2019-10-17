@@ -14,7 +14,42 @@
    <children>
       <HBox prefHeight="980.0" prefWidth="1900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <VBox prefHeight="990.0" prefWidth="1200.0" />
+            <VBox alignment="TOP_CENTER" prefHeight="914.0" prefWidth="1175.0">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: derive(#263238, -25%); -fx-background-radius: 10;">
+                     <VBox.margin>
+                        <Insets bottom="20.0" left="200.0" right="200.0" top="20.0" />
+                     </VBox.margin>
+                     <children>
+                        <JFXComboBox fx:id="graphCatSelect" labelFloat="true" prefHeight="32.0" prefWidth="221.0" promptText="Search By">
+                           <HBox.margin>
+                              <Insets right="40.0" />
+                           </HBox.margin>
+                        </JFXComboBox>
+                        <JFXComboBox fx:id="graphTimeSelect" labelFloat="true" prefHeight="32.0" prefWidth="142.0" promptText="Time Period">
+                           <HBox.margin>
+                              <Insets right="40.0" />
+                           </HBox.margin>
+                        </JFXComboBox>
+                        <JFXButton fx:id="graphSearchButton" alignment="CENTER" contentDisplay="CENTER" onAction="#graphSearchAction" prefHeight="42.0" prefWidth="80.0" text="Search ">
+                           <font>
+                              <Font name="Roboto Condensed Regular" size="12.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="40.0" />
+                           </HBox.margin>
+                        </JFXButton>
+                        <JFXButton fx:id="graphCancelButton" onAction="#graphCancel" prefHeight="32.0" prefWidth="80.0" text="Close" textAlignment="CENTER">
+                           <font>
+                              <Font name="Roboto Condensed Regular" size="12.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                  </HBox>
+               </children></VBox>
             <VBox layoutX="10.0" layoutY="10.0" prefHeight="985.0" prefWidth="700.0">
                <children>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="637.0" style="-fx-background-color: derive(#263238, -25%); -fx-background-radius: 10;">

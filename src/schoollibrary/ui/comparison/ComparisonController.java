@@ -56,16 +56,27 @@ public class ComparisonController implements Initializable {
     private TableColumn<Comparison,Integer> issueCol;
     @FXML
     private TableColumn<Comparison,Integer> subCol;
-   
+    @FXML
+    private JFXComboBox<String> graphCatSelect;
+    @FXML
+    private JFXComboBox<String> graphTimeSelect;
+    @FXML
+    private JFXButton graphCancelButton;
+    @FXML
+    private JFXButton graphSearchButton;
+    @FXML
+    private JFXButton searchButton;
+    
     
     DatabaseHandler databaseHandler;   
     
-    
-    
+   
+       
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         databaseHandler = DatabaseHandler.getInstance();
         initDropdown();
+        initGraphDropdown();
         initCol();
         loadData("non");
     }    
@@ -114,6 +125,54 @@ public class ComparisonController implements Initializable {
 
     
     @FXML
+    private void graphSearchAction(ActionEvent event) {
+        HashMap<String, List<Integer>> countMap = new HashMap<>();
+        String timeSec = graphTimeSelect.getValue();
+        String catSec = graphCatSelect.getValue();
+        String query1,query2,rowId;
+        
+        if(timeSec == null || catSec == null){
+            AlertMaker.errorAlert("Can`t search","Please select a field for search");
+            return;
+        }
+        if(timeSec.equals("Tranceaction") && catSec.equals("By Day")){
+            query1 = "SELECT issueDate, COUNT(*) as count1 FROM REPORT GROUP BY issueDate ORDER BY issueDate " ;
+            query2 = "SELECT submitDate, COUNT(*) as count2 FROM REPORT WHERE isSubmit = 'true' GROUP BY submitDate ORDER BY issueDate ";     
+        try {
+            
+            ResultSet result1 = databaseHandler.execQuery(query1);
+            ResultSet result2 = databaseHandler.execQuery(query2);
+            
+            while (result1.next()) {            
+                rowId = result1.getString("issueDate");
+                countMap.put(rowId,new ArrayList<>());
+                countMap.get(rowId).add(0, result1.getInt("count1"));
+                countMap.get(rowId).add(1, 0);
+            }
+            while (result2.next()) {                 
+                rowId = result2.getString("submitDate");      
+                if(countMap.get(rowId) == null){
+                    countMap.put(rowId,new ArrayList<>());
+                    countMap.get(rowId).add(0,0);
+                } 
+                countMap.get(rowId).add(1,result2.getInt("count2"));  
+            }
+            int minValue = countMap.entrySet().stream().min(Map.Entry.comparingByValue()).get().getValue();
+            int maxValue = countMap.entrySet().stream().max(Map.Entry.comparingByValue()).get().getValue();
+            System.out.println("min val" + minValue);
+            System.out.println("max val" + maxValue);
+           
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ComparisonController.class.getName()).log(Level.SEVERE, null, ex);
+        }  
+        
+        }
+        
+    }
+    
+    
+    @FXML
     private void cancel(ActionEvent event) {
         if(timeSelect.getValue() == null && catSelect.getValue() == null){
             Stage stage = (Stage) rootPane.getScene().getWindow();
@@ -127,6 +186,11 @@ public class ComparisonController implements Initializable {
         loadData("non");
     }
 
+    
+    @FXML
+    private void graphCancel(ActionEvent event) {
+    }
+    
     
     private void loadData(String category) {
         list.clear();
@@ -287,7 +351,6 @@ public class ComparisonController implements Initializable {
 
     
     private void initDropdown() {
-        
         timeSelect.getItems().add("All time");
         timeSelect.getItems().add("This month");
         timeSelect.getItems().add("Last month");
@@ -296,7 +359,19 @@ public class ComparisonController implements Initializable {
         catSelect.getItems().add("Date");
     }
 
-      
+    
+    private void initGraphDropdown() {
+        graphCatSelect.getItems().add("Total Add");
+        graphCatSelect.getItems().add("Tranceaction");
+        graphCatSelect.getItems().add("Late Submission Count");
+        graphCatSelect.getItems().add("Total Fine Payed");
+        graphTimeSelect.getItems().add("By Year");
+        graphTimeSelect.getItems().add("By Month");
+        graphTimeSelect.getItems().add("By Week");
+        graphTimeSelect.getItems().add("By Day");
+    }
+    
+   
     public static class Comparison{
         private final SimpleIntegerProperty number;
         private final SimpleStringProperty searchID;
