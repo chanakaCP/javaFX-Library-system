@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -37,7 +42,7 @@ public class ComparisonController implements Initializable {
     
     ObservableList<ComparisonController.Comparison> list = FXCollections.observableArrayList();
     HashMap<String, List<Integer>> countMap = new HashMap<>();
-//    ArrayList<String> keyArray =  new ArrayList<>();
+    ArrayList<String> keyArray =  new ArrayList<>();
     
     @FXML
     private AnchorPane rootPane;
@@ -62,10 +67,17 @@ public class ComparisonController implements Initializable {
     @FXML
     private JFXComboBox<String> graphTimeSelect;
     @FXML
-    private JFXButton graphCancelButton;
+    private LineChart<String,Number> chart  ;
+    @FXML
+    private NumberAxis yAxis;
+    @FXML
+    private CategoryAxis xAxis;
     
-      
+    private XYChart.Series issueChart; 
+    private XYChart.Series submissionChart; 
+    
     DatabaseHandler databaseHandler;   
+    
     
    
        
@@ -335,39 +347,58 @@ public class ComparisonController implements Initializable {
 
     
     private void loadTranceactionGraph(String timeSec) {
+        chart.getData().clear();
         
-        String query1 = null, query2 = null,rowId;
+        issueChart = new XYChart.Series<>();
+        submissionChart = new XYChart.Series<>();
+        xAxis.setLabel("Day");
+        yAxis.setLabel("Count");
+        issueChart.setName("Issue");
+        submissionChart.setName("Submission");
+            
+        String query1 = null, query2 = null,rowId,firstKey,lastKey;
         if(timeSec.equals("By Day")){
             query1 = "SELECT issueDate, COUNT(*) as count1 FROM REPORT GROUP BY issueDate ORDER BY issueDate " ;
             query2 = "SELECT submitDate, COUNT(*) as count2 FROM REPORT WHERE isSubmit = 'true' GROUP BY submitDate ORDER BY submitDate ";     
         }
-//
-//        try {            
-//            ResultSet result1 = databaseHandler.execQuery(query1);
-//            ResultSet result2 = databaseHandler.execQuery(query2);
-//
-////            while (result1.next()) {            
-////                rowId = result1.getString("issueDate");
-////                countMap.put(rowId,new ArrayList<>());
-////                countMap.get(rowId).add(0, result1.getInt("count1"));
-////                countMap.get(rowId).add(1, 0);
-////                keyArray.add(rowId);
-////            }
-////            while (result2.next()) {
-////                rowId = result2.getString("submitDate");      
-////                if(countMap.get(rowId) == null){
-////                    countMap.put(rowId,new ArrayList<>());
-////                    countMap.get(rowId).add(0,0);
-////                    keyArray.add(rowId);
-////                }
-////                countMap.get(rowId).add(1,result2.getInt("count2"));  
-////            }
-////            
-////            keyArray.sort(c);
-//                   
-//        } catch (SQLException ex) {
-//            Logger.getLogger(ComparisonController.class.getName()).log(Level.SEVERE, null, ex);
-//        } 
+
+        try {            
+            ResultSet result1 = databaseHandler.execQuery(query1);
+            ResultSet result2 = databaseHandler.execQuery(query2);
+
+            while (result1.next()) {            
+                rowId = result1.getString("issueDate");
+                countMap.put(rowId,new ArrayList<>());
+                countMap.get(rowId).add(0, result1.getInt("count1"));
+                countMap.get(rowId).add(1, 0);
+                keyArray.add(rowId);
+            }
+            while (result2.next()) {
+                rowId = result2.getString("submitDate");      
+                if(countMap.get(rowId) == null){
+                    countMap.put(rowId,new ArrayList<>());
+                    countMap.get(rowId).add(0,0);
+                    keyArray.add(rowId);
+                }
+                countMap.get(rowId).add(1,result2.getInt("count2"));  
+            }
+            Collections.sort(keyArray);
+            firstKey = keyArray.get(0);
+            Collections.reverse(keyArray);
+            lastKey = keyArray.get(0);
+            Collections.reverse(keyArray);
+            
+            for(int i=0;i<keyArray.size();i++){
+                issueChart.getData().add(new XYChart.Data(keyArray.get(i),countMap.get(keyArray.get(i)).get(0)));
+                submissionChart.getData().add(new XYChart.Data(keyArray.get(i),countMap.get(keyArray.get(i)).get(1)));
+            }
+            chart.getData().addAll(issueChart);
+            chart.getData().addAll(submissionChart);
+            
+                
+        } catch (SQLException ex) {
+            Logger.getLogger(ComparisonController.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     
     }
     
