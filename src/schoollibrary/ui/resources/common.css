@@ -6,7 +6,7 @@
     -fx-background-color: derive(#263238, -20%);
 }
 /* Main buttons */
-#saveButton, #cancelButton, #searchButton, #issueBtn, #renewBtn, #subBtn{
+#saveButton, #cancelButton, #searchButton, #issueBtn, #renewBtn, #subBtn, #graphSearchButton, #graphCancelButton{
     -fx-background-color: transparent;
     -fx-background-radius: 20;
     -fx-border-width: 2;
@@ -16,7 +16,7 @@
     -fx-text-alignment: center;
     -fx-font-size: 16;
 }
-#saveButton:hover, #cancelButton:hover, #searchButton:hover, #issueBtn:hover, #renewBtn:hover, #subBtn:hover{
+#saveButton:hover, #cancelButton:hover, #searchButton:hover, #issueBtn:hover, #renewBtn:hover, #subBtn:hover, #graphSearchButton:hover, #graphCancelButton:hover{
     -fx-background-color:  derive(#00b0ff, -20%);
     -fx-background-radius: 20;
     -fx-border-radius: 20; 
@@ -24,7 +24,7 @@
     -fx-text-fill: white;
     -fx-text-alignment: center;
 }
-#saveButton:focused, #cancelButton:focused, #searchButton:focused, #issueBtn:focused, #renewBtn:focused, #subBtn:focused{
+#saveButton:focused, #cancelButton:focused, #searchButton:focused, #issueBtn:focused, #renewBtn:focused, #subBtn:focused, #graphSearchButton:focused, #graphCancelButton:focused{
    -fx-background-color: derive(#00b0ff, -20%);;
    -fx-background-radius: 20;
    -fx-border-radius: 20; 
@@ -64,13 +64,13 @@
                        
 /* Input fields  */
 
-#b_id, #b_name, #author, #publisher, #price, #pages, #description, #m_id, #m_name,
+#b_id, #b_name, #category, #author, #publisher, #price, #pages, #description, #m_id, #m_name,
 #u_name, #passoword, #c_password, #no_of_days, #fine, #searchKey, #avail, #r_date{
     -fx-background-color: transparent;
     -fx-text-fill: #03a9f4;
     -jfx-focus-color: #cfd8dc;
 }
-#b_id:focused, #b_name:focused, #author:focused, #publisher:focused, #price:focused, #pages:focused, #description:focused, #m_id:focused, 
+#b_id:focused, #b_name:focused, #category:focused, #author:focused, #publisher:focused, #price:focused, #pages:focused, #description:focused, #m_id:focused, 
 #m_name:focused, #u_name:focused, #passoword:focused, #c_password:focused, #no_of_days:focused, #searchKey:focused, #avail:focused, #r_date:focused{
     -fx-background-color: transparent;
     -fx-text-fill: #03a9f4;
@@ -79,7 +79,7 @@
 
 /* Book Card */
 
-#id_c, #name_c, #author_c, #publisher_c, #price_c, #pages_c, #date_c, #description_c, #avail_c, #validity_c, #issueCount_c, #subCount_c, #renewCount_c, #fineCount_c, #dateCount_c, #aDate_c,
+#id_c, #name_c, #cat_c, #author_c, #publisher_c, #price_c, #pages_c, #date_c, #description_c, #avail_c, #validity_c, #issueCount_c, #subCount_c, #renewCount_c, #fineCount_c, #dateCount_c, #aDate_c,
 #col1, #trBookIssue_c, #trBookRenew_c, #trBookSubmit_c, #trBookWillSubmit_c, #trLateSubmit_c, #trFine_c, #trNewBook_c, #trNewMember_c, #arBookIssue_c, #arBookRenew_c, #arBookSubmit_c, 
 #arBookWillSubmit_c, #arLateSubmit_c, #arFine_c, #arBook_c, #arMember_c{
     -fx-background-color: transparent;
@@ -87,7 +87,7 @@
     -jfx-focus-color: #cfd8dc;
     -fx-text-alignment: center;
 }
-#id_c:hover, #name_c:hover, #author_c:hover, #publisher_c:hover, #price_c:hover, #pages_c:hover, #date_c:hover, #description_c:hover, #avail_c:hover, #validity_c:hover, #aDate_c:hover, 
+#id_c:hover, #name_c:hover, #cat_c:hover, #author_c:hover, #publisher_c:hover, #price_c:hover, #pages_c:hover, #date_c:hover, #description_c:hover, #avail_c:hover, #validity_c:hover, #aDate_c:hover, 
 #issueCount_c:hover, #subCount_c:hover, #renewCount_c:hover, #fineCount_c:hover, #dateCount_c:hover, #trBookIssue_c:hover, #trBookRenew_c:hover, #trBookSubmit_c:hover,
 #trBookWillSubmit_c:hover, #trLateSubmit_c:hover, #trFine_c:hover, #trNewBook_c:hover, #trNewMember_c:hover, #arBookIssue_c:hover, #arBookRenew_c:hover, #arBookSubmit_c:hover, 
 #arBookWillSubmit_c:hover, #arLateSubmit_c:hover, #arFine_c:hover, #arBook_c:hover, #arMember_c:hover{
@@ -162,7 +162,8 @@
     -fx-background-color: derive(#263238, -20%);
 }
 
-/* Data Chart */
+/*   Pie Chart   */
+
 .data0.chart-pie{
     -fx-pie-color: #311b92;
     -fx-border-color: #311b92;
@@ -278,3 +279,48 @@
     -fx-text-fill: derive(#00b0ff, -20%);
     -fx-font-size: 16;
 }*/
+
+
+/*  LINE CHART */
+
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+.chart-alternative-row-fill {
+    -fx-fill: transparent;
+    -fx-stroke: transparent;
+    -fx-stroke-width: 0;
+}
+.chart-vertical-grid-lines {
+    -fx-stroke: transparent;
+}
+.chart-horizontal-grid-lines {
+    -fx-stroke: transparent;
+}
+.chart-legend {
+    -fx-background-color: transparent;
+    -fx-border-color: #78909c;
+    -fx-border-radius: 10;
+} 
+.chart-legend-item-symbol{
+   -fx-background-radius: 10;
+   -fx-border-radius: 10;
+} 
+.chart-legend-item{
+    -fx-text-fill: #78909c;
+}
+.default-color0.chart-series-line{ 
+    -fx-stroke: #311b92; 
+}
+.default-color1.chart-series-line{
+    -fx-stroke: #01579b; 
+}
+.axis:left{
+    -fx-border-color: transparent ;
+}
+.axis:bottom{
+    -fx-border-color: transparent;
+}
+.axis-label {
+  -fx-text-fill: #78909c;
+}
