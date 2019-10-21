@@ -41,8 +41,8 @@ import schoollibrary.database.DatabaseHandler;
 public class ComparisonController implements Initializable {
     
     ObservableList<ComparisonController.Comparison> list = FXCollections.observableArrayList();
-    HashMap<String, List<Integer>> countMap = new HashMap<>();
-    ArrayList<String> keyArray =  new ArrayList<>();
+    HashMap<String, List<Integer>> countMap ;
+    ArrayList<String> keyArray;
     
     @FXML
     private AnchorPane rootPane;
@@ -67,19 +67,17 @@ public class ComparisonController implements Initializable {
     @FXML
     private JFXComboBox<String> graphTimeSelect;
     @FXML
-    private LineChart<String,Number> chart  ;
+    private LineChart<String,Number> chart;
     @FXML
     private NumberAxis yAxis;
     @FXML
     private CategoryAxis xAxis;
     
-    private XYChart.Series issueChart; 
-    private XYChart.Series submissionChart; 
+    private XYChart.Series firstChart; 
+    private XYChart.Series secondChart; 
     
     DatabaseHandler databaseHandler;   
     
-    
-   
        
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -153,8 +151,8 @@ public class ComparisonController implements Initializable {
             case "Total Add":
                 loadNewAddGraph(timeSec);
                 break;
-            case "Tranceaction":
-                loadTranceactionGraph(timeSec);
+            case "Transaction":
+                loadTransactionGraph(timeSec);
                 break;
             case "Late Submission Count":
                 loadLateSubmissionGraph(timeSec);
@@ -188,6 +186,7 @@ public class ComparisonController implements Initializable {
     
     private void loadData(String category) {
         list.clear();
+        countMap =  new HashMap<>();        
         String query1,query2,rowId;
         int i=0;
         
@@ -235,9 +234,8 @@ public class ComparisonController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(ComparisonController.class.getName()).log(Level.SEVERE, null, ex);
         }       
-        tableViewCol.setItems(list);   
+        tableViewCol.setItems(list); 
         countMap.clear();
-
     }
     
     
@@ -278,7 +276,8 @@ public class ComparisonController implements Initializable {
     
     private void loadMonthData(String category, int year, int month) {
         cancelButton.setText("Cancel");
-        list.clear();      
+        list.clear();
+        countMap =  new HashMap<>();        
         String query1 = null, query2 = null, id = null,rowId;
         int startMonth,endMonth,issueCount,submitCount,i=0;
         if(month == 0){
@@ -341,40 +340,61 @@ public class ComparisonController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(ComparisonController.class.getName()).log(Level.SEVERE, null, ex);
         }       
-        tableViewCol.setItems(list);   
+        tableViewCol.setItems(list);  
         countMap.clear();
     }
 
     
-    private void loadTranceactionGraph(String timeSec) {
-        chart.getData().clear();
+    private void loadTransactionGraph(String timeSec) {
+        chart.getData().removeAll();
+        if(firstChart != null){
+            firstChart.getData().clear();
+            secondChart.getData().clear();
+        }  
+        countMap =  new HashMap<>(); 
+        keyArray =  new ArrayList<>();
+        firstChart = new XYChart.Series<>();
+        secondChart = new XYChart.Series<>();
         
-        issueChart = new XYChart.Series<>();
-        submissionChart = new XYChart.Series<>();
         xAxis.setLabel("Day");
         yAxis.setLabel("Count");
-        issueChart.setName("Issue");
-        submissionChart.setName("Submission");
+        firstChart.setName("Issue");
+        secondChart.setName("Submission");
             
-        String query1 = null, query2 = null,rowId,firstKey,lastKey;
-        if(timeSec.equals("By Day")){
-            query1 = "SELECT issueDate, COUNT(*) as count1 FROM REPORT GROUP BY issueDate ORDER BY issueDate " ;
-            query2 = "SELECT submitDate, COUNT(*) as count2 FROM REPORT WHERE isSubmit = 'true' GROUP BY submitDate ORDER BY submitDate ";     
+        String query1 = null, query2 = null,rowId;
+        switch (timeSec) {
+            case "By Day":
+                query1 = "SELECT issueDate as firstData, COUNT(*) as count1 FROM REPORT GROUP BY issueDate" ;
+                query2 = "SELECT submitDate as secondData, COUNT(*) as count2 FROM REPORT WHERE isSubmit = 'true' GROUP BY submitDate";
+                break;
+            case "By Week": 
+                query1 = "SELECT DATEADD(week, DATEDIFF(week, 0, issueDate), 0) as firstData, COUNT(*) as count1 FROM REPORT GROUP BY DATEADD(week, DATEDIFF(week, 0, issueDate), 0) " ;
+                query2 = "SELECT DATEADD(week, DATEDIFF(week, 0, submitDate), 0) as secondData, COUNT(*) as count2 FROM REPORT WHERE isSubmit = 'true' GROUP BY DATEADD(week, DATEDIFF(week, 0, submitDate), 0)";
+                break;
+            case "By Month":
+                query1 = "SELECT count(*) as count1, cast(datepart(yyyy,issueDate) +' '+ datename(m,column) as varchar) as firstData FROM REPORT GROUP BY CAST(YEAR(issueDate) AS VARCHAR(4)) + '-' + CAST(MONTH(issueDate) AS VARCHAR(2)) " ;
+                query2 = "SELECT count(*) as count2, CAST(YEAR(submitDate) AS VARCHAR(4)) + '-' + CAST(MONTH(submitDate) AS VARCHAR(2)) as secondDate FROM REPORT GROUP BY CAST(YEAR(submitDate) AS VARCHAR(4)) + '-' + CAST(MONTH(submitDate) AS VARCHAR(2)) ";
+                break;
+            case "By Year": 
+                query1 = "SELECT YEAR(issueDate) as firstData, COUNT(*) as count1 FROM REPORT GROUP BY YEAR(issueDate)" ;
+                query2 = "SELECT YEAR(submitDate) as secondData, COUNT(*) as count2 FROM REPORT WHERE isSubmit = 'true' GROUP BY YEAR(submitDate)";
+                break;
+            default:
+                break;
         }
-
         try {            
             ResultSet result1 = databaseHandler.execQuery(query1);
             ResultSet result2 = databaseHandler.execQuery(query2);
 
             while (result1.next()) {            
-                rowId = result1.getString("issueDate");
+                rowId = result1.getString("firstData");
                 countMap.put(rowId,new ArrayList<>());
                 countMap.get(rowId).add(0, result1.getInt("count1"));
                 countMap.get(rowId).add(1, 0);
                 keyArray.add(rowId);
             }
             while (result2.next()) {
-                rowId = result2.getString("submitDate");      
+                rowId = result2.getString("secondData");      
                 if(countMap.get(rowId) == null){
                     countMap.put(rowId,new ArrayList<>());
                     countMap.get(rowId).add(0,0);
@@ -383,33 +403,146 @@ public class ComparisonController implements Initializable {
                 countMap.get(rowId).add(1,result2.getInt("count2"));  
             }
             Collections.sort(keyArray);
-            firstKey = keyArray.get(0);
-            Collections.reverse(keyArray);
-            lastKey = keyArray.get(0);
-            Collections.reverse(keyArray);
             
             for(int i=0;i<keyArray.size();i++){
-                issueChart.getData().add(new XYChart.Data(keyArray.get(i),countMap.get(keyArray.get(i)).get(0)));
-                submissionChart.getData().add(new XYChart.Data(keyArray.get(i),countMap.get(keyArray.get(i)).get(1)));
+                firstChart.getData().add(new XYChart.Data(keyArray.get(i),countMap.get(keyArray.get(i)).get(0)));
+                secondChart.getData().add(new XYChart.Data(keyArray.get(i),countMap.get(keyArray.get(i)).get(1)));
             }
-            chart.getData().addAll(issueChart);
-            chart.getData().addAll(submissionChart);
-            
-                
+            chart.getData().addAll(firstChart);
+            chart.getData().addAll(secondChart);
+            countMap.clear();
         } catch (SQLException ex) {
             Logger.getLogger(ComparisonController.class.getName()).log(Level.SEVERE, null, ex);
         } 
-    
     }
+    
     
     private void loadNewAddGraph(String timeSec) {
+        chart.getData().removeAll();
+        if(firstChart != null){
+            firstChart.getData().clear();
+            secondChart.getData().clear();
+        }    
+        countMap =  new HashMap<>();  
+        keyArray =  new ArrayList<>();
+        firstChart = new XYChart.Series<>();
+        secondChart = new XYChart.Series<>();
+        
+        xAxis.setLabel("Day");
+        yAxis.setLabel("Count");
+        firstChart.setName("Book");
+        secondChart.setName("Member");
+        
+        String query1 = null, query2 = null,rowId;
+        switch (timeSec) {
+            case "By Day":
+                query1 = "SELECT addedDate , COUNT(*) as count1 FROM BOOK GROUP BY addedDate" ;
+                query2 = "SELECT addedDate, COUNT(*) as count2 FROM MEMBER GROUP BY addedDate";
+                break;
+            case "By Week": 
+//                query1 = "SELECT DATEADD(week, DATEDIFF(week, 0, issueDate), 0) as firstData, COUNT(*) as count1 FROM REPORT GROUP BY DATEADD(week, DATEDIFF(week, 0, issueDate), 0) " ;
+//                query2 = "SELECT DATEADD(week, DATEDIFF(week, 0, submitDate), 0) as secondData, COUNT(*) as count2 FROM REPORT WHERE isSubmit = 'true' GROUP BY DATEADD(week, DATEDIFF(week, 0, submitDate), 0)";
+                break;
+            case "By Month":
+//                query1 = "SELECT count(*) as count1, cast(datepart(yyyy,issueDate) +' '+ datename(m,column) as varchar) as firstData FROM REPORT GROUP BY CAST(YEAR(issueDate) AS VARCHAR(4)) + '-' + CAST(MONTH(issueDate) AS VARCHAR(2)) " ;
+//                query2 = "SELECT count(*) as count2, CAST(YEAR(submitDate) AS VARCHAR(4)) + '-' + CAST(MONTH(submitDate) AS VARCHAR(2)) as secondDate FROM REPORT GROUP BY CAST(YEAR(submitDate) AS VARCHAR(4)) + '-' + CAST(MONTH(submitDate) AS VARCHAR(2)) ";
+                break;
+            case "By Year": 
+                query1 = "SELECT YEAR(addedDate)as addedDate, COUNT(*) as count1 FROM BOOK GROUP BY YEAR(addedDate)" ;
+                query2 = "SELECT YEAR(addedDate)as addedDate, COUNT(*) as count2 FROM MEMBER GROUP BY YEAR(addedDate)";
+                break;
+            default:
+                break;
+        }
+        try {            
+            ResultSet result1 = databaseHandler.execQuery(query1);
+            ResultSet result2 = databaseHandler.execQuery(query2);
+
+            while (result1.next()) {            
+                rowId = result1.getString("addedDate");
+                countMap.put(rowId,new ArrayList<>());
+                countMap.get(rowId).add(0, result1.getInt("count1"));
+                countMap.get(rowId).add(1, 0);
+                keyArray.add(rowId);
+            }
+            while (result2.next()) {
+                rowId = result2.getString("addedDate");      
+                if(countMap.get(rowId) == null){
+                    countMap.put(rowId,new ArrayList<>());
+                    countMap.get(rowId).add(0,0);
+                    keyArray.add(rowId);
+                }
+                countMap.get(rowId).add(1,result2.getInt("count2"));  
+            }
+            Collections.sort(keyArray);
+            
+            for(int i=0;i<keyArray.size();i++){
+                firstChart.getData().add(new XYChart.Data(keyArray.get(i),countMap.get(keyArray.get(i)).get(0)));
+                secondChart.getData().add(new XYChart.Data(keyArray.get(i),countMap.get(keyArray.get(i)).get(1)));
+            }
+            chart.getData().addAll(firstChart);
+            chart.getData().addAll(secondChart);
+            countMap.clear();
+        } catch (SQLException ex) {
+            Logger.getLogger(ComparisonController.class.getName()).log(Level.SEVERE, null, ex);
+        } 
         
     }
 
+    
     private void loadLateSubmissionGraph(String timeSec) {
+        chart.getData().removeAll();
+        if(firstChart != null){
+            firstChart.getData().clear();
+            secondChart.getData().clear();
+        }  
+        countMap =  new HashMap<>();  
+        keyArray =  new ArrayList<>();
+        firstChart = new XYChart.Series<>();  
         
+        xAxis.setLabel("Day");
+        yAxis.setLabel("Collected Fine");
+        firstChart.setName("Book");
+           
+        String query1 = null,rowId;
+        switch (timeSec) {
+            case "By Day":
+                query1 = "SELECT submitDate, SUM(fine) as sum FROM BOOK REPORT BY submitDate" ;
+                break;
+            case "By Week": 
+//                query1 = "SELECT DATEADD(week, DATEDIFF(week, 0, issueDate), 0) as firstData, COUNT(*) as count1 FROM REPORT GROUP BY DATEADD(week, DATEDIFF(week, 0, issueDate), 0) " ;
+                break;
+            case "By Month":
+//                query1 = "SELECT count(*) as count1, cast(datepart(yyyy,issueDate) +' '+ datename(m,column) as varchar) as firstData FROM REPORT GROUP BY CAST(YEAR(issueDate) AS VARCHAR(4)) + '-' + CAST(MONTH(issueDate) AS VARCHAR(2)) " ;
+                break;
+            case "By Year": 
+                query1 = "SELECT YEAR(submitDate) as submitDate, SUM(fine) as sum FROM REPORT GROUP BY YEAR(submitDate)" ;
+                break;
+            default:
+                break;
+        }
+        try {            
+            ResultSet result1 = databaseHandler.execQuery(query1);
+
+            while (result1.next()) {            
+                rowId = result1.getString("submitDate");
+                countMap.put(rowId,new ArrayList<>());
+                countMap.get(rowId).add(0,result1.getInt("sum"));
+                keyArray.add(rowId);
+            }
+            Collections.sort(keyArray);
+            
+            for(int i=0;i<keyArray.size();i++){
+                firstChart.getData().add(new XYChart.Data(keyArray.get(i),countMap.get(keyArray.get(i)).get(0)));
+            }
+            chart.getData().addAll(firstChart);
+            countMap.clear();
+        } catch (SQLException ex) {
+            Logger.getLogger(ComparisonController.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }
 
+    
     private void loadFinePayedGraph(String timeSec) {
         
     }
@@ -430,13 +563,13 @@ public class ComparisonController implements Initializable {
     
     private void initGraphDropdown() {
         graphCatSelect.getItems().add("Total Add");
-        graphCatSelect.getItems().add("Tranceaction");
+        graphCatSelect.getItems().add("Transaction");
         graphCatSelect.getItems().add("Late Submission Count");
         graphCatSelect.getItems().add("Total Fine Payed");
-        graphTimeSelect.getItems().add("By Year");
-        graphTimeSelect.getItems().add("By Month");
-        graphTimeSelect.getItems().add("By Week");
         graphTimeSelect.getItems().add("By Day");
+        graphTimeSelect.getItems().add("By Week");
+        graphTimeSelect.getItems().add("By Month");
+        graphTimeSelect.getItems().add("By Year");
     }
 
     
