@@ -346,17 +346,17 @@ public class ComparisonController implements Initializable {
 
     
     private void loadTransactionGraph(String timeSec) {
-        chart.getData().removeAll();
         if(firstChart != null){
             firstChart.getData().clear();
             secondChart.getData().clear();
-        }  
+        }       
+        chart.getData().removeAll();     
         countMap =  new HashMap<>(); 
         keyArray =  new ArrayList<>();
         firstChart = new XYChart.Series<>();
         secondChart = new XYChart.Series<>();
         
-        xAxis.setLabel("Day");
+        xAxis.setLabel("Duration");
         yAxis.setLabel("Count");
         firstChart.setName("Issue");
         secondChart.setName("Submission");
@@ -408,6 +408,7 @@ public class ComparisonController implements Initializable {
                 firstChart.getData().add(new XYChart.Data(keyArray.get(i),countMap.get(keyArray.get(i)).get(0)));
                 secondChart.getData().add(new XYChart.Data(keyArray.get(i),countMap.get(keyArray.get(i)).get(1)));
             }
+            chart.getData().retainAll();
             chart.getData().addAll(firstChart);
             chart.getData().addAll(secondChart);
             countMap.clear();
@@ -418,17 +419,17 @@ public class ComparisonController implements Initializable {
     
     
     private void loadNewAddGraph(String timeSec) {
-        chart.getData().removeAll();
         if(firstChart != null){
             firstChart.getData().clear();
             secondChart.getData().clear();
         }    
+        chart.getData().removeAll();
         countMap =  new HashMap<>();  
         keyArray =  new ArrayList<>();
         firstChart = new XYChart.Series<>();
         secondChart = new XYChart.Series<>();
         
-        xAxis.setLabel("Day");
+        xAxis.setLabel("Duration");
         yAxis.setLabel("Count");
         firstChart.setName("Book");
         secondChart.setName("Member");
@@ -480,6 +481,7 @@ public class ComparisonController implements Initializable {
                 firstChart.getData().add(new XYChart.Data(keyArray.get(i),countMap.get(keyArray.get(i)).get(0)));
                 secondChart.getData().add(new XYChart.Data(keyArray.get(i),countMap.get(keyArray.get(i)).get(1)));
             }
+            chart.getData().retainAll();
             chart.getData().addAll(firstChart);
             chart.getData().addAll(secondChart);
             countMap.clear();
@@ -491,23 +493,28 @@ public class ComparisonController implements Initializable {
 
     
     private void loadLateSubmissionGraph(String timeSec) {
-        chart.getData().removeAll();
-        if(firstChart != null){
+        
+    }
+
+    
+    private void loadFinePayedGraph(String timeSec) {
+         if(firstChart != null){
             firstChart.getData().clear();
             secondChart.getData().clear();
         }  
+        chart.getData().removeAll();
         countMap =  new HashMap<>();  
         keyArray =  new ArrayList<>();
         firstChart = new XYChart.Series<>();  
         
-        xAxis.setLabel("Day");
+        xAxis.setLabel("Duration");
         yAxis.setLabel("Collected Fine");
         firstChart.setName("Book");
            
         String query1 = null,rowId;
         switch (timeSec) {
             case "By Day":
-                query1 = "SELECT submitDate, SUM(fine) as sum FROM BOOK REPORT BY submitDate" ;
+                query1 = "SELECT SUM(fine), submitDate FROM REPORT WHERE isSubmit = 'true' GROUP BY submitDate" ;
                 break;
             case "By Week": 
 //                query1 = "SELECT DATEADD(week, DATEDIFF(week, 0, issueDate), 0) as firstData, COUNT(*) as count1 FROM REPORT GROUP BY DATEADD(week, DATEDIFF(week, 0, issueDate), 0) " ;
@@ -516,7 +523,7 @@ public class ComparisonController implements Initializable {
 //                query1 = "SELECT count(*) as count1, cast(datepart(yyyy,issueDate) +' '+ datename(m,column) as varchar) as firstData FROM REPORT GROUP BY CAST(YEAR(issueDate) AS VARCHAR(4)) + '-' + CAST(MONTH(issueDate) AS VARCHAR(2)) " ;
                 break;
             case "By Year": 
-                query1 = "SELECT YEAR(submitDate) as submitDate, SUM(fine) as sum FROM REPORT GROUP BY YEAR(submitDate)" ;
+                query1 = "SELECT SUM(fine),YEAR(submitDate) as submitDate FROM REPORT GROUP BY YEAR(submitDate)" ;
                 break;
             default:
                 break;
@@ -527,7 +534,7 @@ public class ComparisonController implements Initializable {
             while (result1.next()) {            
                 rowId = result1.getString("submitDate");
                 countMap.put(rowId,new ArrayList<>());
-                countMap.get(rowId).add(0,result1.getInt("sum"));
+                countMap.get(rowId).add(0,result1.getInt(1));
                 keyArray.add(rowId);
             }
             Collections.sort(keyArray);
@@ -535,16 +542,12 @@ public class ComparisonController implements Initializable {
             for(int i=0;i<keyArray.size();i++){
                 firstChart.getData().add(new XYChart.Data(keyArray.get(i),countMap.get(keyArray.get(i)).get(0)));
             }
+            chart.getData().retainAll();
             chart.getData().addAll(firstChart);
             countMap.clear();
         } catch (SQLException ex) {
             Logger.getLogger(ComparisonController.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-    }
-
-    
-    private void loadFinePayedGraph(String timeSec) {
-        
+        }
     }
 
     
