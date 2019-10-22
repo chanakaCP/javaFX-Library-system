@@ -1,6 +1,7 @@
 
 package schoollibrary.ui.issueBook;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
@@ -37,6 +38,8 @@ public class IssueBookController implements Initializable {
     @FXML
     private AnchorPane rootPane;
     @FXML
+    private JFXButton cancelButton;
+    @FXML
     private JFXComboBox<String> choiceKey;
     @FXML
     private JFXTextField searchKey;
@@ -64,6 +67,8 @@ public class IssueBookController implements Initializable {
     private TableColumn<IssueBook,Integer> fineCol;
 
     DatabaseHandler databaseHandler;   
+   
+   
  
        
     @Override
@@ -114,7 +119,7 @@ public class IssueBookController implements Initializable {
     
     public void loadData() {
         list.clear();
-              
+        cancelButton.setText("Close");
         LocalDate sDate = LocalDate.now();
         SimpleDateFormat sdf =  new SimpleDateFormat("yyyy-MM-dd");  
         Calendar cal = Calendar.getInstance();
@@ -149,6 +154,7 @@ public class IssueBookController implements Initializable {
 
     
     public void loadSearchData(String stream, String value){    
+        cancelButton.setText("Cancel");
         String query; 
         if(stream.equals("All")){
             query = "SELECT * FROM REPORT WHERE isSubmit = 'false' ";
@@ -195,7 +201,7 @@ public class IssueBookController implements Initializable {
     
     
     public void loadSearchDate(String stream, LocalDate value){
-        
+        cancelButton.setText("Cancel");
         if(searchKey.isDisable()){
             searchKey.setDisable(true);
             datePick.setDisable(false);
