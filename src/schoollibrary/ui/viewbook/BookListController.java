@@ -1,6 +1,7 @@
 
 package schoollibrary.ui.viewbook;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
@@ -46,6 +47,8 @@ public class BookListController implements Initializable {
     @FXML
     private AnchorPane rootPane;
     @FXML
+    private JFXButton cancelButton;
+    @FXML
     private JFXComboBox<String> choiceKey;
     @FXML
     private JFXTextField searchKey;
@@ -73,7 +76,7 @@ public class BookListController implements Initializable {
     DatabaseHandler databaseHandler;
     MainController mainController;
     
-    
+        
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         databaseHandler = DatabaseHandler.getInstance();
@@ -261,7 +264,7 @@ public class BookListController implements Initializable {
     
     public void loadData() {    
         list.clear();
-        
+        cancelButton.setText("Close");
         String query = "SELECT * FROM BOOK";
         ResultSet result = databaseHandler.execQuery(query);
         int i=0;
@@ -295,6 +298,7 @@ public class BookListController implements Initializable {
 
     
     public void loadSearchData(String stream, String value){
+        cancelButton.setText("Cancel");
         if(searchKey.isDisable()){
             searchKey.setDisable(true);
             datePick.setDisable(false);
@@ -335,7 +339,8 @@ public class BookListController implements Initializable {
     }
      
     
-    public void loadSearchDate(String stream, LocalDate value){    
+    public void loadSearchDate(String stream, LocalDate value){
+        cancelButton.setText("Cancel");
         if(searchKey.isDisable()){
             searchKey.setDisable(true);
             datePick.setDisable(false);

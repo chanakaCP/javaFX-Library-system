@@ -292,7 +292,7 @@
     -fx-stroke-width: 0;
 }
 .chart-vertical-grid-lines {
-    -fx-stroke: transparent;
+    -fx-stroke: derive(#263238, -20%);
 }
 .chart-horizontal-grid-lines {
     -fx-stroke: transparent;

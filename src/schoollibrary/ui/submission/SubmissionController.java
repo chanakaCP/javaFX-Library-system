@@ -1,6 +1,7 @@
 
 package schoollibrary.ui.submission;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
@@ -36,6 +37,8 @@ public class SubmissionController implements Initializable {
 
     @FXML
     private AnchorPane rootPane;
+    @FXML
+    private JFXButton cancelButton;
     @FXML
     private JFXComboBox<String> choiceKey;
     @FXML
@@ -165,7 +168,7 @@ public class SubmissionController implements Initializable {
     
     private void loadData() {
         list.clear();
-        
+        cancelButton.setText("Cancel");
         LocalDate sDate = LocalDate.now();
         SimpleDateFormat sdf =  new SimpleDateFormat("yyyy-MM-dd");  
         Calendar cal = Calendar.getInstance();
@@ -193,6 +196,7 @@ public class SubmissionController implements Initializable {
     }
     
     public void loadSearchData(String stream, String value){
+        cancelButton.setText("Close");
         String query; 
         if(stream.equals("All")){
             query = "SELECT * FROM REPORT WHERE isSubmit = 'true'";
@@ -232,7 +236,8 @@ public class SubmissionController implements Initializable {
     }
     
     
-    public void loadSearchDate(String stream, LocalDate value){     
+    public void loadSearchDate(String stream, LocalDate value){
+        cancelButton.setText("Close");
         if(searchKey.isDisable()){
             searchKey.setDisable(true);
             datePick.setDisable(false);

@@ -1,6 +1,7 @@
 
 package schoollibrary.ui.viewmember;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
@@ -45,13 +46,15 @@ public class MemberListController implements Initializable {
     ObservableList<MemberListController.Member> list = FXCollections.observableArrayList();
     
     @FXML
+    private AnchorPane rootPane;
+    @FXML
+    private JFXButton cancelButton;
+    @FXML
     private JFXComboBox<String> choiceKey;
     @FXML
     private JFXTextField searchKey;
     @FXML
     private JFXDatePicker datePick;
-    @FXML
-    private AnchorPane rootPane;
     @FXML
     private TableView<Member> tableViewCol;
     @FXML
@@ -67,7 +70,7 @@ public class MemberListController implements Initializable {
        
     DatabaseHandler databaseHandler;
     MainController mainController;
-    
+   
      
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -245,7 +248,7 @@ public class MemberListController implements Initializable {
     
     public void loadData() {
         list.clear();
-        
+        cancelButton.setText("Close");
         String query = "SELECT * FROM MEMBER";
         ResultSet result = databaseHandler.execQuery(query);
         int i=0;
@@ -272,6 +275,7 @@ public class MemberListController implements Initializable {
 
     
     public void loadSearchData(String stream, String value){
+        cancelButton.setText("Cancel");
         if(searchKey.isDisable()){
             searchKey.setDisable(true);
             datePick.setDisable(false);
@@ -305,7 +309,8 @@ public class MemberListController implements Initializable {
     }
     
     
-    public void loadSearchDate(String stream, LocalDate value){ 
+    public void loadSearchDate(String stream, LocalDate value){
+        cancelButton.setText("Cancel");
         if(searchKey.isDisable()){
             searchKey.setDisable(true);
             datePick.setDisable(false);
