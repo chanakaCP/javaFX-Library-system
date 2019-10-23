@@ -5,7 +5,10 @@
 #rootPaneLog{
     -fx-background-color: derive(#263238, -20%);
 }
+
+
 /* Main buttons */
+
 #saveButton, #cancelButton, #searchButton, #issueBtn, #renewBtn, #subBtn, #graphSearchButton, #graphCancelButton{
     -fx-background-color: transparent;
     -fx-background-radius: 20;
@@ -20,27 +23,30 @@
     -fx-background-color:  derive(#00b0ff, -20%);
     -fx-background-radius: 20;
     -fx-border-radius: 20; 
-    -fx-border-color:  derive(#00b0ff, -20%);;
+    -fx-border-color:  derive(#00b0ff, -20%);
     -fx-text-fill: white;
     -fx-text-alignment: center;
 }
 #saveButton:focused, #cancelButton:focused, #searchButton:focused, #issueBtn:focused, #renewBtn:focused, #subBtn:focused, #graphSearchButton:focused, #graphCancelButton:focused{
-   -fx-background-color: derive(#00b0ff, -20%);;
+   -fx-background-color: derive(#00b0ff, -20%);
    -fx-background-radius: 20;
    -fx-border-radius: 20; 
-   -fx-border-color: derive(#00b0ff, -20%);;
+   -fx-border-color: derive(#00b0ff, -20%);
    -fx-text-fill: white; 
    -fx-text-alignment: center;
 }
 
 /* Title */
+
 #titleLable{
     -fx-text-fill: #cfd8dc;
 }
 #titleLable2{
     -fx-text-fill: derive(#cfd8dc, -20%);
 }
+
 /* Login */
+
 #logName, #logPassword{
    -fx-border-color: derive(#00b0ff, -20%);
    -fx-border-width: 2;
@@ -94,31 +100,25 @@
     -fx-text-fill: white;
     -jfx-focus-color: #cfd8dc;
 }
-
-
-.jfx-date-picker .input-line {
-    -fx-background-color: #03a9f4;
-}
-.jfx-date-picker .input-focused-line {
-    -fx-background-color: white;
-}
-.date-picker > .text-field {
-    -fx-text-fill: #03a9f3;
-}
-.combo-box{
-    -fx-background-color: transparent;
-    -jfx-focus-color: #03a9f4;
-}
-.combo-box .cell:selected{
-    -fx-text-fill: #03a9f4;
-}
 #bookIdInput, #memberIdInput, #bookIdInput2, #bookIdInput:focused, #memberIdInput:focused, #bookIdInput2:focused{
     -fx-background-color: transparent;
     -fx-text-fill: #03a9f4;
     -jfx-focus-color: #cfd8dc;
 }
+/*   Date picker   */
+
+.jfx-date-picker .input-line {
+    -fx-background-color: #03a9f4;
+}
+.jfx-date-picker .input-focused-line {
+    -fx-background-color: #263238;
+}
+.date-picker > .text-field {
+    -fx-text-fill: #03a9f3;
+}
 
 /*  Side bar */
+
 #menubar{
     -fx-background-color: derive(#263238, -20%);
 }
@@ -133,6 +133,7 @@
 }
 
 /* Tab */
+
 .tab{
     -fx-background-color: derive(#263238, -20%);
     -fx-pref-width: 300;
@@ -144,6 +145,7 @@
 }
 
 /* Menu bar */
+
 .menu-bar{
     -fx-base: #263238;
     -fx-background-color: derive(#263238, -20%);
@@ -153,11 +155,14 @@
 }
 
 /* Menu */
+
 #info, #bookInfoContainer, #memberInfoContainer{
     -fx-background-color: derive(#263238, -20%);
     -fx-background-radius: 5;
 }
+
 /* Detais Card */
+
 #subDetals1, #subDetals2, #subDetals3{
     -fx-background-color: derive(#263238, -20%);
 }
@@ -187,7 +192,6 @@
 .chart-title{
     -fx-text-fill: #78909c;
 }
-
 
 /* Table */
 
@@ -226,18 +230,23 @@
     -fx-border-radius: 10;
     -fx-background-radius: 25;
 }
+.table-row-cell:hover{
+    -fx-cell-size: 30;
+    -fx-background-color: #263238;
+    -fx-border-color: #263238; 
+    -fx-border-radius: 10;
+    -fx-background-radius: 25;
+}
 .table-view .cell{
     -fx-alignment: center;
     -fx-alignment: CENTER; 
     -fx-border-color: transparent;  
     -fx-text-fill: derive(white, -20%);
 }
-.table-view .cell:selected{
-    -fx-alignment: CENTER;
-    -fx-alignment: center;
-}
+
 
 /* scroll bar starts here */
+
 .table-view .increment-button ,.table-view .decrement-button {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
@@ -259,29 +268,7 @@
     -fx-background-radius: 2em;
 }
 
-
-/* Dialog Button */
-/*.dialog-button{
-    -fx-background-radius: 25;
-    -fx-border-radius: 25;
-    -fx-border-width: 2;
-    -fx-background-color: derive(#00b0ff, -20%);
-    -fx-border-color: derive(#00b0ff, -20%);
-    -fx-text-fill: white;
-    -fx-font-size: 16;
-}
-.dialog-button:hover{
-    -fx-background-radius: 25;
-    -fx-border-radius: 25;
-    -fx-border-width: 2;
-    -fx-background-color: white;
-    -fx-border-color: derive(#00b0ff, -20%);
-    -fx-text-fill: derive(#00b0ff, -20%);
-    -fx-font-size: 16;
-}*/
-
-
-/*  LINE CHART */
+/*  Line Chart */
 
 .chart-plot-background {
     -fx-background-color: transparent;
@@ -323,4 +310,31 @@
 }
 .axis-label {
   -fx-text-fill: #78909c;
+}
+
+  /*    Combo Box   */  
+  
+.combo-box .list-cell {
+    -fx-background: #263238;
+    -fx-background-color: transparent;
+}
+.combo-box-popup .list-view {
+    -fx-background-color: #263238;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 8, 0.0 , 0 , 0 );
+}    
+.combo-box-popup .list-view .list-cell {
+    -fx-background-color: derive(#263238, -20%);
+    -fx-text-fill: derive(#00b0ff, -20%);
+}
+.combo-box-popup .list-view .list-cell:hover{
+    -fx-background-color: #263238;
+    -fx-text-fill: white;
+}
+.combo-box{
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -jfx-focus-color: #03a9f4;
+}
+.combo-box .cell:selected{
+    -fx-text-fill: #03a9f4;
 }
