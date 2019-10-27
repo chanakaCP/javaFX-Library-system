@@ -1,4 +1,3 @@
-
 package schoollibrary.ui.issueBook;
 
 import javafx.application.Application;
@@ -7,19 +6,19 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-
-public class IssueBook extends Application{
+public class IssueBook extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("issueBook.fxml"));
         Scene scene = new Scene(root);
-        
+
         stage.setScene(scene);
         stage.show();
     }
+
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }

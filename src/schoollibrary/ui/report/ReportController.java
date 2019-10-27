@@ -16,6 +16,7 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import schoollibrary.database.DatabaseHandler;
+import schoollibrary.ui.main.MainController;
 
 
 public class ReportController implements Initializable {
@@ -60,6 +61,7 @@ public class ReportController implements Initializable {
     PieChart bookChart;
     PieChart memberChart;
     DatabaseHandler databaseHandler;
+    MainController mainController;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -222,6 +224,11 @@ public class ReportController implements Initializable {
         Period intervalPeriod = Period.between(dateFrom, dateTo);
         int dateCount = (intervalPeriod.getDays() + intervalPeriod.getMonths() + intervalPeriod.getYears());
         return dateCount;
+    }
+
+
+    public void getController(MainController mainController) {
+        this.mainController =  mainController;
     }
     
 }

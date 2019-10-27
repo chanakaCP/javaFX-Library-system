@@ -35,7 +35,10 @@ import schoollibrary.alert.AlertMaker;
 import schoollibrary.database.DatabaseHandler;
 import schoollibrary.ui.addbook.AddBookController;
 import schoollibrary.ui.addmember.AddMemberController;
+import schoollibrary.ui.comparison.ComparisonController;
+import schoollibrary.ui.report.ReportController;
 import schoollibrary.ui.setting.Preferences;
+import schoollibrary.ui.setting.SettingController;
 import schoollibrary.ui.viewbook.BookListController;
 import schoollibrary.ui.viewmember.MemberListController;
 import schoollibrary.util.LibraryAssistantUtil;
@@ -198,7 +201,30 @@ public class MainController implements Initializable {
         Stage stage = (Stage) rootPane.getScene().getWindow();
         stage.setFullScreen(!stage.isFullScreen());
     }
-    
+    @FXML
+    private void menuReports(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/report/report.fxml"));
+        loadWindow("Report", loader);
+        ReportController controller = (ReportController) loader.getController();
+        controller.getController(this);
+    }
+
+    @FXML
+    private void menuComparison(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/comparison/comparison.fxml"));
+        loadWindow("Comparison", loader);
+        ComparisonController controller = (ComparisonController) loader.getController();
+        controller.getController(this);
+    }
+
+    @FXML
+    private void menuSettings(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/setting/setting.fxml"));
+        loadWindow("Setting", loader);
+        SettingController controller = (SettingController) loader.getController();
+        controller.getController(this);
+    }
+
     void clearBookCache(){
         bookName.setText("");
         bookStatus.setText("");
@@ -499,8 +525,7 @@ public class MainController implements Initializable {
                 
                 Optional<ButtonType> responce = AlertMaker.confirmationAlert("Confirm Submission Operation","Are you sure want to submit the book");
                 
-                if(responce.get() == ButtonType.OK){
-                    
+                if(responce.get() == ButtonType.OK){             
                     LocalDate submitDate = LocalDate.now();
                     String query1 = "UPDATE REPORT SET fine = " + fine + "," 
                                     + "submitDate = '" + submitDate + "',"
@@ -570,14 +595,9 @@ public class MainController implements Initializable {
                                                 + "keepDays = " + preferences.getnOfDays() + ", "
                                                 + "finePerDay = "+ preferences.getFinePerDay() +"  "
                                                 + "WHERE reportID = " + id + "" ;
-            System.out.println(query1);
             
             String query2 = "UPDATE BOOK SET renewCount = renewCount+1  WHERE B_ID = '" + bookId + "' ";
-                        System.out.println(query2);
-
             String query3 = "UPDATE MEMBER SET renewCount = renewCount+1  WHERE M_ID = '" + memberId + "' ";
-                        System.out.println(query3);
-
             
             if(databaseHandler.execAction(query1) && databaseHandler.execAction(query2) && databaseHandler.execAction(query3)){
                 AlertMaker.informatinAlert("Success","Book has been renewed"); 
@@ -671,9 +691,16 @@ public class MainController implements Initializable {
     
 
 //    private void testData() {
-             
+//
+//        String query = "INSERT INTO REPORT (bookID,memberID,issueDate,lastRenewDate,willSubmit,renewCount,keepDays,finePerDay,submitDate,isSubmit) VALUES ('1','1','2018-12-12','2018-12-12','2018-12-17',0,7,10,'2018-12-17','true')";
+//                    
+//        if(databaseHandler.execAction(query)){
+//            System.out.println("success");
+//        }
+//        
+//        
 //   }
 
     
-    
+     
 }

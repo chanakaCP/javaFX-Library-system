@@ -35,6 +35,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import schoollibrary.alert.AlertMaker;
 import schoollibrary.database.DatabaseHandler;
+import schoollibrary.ui.main.MainController;
 
 
 
@@ -77,7 +78,7 @@ public class ComparisonController implements Initializable {
     private XYChart.Series secondChart; 
     
     DatabaseHandler databaseHandler;   
-    
+    MainController mainController;
        
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -573,6 +574,10 @@ public class ComparisonController implements Initializable {
         graphTimeSelect.getItems().add("By Week");
         graphTimeSelect.getItems().add("By Month");
         graphTimeSelect.getItems().add("By Year");
+    }
+
+    public void getController(MainController mainController) {
+        this.mainController = mainController;
     }
 
     

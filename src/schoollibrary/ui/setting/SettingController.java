@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import schoollibrary.alert.AlertMaker;
+import schoollibrary.ui.main.MainController;
 
 
 public class SettingController implements Initializable {
@@ -28,6 +29,7 @@ public class SettingController implements Initializable {
     @FXML
     private JFXTextField fine;
     
+    MainController mainController;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -83,6 +85,10 @@ public class SettingController implements Initializable {
     private void closeStage() {
         Stage stage = (Stage)rootPane.getScene().getWindow();
         stage.close();
+    }
+
+    public void getController(MainController mainController) {
+        this.mainController = mainController;
     }
     
 }

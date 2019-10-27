@@ -42,6 +42,13 @@
                         <MenuItem mnemonicParsing="false" onAction="#menuFullScreen" text="Full Screen" />
                   </items>
                 </Menu>
+                  <Menu mnemonicParsing="false" text="More">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#menuReports" text="Reports" />
+                        <MenuItem mnemonicParsing="false" onAction="#menuComparison" text="Comparison" />
+                        <MenuItem mnemonicParsing="false" onAction="#menuSettings" text="Settings" />
+                     </items>
+                  </Menu>
               </menus>
             </MenuBar>
          </top>
