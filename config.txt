@@ -1,1 +1,1 @@
-{"username":"a","password":"86f7e437faa5a7fce15d1ddcb9eaeaea377667b8","confirmPassword":"86f7e437faa5a7fce15d1ddcb9eaeaea377667b8","nOfDays":7,"finePerDay":7}
+{"username":"a","password":"86f7e437faa5a7fce15d1ddcb9eaeaea377667b8","confirmPassword":"86f7e437faa5a7fce15d1ddcb9eaeaea377667b8","nOfDays":7,"finePerDay":10}
