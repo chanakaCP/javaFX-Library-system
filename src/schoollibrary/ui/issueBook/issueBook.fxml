@@ -4,7 +4,6 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -13,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" prefHeight="986.0" prefWidth="1236.0" stylesheets="@../resources/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schoollibrary.ui.issueBook.IssueBookController">
+<AnchorPane fx:id="rootPane" prefHeight="986.0" prefWidth="1236.0" styleClass="mainFxmlClass" stylesheets="@../resources/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schoollibrary.ui.issueBook.IssueBookController">
    <children>
       <VBox prefHeight="664.0" prefWidth="1125.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -73,8 +72,4 @@
          </children>
       </VBox>
    </children>
-   <styleClass>
-      <String fx:value="mainFxmlClass" />
-      <String fx:value="combo-box" />
-   </styleClass>
 </AnchorPane>

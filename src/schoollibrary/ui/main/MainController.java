@@ -25,6 +25,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -36,9 +37,11 @@ import schoollibrary.database.DatabaseHandler;
 import schoollibrary.ui.addbook.AddBookController;
 import schoollibrary.ui.addmember.AddMemberController;
 import schoollibrary.ui.comparison.ComparisonController;
+import schoollibrary.ui.issueBook.IssueBookController;
 import schoollibrary.ui.report.ReportController;
 import schoollibrary.ui.setting.Preferences;
 import schoollibrary.ui.setting.SettingController;
+import schoollibrary.ui.submission.SubmissionController;
 import schoollibrary.ui.viewbook.BookListController;
 import schoollibrary.ui.viewmember.MemberListController;
 import schoollibrary.util.LibraryAssistantUtil;
@@ -91,7 +94,10 @@ public class MainController implements Initializable {
     private VBox memberInfoContainer;
     @FXML  
     private Tab issueTab;
-    
+     @FXML
+    private Label dateTime;
+     
+     
     PieChart bookChart;
     PieChart memberChart;
     private boolean btnTag1 = true;
@@ -99,19 +105,19 @@ public class MainController implements Initializable {
 
     DatabaseHandler databaseHandler;
     Preferences preferences;  
-   
+    
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         databaseHandler = DatabaseHandler.getInstance();
         preferences = Preferences.getPreferences();        
-        initGraph();          
+        initGraph();              
 //        testData();
     }    
     
      
     @FXML
-    private void loadAddMember(ActionEvent event) {          
+    private void loadAddMember(ActionEvent event) {   
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/addmember/add_member.fxml"));           
         loadWindow("Add Member", loader);
         AddMemberController controller = (AddMemberController) loader.getController();
@@ -142,26 +148,36 @@ public class MainController implements Initializable {
     private void loadIssuedBook(ActionEvent event) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/issueBook/issueBook.fxml"));
         loadWindow("Currently issued Books", loader);
+        IssueBookController controller = (IssueBookController) loader.getController();
+        controller.getController(this);
     }
     @FXML
     private void loadHistory(ActionEvent event) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/submission/submission.fxml"));
         loadWindow("History", loader);
+        SubmissionController controller = (SubmissionController) loader.getController();
+        controller.getController(this);
     }
     @FXML
     private void loadSetting(ActionEvent event) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/setting/setting.fxml"));
         loadWindow("Setting", loader);
+        SettingController controller = (SettingController) loader.getController();
+        controller.getController(this);
     } 
     @FXML
     private void loadReport(ActionEvent event) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/report/report.fxml"));
         loadWindow("Report", loader);
+        ReportController controller = (ReportController) loader.getController();
+        controller.getController(this);
     }
     @FXML
     private void loadComparison(ActionEvent event) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/comparison/comparison.fxml"));
         loadWindow("Comparison", loader);
+        ComparisonController controller = (ComparisonController) loader.getController();
+        controller.getController(this);
     }
     @FXML
     private void menuClose(ActionEvent event) {
@@ -687,6 +703,8 @@ public class MainController implements Initializable {
     }
     
     
+//    private void initClock() {
+//}
       //  test
     
 

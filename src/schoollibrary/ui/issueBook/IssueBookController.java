@@ -30,6 +30,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import schoollibrary.alert.AlertMaker;
 import schoollibrary.database.DatabaseHandler;
+import schoollibrary.ui.main.MainController;
 
 public class IssueBookController implements Initializable {
     
@@ -67,7 +68,7 @@ public class IssueBookController implements Initializable {
     private TableColumn<IssueBook,Integer> fineCol;
 
     DatabaseHandler databaseHandler;   
-   
+    MainController mainController;
    
  
        
@@ -301,6 +302,10 @@ public class IssueBookController implements Initializable {
         choiceKey.getItems().add("Book ID");
         choiceKey.getItems().add("Member ID");
         choiceKey.getItems().add("Issue Date");
+    }
+
+    public void getController(MainController mainController){  
+        this.mainController = mainController;
     }
     
      

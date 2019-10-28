@@ -29,6 +29,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import schoollibrary.alert.AlertMaker;
 import schoollibrary.database.DatabaseHandler;
+import schoollibrary.ui.main.MainController;
 
 
 public class SubmissionController implements Initializable {
@@ -66,7 +67,7 @@ public class SubmissionController implements Initializable {
     
     
     DatabaseHandler databaseHandler;   
-    
+    MainController mainController;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -276,6 +277,10 @@ public class SubmissionController implements Initializable {
         choiceKey.getItems().add("Member ID");
         choiceKey.getItems().add("Issue Date");
         choiceKey.getItems().add("Submission Date");
+    }
+
+    public void getController(MainController mainController){  
+        this.mainController = mainController;
     }
     
     

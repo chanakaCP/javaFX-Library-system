@@ -24,7 +24,7 @@
                   <Insets left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
                <font>
-                  <Font name="Roboto Condensed Bold" size="35.0" />
+                  <Font name="Roboto Condensed Regular" size="35.0" />
                </font>
             </Label>
             <JFXTextField fx:id="b_id" focusColor="#2962ff" labelFloat="true" promptText="Book ID" unFocusColor="#03a9f4">
