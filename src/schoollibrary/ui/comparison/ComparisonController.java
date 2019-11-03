@@ -362,23 +362,22 @@ public class ComparisonController implements Initializable {
         firstChart.setName("Issue");
         secondChart.setName("Submission");
             
-        String query1 = null, query2 = null,rowId;
+        String query1 = null, query2 = null,rowId,rowMonth,rowYear;
         switch (timeSec) {
             case "By Day":
-                query1 = "SELECT issueDate as firstData, COUNT(*) as count1 FROM REPORT GROUP BY issueDate" ;
-                query2 = "SELECT submitDate as secondData, COUNT(*) as count2 FROM REPORT WHERE isSubmit = 'true' GROUP BY submitDate";
+                query1 = "SELECT issueDate as issueDate, COUNT(*) as count1 FROM REPORT GROUP BY issueDate" ;
+                query2 = "SELECT submitDate as submitDate, COUNT(*) as count2 FROM REPORT WHERE isSubmit = 'true' GROUP BY submitDate";
                 break;
             case "By Week": 
-                query1 = "SELECT DATEADD(week, DATEDIFF(week, 0, issueDate), 0) as firstData, COUNT(*) as count1 FROM REPORT GROUP BY DATEADD(week, DATEDIFF(week, 0, issueDate), 0) " ;
-                query2 = "SELECT DATEADD(week, DATEDIFF(week, 0, submitDate), 0) as secondData, COUNT(*) as count2 FROM REPORT WHERE isSubmit = 'true' GROUP BY DATEADD(week, DATEDIFF(week, 0, submitDate), 0)";
+//              group by weekly                
                 break;
             case "By Month":
-                query1 = "SELECT count(*) as count1, cast(datepart(yyyy,issueDate) +' '+ datename(m,column) as varchar) as firstData FROM REPORT GROUP BY CAST(YEAR(issueDate) AS VARCHAR(4)) + '-' + CAST(MONTH(issueDate) AS VARCHAR(2)) " ;
-                query2 = "SELECT count(*) as count2, CAST(YEAR(submitDate) AS VARCHAR(4)) + '-' + CAST(MONTH(submitDate) AS VARCHAR(2)) as secondDate FROM REPORT GROUP BY CAST(YEAR(submitDate) AS VARCHAR(4)) + '-' + CAST(MONTH(submitDate) AS VARCHAR(2)) ";
+                query1 = "SELECT count(*) as count1, MONTH(issueDate) AS mon, YEAR(issueDate) as yer FROM REPORT GROUP BY MONTH(issueDate), YEAR(issueDate)" ; 
+                query2 = "SELECT count(*) as count2, MONTH(submitDate) AS mon, YEAR(submitDate) as yer FROM REPORT WHERE isSubmit = 'true' GROUP BY MONTH(submitDate), YEAR(submitDate)" ;
                 break;
             case "By Year": 
-                query1 = "SELECT YEAR(issueDate) as firstData, COUNT(*) as count1 FROM REPORT GROUP BY YEAR(issueDate)" ;
-                query2 = "SELECT YEAR(submitDate) as secondData, COUNT(*) as count2 FROM REPORT WHERE isSubmit = 'true' GROUP BY YEAR(submitDate)";
+                query1 = "SELECT YEAR(issueDate) as issueDate, COUNT(*) as count1 FROM REPORT GROUP BY YEAR(issueDate)" ;
+                query2 = "SELECT YEAR(submitDate) as submitDate, COUNT(*) as count2 FROM REPORT WHERE isSubmit = 'true' GROUP BY YEAR(submitDate)";
                 break;
             default:
                 break;
@@ -387,15 +386,27 @@ public class ComparisonController implements Initializable {
             ResultSet result1 = databaseHandler.execQuery(query1);
             ResultSet result2 = databaseHandler.execQuery(query2);
 
-            while (result1.next()) {            
-                rowId = result1.getString("firstData");
+            while (result1.next()) {          
+                if(timeSec.equals("By Month")){
+                    rowMonth = result1.getString("mon");
+                    rowYear = result1.getString("yer");
+                    rowId = rowMonth+"-"+rowYear;
+                }else{
+                    rowId = result1.getString("issueDate");
+                }
                 countMap.put(rowId,new ArrayList<>());
                 countMap.get(rowId).add(0, result1.getInt("count1"));
                 countMap.get(rowId).add(1, 0);
                 keyArray.add(rowId);
             }
             while (result2.next()) {
-                rowId = result2.getString("secondData");      
+                if(timeSec.equals("By Month")){
+                    rowMonth = result2.getString("mon");
+                    rowYear = result2.getString("yer");
+                    rowId = rowMonth+"-"+rowYear;
+                }else{
+                    rowId = result2.getString("submitDate");      
+                }
                 if(countMap.get(rowId) == null){
                     countMap.put(rowId,new ArrayList<>());
                     countMap.get(rowId).add(0,0);
@@ -435,19 +446,18 @@ public class ComparisonController implements Initializable {
         firstChart.setName("Book");
         secondChart.setName("Member");
         
-        String query1 = null, query2 = null,rowId;
+        String query1 = null, query2 = null,rowId,rowMonth,rowYear;
         switch (timeSec) {
             case "By Day":
                 query1 = "SELECT addedDate , COUNT(*) as count1 FROM BOOK GROUP BY addedDate" ;
                 query2 = "SELECT addedDate, COUNT(*) as count2 FROM MEMBER GROUP BY addedDate";
                 break;
             case "By Week": 
-//                query1 = "SELECT DATEADD(week, DATEDIFF(week, 0, issueDate), 0) as firstData, COUNT(*) as count1 FROM REPORT GROUP BY DATEADD(week, DATEDIFF(week, 0, issueDate), 0) " ;
-//                query2 = "SELECT DATEADD(week, DATEDIFF(week, 0, submitDate), 0) as secondData, COUNT(*) as count2 FROM REPORT WHERE isSubmit = 'true' GROUP BY DATEADD(week, DATEDIFF(week, 0, submitDate), 0)";
+//              group by weekly
                 break;
             case "By Month":
-//                query1 = "SELECT count(*) as count1, cast(datepart(yyyy,issueDate) +' '+ datename(m,column) as varchar) as firstData FROM REPORT GROUP BY CAST(YEAR(issueDate) AS VARCHAR(4)) + '-' + CAST(MONTH(issueDate) AS VARCHAR(2)) " ;
-//                query2 = "SELECT count(*) as count2, CAST(YEAR(submitDate) AS VARCHAR(4)) + '-' + CAST(MONTH(submitDate) AS VARCHAR(2)) as secondDate FROM REPORT GROUP BY CAST(YEAR(submitDate) AS VARCHAR(4)) + '-' + CAST(MONTH(submitDate) AS VARCHAR(2)) ";
+                query1 = "SELECT count(*) as count1, MONTH(addedDate) AS mon, YEAR(addedDate) as yer FROM BOOK GROUP BY MONTH(addedDate), YEAR(addedDate)" ; 
+                query2 = "SELECT count(*) as count2, MONTH(addedDate) AS mon, YEAR(addedDate) as yer FROM MEMBER GROUP BY MONTH(addedDate), YEAR(addedDate)" ; 
                 break;
             case "By Year": 
                 query1 = "SELECT YEAR(addedDate)as addedDate, COUNT(*) as count1 FROM BOOK GROUP BY YEAR(addedDate)" ;
@@ -460,15 +470,27 @@ public class ComparisonController implements Initializable {
             ResultSet result1 = databaseHandler.execQuery(query1);
             ResultSet result2 = databaseHandler.execQuery(query2);
 
-            while (result1.next()) {            
-                rowId = result1.getString("addedDate");
+            while (result1.next()) {   
+                if(timeSec.equals("By Month")){
+                    rowMonth = result1.getString("mon");
+                    rowYear = result1.getString("yer");
+                    rowId = rowMonth+"-"+rowYear;
+                }else{
+                    rowId = result1.getString("addedDate");      
+                }
                 countMap.put(rowId,new ArrayList<>());
-                countMap.get(rowId).add(0, result1.getInt("count1"));
+                countMap.get(rowId).add(0,result1.getInt("count1"));
                 countMap.get(rowId).add(1, 0);
                 keyArray.add(rowId);
             }
             while (result2.next()) {
-                rowId = result2.getString("addedDate");      
+                if(timeSec.equals("By Month")){
+                    rowMonth = result2.getString("mon");
+                    rowYear = result2.getString("yer");
+                    rowId = rowMonth+"-"+rowYear;
+                }else{
+                    rowId = result2.getString("addedDate");      
+                }
                 if(countMap.get(rowId) == null){
                     countMap.put(rowId,new ArrayList<>());
                     countMap.get(rowId).add(0,0);
