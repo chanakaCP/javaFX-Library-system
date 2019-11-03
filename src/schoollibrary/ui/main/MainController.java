@@ -94,7 +94,7 @@ public class MainController implements Initializable {
     private VBox memberInfoContainer;
     @FXML  
     private Tab issueTab;
-     @FXML
+    @FXML
     private Label dateTime;
      
      
@@ -241,14 +241,6 @@ public class MainController implements Initializable {
         controller.getController(this);
     }
 
-    void clearBookCache(){
-        bookName.setText("");
-        bookStatus.setText("");
-    }
-    
-    void clearMemberCache(){
-        memberName.setText("");         
-    }
     
     @FXML
     private void loadBookInfo(ActionEvent event) {
@@ -340,22 +332,7 @@ public class MainController implements Initializable {
         }
     }
     
-    
-    void loadWindow(String title, FXMLLoader loader){
-        try {
-            Parent parent = (Parent) loader.load(); 
-            Stage stage = new Stage(StageStyle.DECORATED);
-            stage.setTitle(title);
-            stage.setScene(new Scene(parent));
-            stage.setResizable(false);
-            stage.show();
-            LibraryAssistantUtil.setStageIcon(stage);
-        } catch (IOException ex) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    
+     
     @FXML
     private void issueBookOperation(ActionEvent event) {
         String bookId = bookIdInput.getText().trim();
@@ -445,7 +422,6 @@ public class MainController implements Initializable {
             AlertMaker.informatinAlert("Canceled", "Issue operation canceled");
         }
      }
-
     
     
     @FXML
@@ -628,6 +604,32 @@ public class MainController implements Initializable {
     }
 
     
+    void loadWindow(String title, FXMLLoader loader){
+        try {
+            Parent parent = (Parent) loader.load(); 
+            Stage stage = new Stage(StageStyle.DECORATED);
+            stage.setTitle(title);
+            stage.setScene(new Scene(parent));
+            stage.setResizable(false);
+            stage.show();
+            LibraryAssistantUtil.setStageIcon(stage);
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    void clearBookCache(){
+        bookName.setText("");
+        bookStatus.setText("");
+    }
+    
+    
+    void clearMemberCache(){
+        memberName.setText("");         
+    }
+    
+    
     public void setSubmssionContent(){
         issue_date.setText("Issue Date");
         renew_count.setText("Renew Count");  
@@ -654,6 +656,7 @@ public class MainController implements Initializable {
         memberChart.setLegendVisible(true);
         memberChart.setLabelsVisible(false);
         memberChart.setLegendSide(Side.BOTTOM);
+        
         issueTab.setOnSelectionChanged((Event event) -> {
             if(issueTab.isSelected())
                 refreshGraph();
@@ -666,6 +669,7 @@ public class MainController implements Initializable {
         memberChart.setData(databaseHandler.getMemberStatistic());
     }
    
+    
     int countTotalFine(String dateIssue,int days,int fine){  
         LocalDate dateFrom = LocalDate.parse(dateIssue); 
         LocalDate dateTo = LocalDate.now();
