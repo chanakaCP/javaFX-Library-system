@@ -150,7 +150,7 @@ public class ComparisonController implements Initializable {
         }
         switch (catSec) {
             case "Total Add":
-                loadNewAddGraph(timeSec);
+                loadAddGraph(timeSec);
                 break;
             case "Transaction":
                 loadTransactionGraph(timeSec);
@@ -362,7 +362,7 @@ public class ComparisonController implements Initializable {
         firstChart.setName("Issue");
         secondChart.setName("Submission");
             
-        String query1 = null, query2 = null,rowId,rowMonth,rowYear;
+        String query1 = null, query2 = null,rowId;
         switch (timeSec) {
             case "By Day":
                 query1 = "SELECT issueDate as issueDate, COUNT(*) as count1 FROM REPORT GROUP BY issueDate" ;
@@ -388,9 +388,7 @@ public class ComparisonController implements Initializable {
 
             while (result1.next()) {          
                 if(timeSec.equals("By Month")){
-                    rowMonth = result1.getString("mon");
-                    rowYear = result1.getString("yer");
-                    rowId = rowMonth+"-"+rowYear;
+                    rowId = result1.getString("yer")+"-"+result1.getString("mon");
                 }else{
                     rowId = result1.getString("issueDate");
                 }
@@ -401,9 +399,7 @@ public class ComparisonController implements Initializable {
             }
             while (result2.next()) {
                 if(timeSec.equals("By Month")){
-                    rowMonth = result2.getString("mon");
-                    rowYear = result2.getString("yer");
-                    rowId = rowMonth+"-"+rowYear;
+                    rowId = result2.getString("yer")+"-"+result2.getString("mon");
                 }else{
                     rowId = result2.getString("submitDate");      
                 }
@@ -430,7 +426,7 @@ public class ComparisonController implements Initializable {
     }
     
     
-    private void loadNewAddGraph(String timeSec) {
+    private void loadAddGraph(String timeSec) {
         if(firstChart != null){
             firstChart.getData().clear();
             secondChart.getData().clear();
@@ -446,7 +442,7 @@ public class ComparisonController implements Initializable {
         firstChart.setName("Book");
         secondChart.setName("Member");
         
-        String query1 = null, query2 = null,rowId,rowMonth,rowYear;
+        String query1 = null, query2 = null,rowId;
         switch (timeSec) {
             case "By Day":
                 query1 = "SELECT addedDate , COUNT(*) as count1 FROM BOOK GROUP BY addedDate" ;
@@ -472,9 +468,7 @@ public class ComparisonController implements Initializable {
 
             while (result1.next()) {   
                 if(timeSec.equals("By Month")){
-                    rowMonth = result1.getString("mon");
-                    rowYear = result1.getString("yer");
-                    rowId = rowMonth+"-"+rowYear;
+                    rowId = result1.getString("yer")+"-"+result1.getString("mon");
                 }else{
                     rowId = result1.getString("addedDate");      
                 }
@@ -485,9 +479,7 @@ public class ComparisonController implements Initializable {
             }
             while (result2.next()) {
                 if(timeSec.equals("By Month")){
-                    rowMonth = result2.getString("mon");
-                    rowYear = result2.getString("yer");
-                    rowId = rowMonth+"-"+rowYear;
+                    rowId = result2.getString("yer")+"-"+result2.getString("mon");
                 }else{
                     rowId = result2.getString("addedDate");      
                 }
@@ -540,13 +532,13 @@ public class ComparisonController implements Initializable {
                 query1 = "SELECT SUM(fine), submitDate FROM REPORT WHERE isSubmit = 'true' GROUP BY submitDate" ;
                 break;
             case "By Week": 
-//                query1 = "SELECT DATEADD(week, DATEDIFF(week, 0, issueDate), 0) as firstData, COUNT(*) as count1 FROM REPORT GROUP BY DATEADD(week, DATEDIFF(week, 0, issueDate), 0) " ;
+//                by weekly
                 break;
             case "By Month":
-//                query1 = "SELECT count(*) as count1, cast(datepart(yyyy,issueDate) +' '+ datename(m,column) as varchar) as firstData FROM REPORT GROUP BY CAST(YEAR(issueDate) AS VARCHAR(4)) + '-' + CAST(MONTH(issueDate) AS VARCHAR(2)) " ;
+                query1 = "SELECT SUM(fine), MONTH(submitDate) AS mon, YEAR(submitDate) as yer FROM REPORT WHERE isSubmit = 'true' GROUP BY MONTH(submitDate), YEAR(submitDate)" ;
                 break;
             case "By Year": 
-                query1 = "SELECT SUM(fine),YEAR(submitDate) as submitDate FROM REPORT GROUP BY YEAR(submitDate)" ;
+                query1 = "SELECT SUM(fine), YEAR(submitDate) as submitDate FROM REPORT WHERE isSubmit = 'true' GROUP BY YEAR(submitDate)" ;
                 break;
             default:
                 break;
@@ -555,7 +547,12 @@ public class ComparisonController implements Initializable {
             ResultSet result1 = databaseHandler.execQuery(query1);
 
             while (result1.next()) {            
-                rowId = result1.getString("submitDate");
+                if(timeSec.equals("By Month")){
+                    rowId = result1.getString("mon")+"-"+result1.getString("yer");
+                }else{
+                    rowId = result1.getString("submitDate");    
+                }
+                
                 countMap.put(rowId,new ArrayList<>());
                 countMap.get(rowId).add(0,result1.getInt(1));
                 keyArray.add(rowId);
