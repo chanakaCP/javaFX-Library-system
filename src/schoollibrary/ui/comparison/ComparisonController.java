@@ -508,12 +508,68 @@ public class ComparisonController implements Initializable {
 
     
     private void loadLateSubmissionGraph(String timeSec) {
+        if(firstChart != null){
+            firstChart.getData().clear();
+            secondChart.getData().clear();
+        }  
+        chart.getData().removeAll();
+        countMap =  new HashMap<>();  
+        keyArray =  new ArrayList<>();
+        firstChart = new XYChart.Series<>();  
+        
+        xAxis.setLabel("Duration");
+        yAxis.setLabel("Count");
+        firstChart.setName("Late Submission");
+    
+        String query = null,rowId;
+        switch (timeSec) {
+            case "By Day":
+                query = "SELECT count(*) as count, submitDate FROM REPORT WHERE isSubmit = 'true' AND isLateSubmit = 'true' GROUP BY submitDate" ;
+                break;
+            case "By Week": 
+//                by weekly
+                break;
+            case "By Month":
+                query = "SELECT count(*) as count, MONTH(submitDate) AS mon, YEAR(submitDate) as yer FROM REPORT WHERE isSubmit = 'true' AND isLateSubmit = 'true' GROUP BY MONTH(submitDate), YEAR(submitDate)" ;
+                break;
+            case "By Year": 
+                query = "SELECT count(*) as count, YEAR(submitDate) as submitDate FROM REPORT WHERE isSubmit = 'true' AND isLateSubmit = 'true' GROUP BY YEAR(submitDate)" ;
+                break;
+            default:
+                break;
+        }
+        try {            
+            ResultSet result1 = databaseHandler.execQuery(query);
+
+            while (result1.next()) {            
+                if(timeSec.equals("By Month")){
+                    rowId = result1.getString("mon")+"-"+result1.getString("yer");
+                }else{
+                    rowId = result1.getString("submitDate");    
+                }
+                
+                countMap.put(rowId,new ArrayList<>());
+                countMap.get(rowId).add(0,result1.getInt(1));
+                keyArray.add(rowId);
+            }
+            Collections.sort(keyArray);
+            
+            for(int i=0;i<keyArray.size();i++){
+                firstChart.getData().add(new XYChart.Data(keyArray.get(i),countMap.get(keyArray.get(i)).get(0)));
+            }
+            chart.getData().retainAll();
+            chart.getData().addAll(firstChart);
+            countMap.clear();
+        } catch (SQLException ex) {
+            Logger.getLogger(ComparisonController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         
     }
 
     
     private void loadFinePayedGraph(String timeSec) {
-         if(firstChart != null){
+        if(firstChart != null){
             firstChart.getData().clear();
             secondChart.getData().clear();
         }  
@@ -524,27 +580,27 @@ public class ComparisonController implements Initializable {
         
         xAxis.setLabel("Duration");
         yAxis.setLabel("Collected Fine");
-        firstChart.setName("Book");
+        firstChart.setName("Fine Collected");
            
-        String query1 = null,rowId;
+        String query = null,rowId;
         switch (timeSec) {
             case "By Day":
-                query1 = "SELECT SUM(fine), submitDate FROM REPORT WHERE isSubmit = 'true' GROUP BY submitDate" ;
+                query = "SELECT SUM(fine), submitDate FROM REPORT WHERE isSubmit = 'true' GROUP BY submitDate" ;
                 break;
             case "By Week": 
 //                by weekly
                 break;
             case "By Month":
-                query1 = "SELECT SUM(fine), MONTH(submitDate) AS mon, YEAR(submitDate) as yer FROM REPORT WHERE isSubmit = 'true' GROUP BY MONTH(submitDate), YEAR(submitDate)" ;
+                query = "SELECT SUM(fine), MONTH(submitDate) AS mon, YEAR(submitDate) as yer FROM REPORT WHERE isSubmit = 'true' GROUP BY MONTH(submitDate), YEAR(submitDate)" ;
                 break;
             case "By Year": 
-                query1 = "SELECT SUM(fine), YEAR(submitDate) as submitDate FROM REPORT WHERE isSubmit = 'true' GROUP BY YEAR(submitDate)" ;
+                query = "SELECT SUM(fine), YEAR(submitDate) as submitDate FROM REPORT WHERE isSubmit = 'true' GROUP BY YEAR(submitDate)" ;
                 break;
             default:
                 break;
         }
         try {            
-            ResultSet result1 = databaseHandler.execQuery(query1);
+            ResultSet result1 = databaseHandler.execQuery(query);
 
             while (result1.next()) {            
                 if(timeSec.equals("By Month")){
