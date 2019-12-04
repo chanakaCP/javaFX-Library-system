@@ -715,6 +715,7 @@ public class MainController implements Initializable {
 //    private void testData() {
 //
 //        String query = "INSERT INTO REPORT (bookID,memberID,issueDate,lastRenewDate,willSubmit,renewCount,keepDays,finePerDay,submitDate,isSubmit) VALUES ('1','1','2018-12-12','2018-12-12','2018-12-17',0,7,10,'2018-12-17','true')";
+//        String query = "INSERT INTO MEMBER (M_ID,MName,addedDate) VALUES ('11','11','2019-12-12')";
 //                    
 //        if(databaseHandler.execAction(query)){
 //            System.out.println("success");

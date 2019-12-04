@@ -205,7 +205,6 @@ public class ComparisonController implements Initializable {
             query1 = "SELECT issueDate, COUNT(*) as count1 FROM REPORT WHERE issueDate <= '"+ sDate +"' AND issueDate >= '"+ sdf.format(cal.getTime())+"' GROUP BY issueDate ";
             query2 = "SELECT submitDate, COUNT(*) as count2 FROM REPORT WHERE submitDate <= '"+ sDate +"' AND submitDate >= '"+ sdf.format(cal.getTime())+"' AND isSubmit = 'true' GROUP BY submitDate ";
         }
-
         try {
             ResultSet result1 = databaseHandler.execQuery(query1);
             ResultSet result2 = databaseHandler.execQuery(query2);
@@ -307,7 +306,6 @@ public class ComparisonController implements Initializable {
             default:
                 break;
         }
-          
         try {
             ResultSet result1 = databaseHandler.execQuery(query1);
             ResultSet result2 = databaseHandler.execQuery(query2);
@@ -563,8 +561,6 @@ public class ComparisonController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(ComparisonController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
     }
 
     
