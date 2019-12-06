@@ -54,22 +54,10 @@ public class AddBookController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         databaseHandler = DatabaseHandler.getInstance();
         category.setDisable(true);
-//        catSelector.getItems().add("Add New Category");
-//
-//        String query = "SELECT DISTINCT category FROM BOOK";
-//        ResultSet result = databaseHandler.execQuery(query);
-//        try {
-//            while (result.next()) {
-//                catSelector.getItems().add(result.getString("category"));
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(AddBookController.class.getName()).log(Level.SEVERE, null, ex);
-//        } 
-        catSelector.getItems().add("Add New Category");
         initComboBox();   
 
         catSelector.valueProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
-            if(newValue.equals("Add New Category")){
+            if(newValue != null && newValue.equals("Add New Category")){
                 category.setDisable(false);
             }else{
                 category.setDisable(true);
@@ -125,9 +113,9 @@ public class AddBookController implements Initializable {
                                        + bookPage + ",'" 
                                        + bookRecieveDate + "','" 
                                        + bookDescription + "')";
-        System.out.println(query);
+
         if(databaseHandler.execAction(query)){
-            AlertMaker.informatinAlert("Success","Insert Book Successfully"); 
+            AlertMaker.informatinAlert("Success","Book Insert Successfully"); 
             b_id.setText("");
             b_name.setText("");
             category.setText("");
@@ -137,8 +125,7 @@ public class AddBookController implements Initializable {
             description.setText("");
             pages.setText("");
             r_date.setValue(null);
-            mainController.refreshGraph();
-           
+            mainController.refreshGraph();           
             initComboBox();
         }else{
             AlertMaker.errorAlert("Can`t save","Please fill all the fields correctly");
@@ -148,7 +135,7 @@ public class AddBookController implements Initializable {
     
     @FXML
     private void cancel(ActionEvent event) {
-        Stage stage = (Stage) rootPane.getScene().getWindow();
+        Stage stage = (Stage)rootPane.getScene().getWindow();
         stage.close();
     }
     
@@ -157,6 +144,8 @@ public class AddBookController implements Initializable {
     }
 
     private void initComboBox() {
+        catSelector.getItems().clear();
+        catSelector.getItems().add("Add New Category");
        
         String query = "SELECT DISTINCT category FROM BOOK";
         ResultSet result = databaseHandler.execQuery(query);
@@ -169,6 +158,6 @@ public class AddBookController implements Initializable {
         }   
     }
 
-   
     
+ 
 }
