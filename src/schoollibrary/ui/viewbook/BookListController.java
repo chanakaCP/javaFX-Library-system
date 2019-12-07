@@ -75,8 +75,8 @@ public class BookListController implements Initializable {
     
     DatabaseHandler databaseHandler;
     MainController mainController;
-    
-        
+
+           
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         databaseHandler = DatabaseHandler.getInstance();
@@ -95,10 +95,33 @@ public class BookListController implements Initializable {
                 datePick.setDisable(false);
             }
         });
+        System.out.println("**********");
         initCol();
         loadData();
     }    
 
+    
+    @FXML
+    private void loadAddBook(ActionEvent event) {
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/addbook/add_book.fxml"));
+//        loadWindow("Add Book", loader);
+//        AddBookController controller = (AddBookController) loader.getController();
+//        controller.getControllerFromBookList(this);
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/addbook/add_book.fxml"));
+            Parent parent = loader.load();
+            AddBookController controller = (AddBookController) loader.getController();
+            controller.getControllerFromBookList(this);
+            Stage stage = new Stage(StageStyle.DECORATED);
+            stage.setResizable(false);
+            stage.setOnCloseRequest((e)->{
+                loadData();
+            });
+            stage.setTitle("Add Book");
+            stage.setScene(new Scene(parent));
+            stage.show();
+            LibraryAssistantUtil.setStageIcon(stage);
+    }
     
     @FXML
     private void bookDeleteAction(ActionEvent event) {
@@ -250,7 +273,9 @@ public class BookListController implements Initializable {
     }
 
      
-    private void initCol() {
+    public void initCol() {
+                System.out.println("sex...........................");
+
         nuCol.setCellValueFactory(new PropertyValueFactory<>("number"));
         idCol.setCellValueFactory(new PropertyValueFactory<>("b_id"));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("b_name"));
@@ -262,7 +287,7 @@ public class BookListController implements Initializable {
     }
 
     
-    public void loadData() {    
+    public void loadData() {   
         list.clear();
         cancelButton.setText("Close");
         String query = "SELECT * FROM BOOK";
@@ -381,6 +406,19 @@ public class BookListController implements Initializable {
         tableViewCol.setItems(list);
     }
     
+    void loadWindow(String title, FXMLLoader loader){
+        try {
+            Parent parent = (Parent) loader.load(); 
+            Stage stage = new Stage(StageStyle.DECORATED);
+            stage.setTitle(title);
+            stage.setScene(new Scene(parent));
+            stage.setResizable(false);
+            stage.show();
+            LibraryAssistantUtil.setStageIcon(stage);
+        } catch (IOException ex) {
+            Logger.getLogger(BookListController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     public void getController(MainController mainController){  
         this.mainController = mainController;
@@ -395,7 +433,7 @@ public class BookListController implements Initializable {
         choiceKey.getItems().add("Recieved Date");
         choiceKey.getItems().add("Added Date");
     }
-    
+
     
     public static class Book{
         
