@@ -36,6 +36,34 @@
    -fx-text-alignment: center;
 }
 
+#addButton {
+    -fx-background-color: transparent;
+    -fx-background-radius: 50;
+    -fx-border-width: 2;
+    -fx-border-color: derive(#00b0ff, -20%);
+    -fx-border-radius: 50; 
+    -fx-text-fill: derive(#00b0ff, -20%);
+    -fx-text-alignment: center;
+    -fx-font-size: 16;
+}
+
+#addButton:hover{
+    -fx-background-color:  derive(#00b0ff, -20%);
+    -fx-background-radius: 50;
+    -fx-border-radius: 50; 
+    -fx-border-color:  derive(#00b0ff, -20%);
+    -fx-text-fill: white;
+    -fx-text-alignment: center;
+} 
+
+#addButton:focused{
+    -fx-background-color: derive(#00b0ff, -20%);
+   -fx-background-radius: 50;
+   -fx-border-radius: 50; 
+   -fx-border-color: derive(#00b0ff, -20%);
+   -fx-text-fill: white; 
+   -fx-text-alignment: center;
+}
 /* Title */
 
 #titleLable{
