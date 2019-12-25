@@ -45,7 +45,7 @@ import schoollibrary.ui.submission.SubmissionController;
 import schoollibrary.ui.viewbook.BookListController;
 import schoollibrary.ui.viewmember.MemberListController;
 import schoollibrary.util.LibraryAssistantUtil;
-
+              
 public class MainController implements Initializable {
     
     @FXML
@@ -93,10 +93,7 @@ public class MainController implements Initializable {
     @FXML
     private VBox memberInfoContainer;
     @FXML  
-    private Tab issueTab;
-    @FXML
-    private Label dateTime;
-     
+    private Tab issueTab;     
      
     PieChart bookChart;
     PieChart memberChart;
@@ -105,12 +102,11 @@ public class MainController implements Initializable {
 
     DatabaseHandler databaseHandler;
     Preferences preferences;  
-    
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         databaseHandler = DatabaseHandler.getInstance();
-        preferences = Preferences.getPreferences();        
+        preferences = Preferences.getPreferences(); 
         initGraph();              
 //        testData();
     }    
@@ -128,7 +124,7 @@ public class MainController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/addbook/add_book.fxml"));
         loadWindow("Add Book", loader);
         AddBookController controller = (AddBookController) loader.getController();
-        controller.getController(this);
+//        controller.getController(this);
     }
     @FXML
     private void loadViewMember(ActionEvent event) {
@@ -189,7 +185,7 @@ public class MainController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/addbook/add_book.fxml"));
         loadWindow("Add Book", loader);
         AddBookController controller = (AddBookController) loader.getController();
-        controller.getController(this);
+//        controller.getController(this);
     }
     @FXML
     private void menuAddMember(ActionEvent event) {
