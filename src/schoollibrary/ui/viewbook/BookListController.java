@@ -103,12 +103,8 @@ public class BookListController implements Initializable {
     
     @FXML
     private void loadAddBook(ActionEvent event) {
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/addbook/add_book.fxml"));
-//        loadWindow("Add Book", loader);
-//        AddBookController controller = (AddBookController) loader.getController();
-//        controller.getControllerFromBookList(this);
-        
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/addbook/add_book.fxml"));
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/addbook/add_book.fxml"));
             Parent parent = loader.load();
             AddBookController controller = (AddBookController) loader.getController();
             controller.getControllerFromBookList(this);
@@ -121,6 +117,9 @@ public class BookListController implements Initializable {
             stage.setScene(new Scene(parent));
             stage.show();
             LibraryAssistantUtil.setStageIcon(stage);
+        } catch (IOException ex) {
+            Logger.getLogger(BookListController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @FXML
@@ -184,7 +183,7 @@ public class BookListController implements Initializable {
             LibraryAssistantUtil.setStageIcon(stage);
            
         } catch (IOException ex) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BookListController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
      
