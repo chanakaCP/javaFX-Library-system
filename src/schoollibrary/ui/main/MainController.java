@@ -119,13 +119,7 @@ public class MainController implements Initializable {
         AddMemberController controller = (AddMemberController) loader.getController();
         controller.getController(this); 
     }
-    @FXML
-    private void loadAddBook(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/addbook/add_book.fxml"));
-        loadWindow("Add Book", loader);
-        AddBookController controller = (AddBookController) loader.getController();
-//        controller.getController(this);
-    }
+    
     @FXML
     private void loadViewMember(ActionEvent event) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/viewmember/member_list.fxml"));
@@ -180,13 +174,7 @@ public class MainController implements Initializable {
         Stage stage = (Stage) rootPane.getScene().getWindow();
         stage.close();
     }
-    @FXML
-    private void menuAddBook(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/addbook/add_book.fxml"));
-        loadWindow("Add Book", loader);
-        AddBookController controller = (AddBookController) loader.getController();
-//        controller.getController(this);
-    }
+    
     @FXML
     private void menuAddMember(ActionEvent event) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/addmember/add_member.fxml"));           

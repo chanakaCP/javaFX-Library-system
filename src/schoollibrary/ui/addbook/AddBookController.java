@@ -50,7 +50,7 @@ public class AddBookController implements Initializable {
    
     DatabaseHandler databaseHandler;
     BookListController bookListController;
-    MainController mainController;
+//    MainController mainController;
      
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -128,7 +128,7 @@ public class AddBookController implements Initializable {
             pages.setText("");
             r_date.setValue(null);
             bookListController.loadData();
-            mainController.refreshGraph(); 
+//            mainController.refreshGraph(); 
             initComboBox();
         }else{
             AlertMaker.errorAlert("Can`t save","Please fill all the fields correctly");

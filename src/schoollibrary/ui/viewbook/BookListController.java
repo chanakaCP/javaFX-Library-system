@@ -95,7 +95,6 @@ public class BookListController implements Initializable {
                 datePick.setDisable(false);
             }
         });
-        System.out.println("**********");
         initCol();
         loadData();
     }    
@@ -103,23 +102,10 @@ public class BookListController implements Initializable {
     
     @FXML
     private void loadAddBook(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/addbook/add_book.fxml"));
-            Parent parent = loader.load();
-            AddBookController controller = (AddBookController) loader.getController();
-            controller.getControllerFromBookList(this);
-            Stage stage = new Stage(StageStyle.DECORATED);
-            stage.setResizable(false);
-            stage.setOnCloseRequest((e)->{
-                loadData();
-            });
-            stage.setTitle("Add Book");
-            stage.setScene(new Scene(parent));
-            stage.show();
-            LibraryAssistantUtil.setStageIcon(stage);
-        } catch (IOException ex) {
-            Logger.getLogger(BookListController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/addbook/add_book.fxml"));
+        loadWindow("Add Book", loader);
+        AddBookController controller = (AddBookController) loader.getController();
+        controller.getControllerFromBookList(this);  
     }
     
     @FXML
@@ -273,7 +259,6 @@ public class BookListController implements Initializable {
 
      
     public void initCol() {
-                System.out.println("sex...........................");
 
         nuCol.setCellValueFactory(new PropertyValueFactory<>("number"));
         idCol.setCellValueFactory(new PropertyValueFactory<>("b_id"));
