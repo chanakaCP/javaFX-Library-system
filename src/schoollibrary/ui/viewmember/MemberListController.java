@@ -70,6 +70,10 @@ public class MemberListController implements Initializable {
        
     DatabaseHandler databaseHandler;
     MainController mainController;
+    @FXML
+    private JFXButton searchButton;
+    @FXML
+    private JFXButton addButton;
    
      
     @Override
@@ -354,6 +358,10 @@ public class MemberListController implements Initializable {
         choiceKey.getItems().add("Member ID");
         choiceKey.getItems().add("Member Name");
         choiceKey.getItems().add("Added Date");
+    }
+
+    @FXML
+    private void loadAddMember(ActionEvent event) {
     }
     
   
