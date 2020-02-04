@@ -35,9 +35,11 @@ import javafx.stage.StageStyle;
 import schoollibrary.alert.AlertMaker;
 import schoollibrary.database.DatabaseHandler;
 import schoollibrary.ui.addbook.AddBookController;
+import schoollibrary.ui.addmember.AddMemberController;
 import schoollibrary.ui.editmember.EditMemberController;
 import schoollibrary.ui.main.MainController;
 import schoollibrary.ui.memberDetails.MemberDetailsController;
+import schoollibrary.ui.viewbook.BookListController;
 import schoollibrary.util.LibraryAssistantUtil;
 
 
@@ -70,12 +72,8 @@ public class MemberListController implements Initializable {
        
     DatabaseHandler databaseHandler;
     MainController mainController;
-    @FXML
-    private JFXButton searchButton;
-    @FXML
-    private JFXButton addButton;
-   
-     
+
+      
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         databaseHandler = DatabaseHandler.getInstance();
@@ -98,6 +96,13 @@ public class MemberListController implements Initializable {
         loadData();
     } 
     
+    @FXML
+    private void loadAddMember(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/addmember/add_member.fxml"));           
+        loadWindow("Add Member", loader);
+        AddMemberController controller = (AddMemberController) loader.getController();
+        controller.getControllerFromMemberList(this);  
+    }
     
     @FXML
     private void memberDeleteAction(ActionEvent event) {
@@ -348,7 +353,20 @@ public class MemberListController implements Initializable {
         tableViewCol.setItems(list);
     }
     
-    
+    void loadWindow(String title, FXMLLoader loader){
+        try {
+            Parent parent = (Parent) loader.load(); 
+            Stage stage = new Stage(StageStyle.DECORATED);
+            stage.setTitle(title);
+            stage.setScene(new Scene(parent));
+            stage.setResizable(false);
+            stage.show();
+            LibraryAssistantUtil.setStageIcon(stage);
+        } catch (IOException ex) {
+            Logger.getLogger(MemberListController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+      
     public void getController(MainController mainController){  
         this.mainController = mainController;
     }
@@ -360,11 +378,7 @@ public class MemberListController implements Initializable {
         choiceKey.getItems().add("Added Date");
     }
 
-    @FXML
-    private void loadAddMember(ActionEvent event) {
-    }
     
-  
     public static class Member{
         private final SimpleIntegerProperty number;
         private final SimpleStringProperty m_id;

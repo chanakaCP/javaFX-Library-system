@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import schoollibrary.alert.AlertMaker;
 import schoollibrary.database.DatabaseHandler;
 import schoollibrary.ui.main.MainController;
+import schoollibrary.ui.viewmember.MemberListController;
 
 public class AddMemberController implements Initializable {
 
@@ -24,6 +25,7 @@ public class AddMemberController implements Initializable {
 
     DatabaseHandler databaseHandler;
     MainController mainController ;
+    MemberListController memberListController;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -45,7 +47,8 @@ public class AddMemberController implements Initializable {
             AlertMaker.informatinAlert("Success","Insert Member Successfully");
             m_id.setText("");
             m_name.setText("");
-            mainController.refreshGraph();          
+            memberListController.loadData();
+//            mainController.refreshGraph();          
         }else{
             AlertMaker.errorAlert("Can`t save","This Member ID is alredy exsist");
         }
@@ -58,7 +61,11 @@ public class AddMemberController implements Initializable {
     }
     
     
-    public void getController(MainController mainController){  
-        this.mainController = mainController;
+//    public void getController(MainController mainController){  
+//        this.mainController = mainController;
+//    }
+    
+    public void getControllerFromMemberList(MemberListController memberListController){  
+        this.memberListController = memberListController;
     }
 }
