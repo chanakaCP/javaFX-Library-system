@@ -25,7 +25,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -34,8 +33,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import schoollibrary.alert.AlertMaker;
 import schoollibrary.database.DatabaseHandler;
-import schoollibrary.ui.addbook.AddBookController;
-import schoollibrary.ui.addmember.AddMemberController;
 import schoollibrary.ui.comparison.ComparisonController;
 import schoollibrary.ui.issueBook.IssueBookController;
 import schoollibrary.ui.report.ReportController;
@@ -113,14 +110,6 @@ public class MainController implements Initializable {
     
      
     @FXML
-    private void loadAddMember(ActionEvent event) {   
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/addmember/add_member.fxml"));           
-        loadWindow("Add Member", loader);
-        AddMemberController controller = (AddMemberController) loader.getController();
-        controller.getController(this); 
-    }
-    
-    @FXML
     private void loadViewMember(ActionEvent event) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/viewmember/member_list.fxml"));
         loadWindow("Members", loader);
@@ -173,14 +162,6 @@ public class MainController implements Initializable {
     private void menuClose(ActionEvent event) {
         Stage stage = (Stage) rootPane.getScene().getWindow();
         stage.close();
-    }
-    
-    @FXML
-    private void menuAddMember(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/schoollibrary/ui/addmember/add_member.fxml"));           
-        loadWindow("Add Member", loader);
-        AddMemberController controller = (AddMemberController) loader.getController();
-        controller.getController(this);
     }
     @FXML
     private void menuViewBook(ActionEvent event) {
