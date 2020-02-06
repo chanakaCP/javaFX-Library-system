@@ -19,7 +19,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import schoollibrary.alert.AlertMaker;
 import schoollibrary.database.DatabaseHandler;
-import schoollibrary.ui.main.MainController;
 import schoollibrary.ui.viewbook.BookListController;
 
 
@@ -50,7 +49,6 @@ public class AddBookController implements Initializable {
    
     DatabaseHandler databaseHandler;
     BookListController bookListController;
-//    MainController mainController;
      
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -128,7 +126,6 @@ public class AddBookController implements Initializable {
             pages.setText("");
             r_date.setValue(null);
             bookListController.loadData();
-//            mainController.refreshGraph(); 
             initComboBox();
         }else{
             AlertMaker.errorAlert("Can`t save","Please fill all the fields correctly");
@@ -141,10 +138,6 @@ public class AddBookController implements Initializable {
         Stage stage = (Stage)rootPane.getScene().getWindow();
         stage.close();
     }
-    
-//    public void getController(MainController mainController){  
-//        this.mainController = mainController;
-//    }
 
     public void getControllerFromBookList(BookListController bookListController){  
         this.bookListController = bookListController;
