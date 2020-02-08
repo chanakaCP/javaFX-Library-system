@@ -3,8 +3,8 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -52,23 +52,17 @@
                         </JFXButton>
                      </children>
                   </HBox>
-                  <LineChart fx:id="chart" alternativeColumnFillVisible="true" prefHeight="732.0" prefWidth="1125.0" style="-fx-background-color: derive(#263238, -25%); -fx-background-radius: 10;">
+                  <BarChart fx:id="chart" prefHeight="732.0" prefWidth="1125.0">
                     <xAxis>
-                      <CategoryAxis focusTraversable="true" prefHeight="112.0" prefWidth="1044.0" fx:id="xAxis">
-                           <padding>
-                              <Insets bottom="50.0" top="10.0" />
-                           </padding></CategoryAxis>
+                      <CategoryAxis side="BOTTOM" />
                     </xAxis>
                     <yAxis>
-                      <NumberAxis fx:id="yAxis" prefHeight="551.0" prefWidth="52.0" side="LEFT">
-                           <padding>
-                              <Insets right="20.0" />
-                           </padding></NumberAxis>
+                      <NumberAxis side="LEFT" />
                     </yAxis>
                      <VBox.margin>
                         <Insets bottom="50.0" left="20.0" right="30.0" top="50.0" />
                      </VBox.margin>
-                  </LineChart>
+                  </BarChart>
                </children></VBox>
             <VBox layoutX="10.0" layoutY="10.0" prefHeight="985.0" prefWidth="700.0">
                <children>
