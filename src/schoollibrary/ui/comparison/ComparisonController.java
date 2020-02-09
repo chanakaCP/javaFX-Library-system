@@ -24,8 +24,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.TableColumn;
@@ -68,12 +68,12 @@ public class ComparisonController implements Initializable {
     @FXML
     private JFXComboBox<String> graphTimeSelect;
     @FXML
-    private LineChart<String,Number> chart;
+    private final NumberAxis yAxis = new NumberAxis();
     @FXML
-    private NumberAxis yAxis;
+    private final CategoryAxis xAxis =  new CategoryAxis();
     @FXML
-    private CategoryAxis xAxis;
-    
+    private BarChart<String, Number> chart;
+       
     private XYChart.Series firstChart; 
     private XYChart.Series secondChart; 
     
@@ -352,8 +352,8 @@ public class ComparisonController implements Initializable {
         chart.getData().removeAll();     
         countMap =  new HashMap<>(); 
         keyArray =  new ArrayList<>();
-        firstChart = new XYChart.Series<>();
-        secondChart = new XYChart.Series<>();
+        firstChart = new XYChart.Series();
+        secondChart = new XYChart.Series();
         
         xAxis.setLabel("Duration");
         yAxis.setLabel("Count");
@@ -370,8 +370,8 @@ public class ComparisonController implements Initializable {
 //              group by weekly                
                 break;
             case "By Month":
-                query1 = "SELECT count(*) as count1, MONTH(issueDate) AS mon, YEAR(issueDate) as yer FROM REPORT GROUP BY MONTH(issueDate), YEAR(issueDate)" ; 
-                query2 = "SELECT count(*) as count2, MONTH(submitDate) AS mon, YEAR(submitDate) as yer FROM REPORT WHERE isSubmit = 'true' GROUP BY MONTH(submitDate), YEAR(submitDate)" ;
+                query1 = "SELECT count(*) as count1, MONTH(issueDate) AS mon, YEAR(issueDate) as year FROM REPORT GROUP BY MONTH(issueDate), YEAR(issueDate)" ; 
+                query2 = "SELECT count(*) as count2, MONTH(submitDate) AS mon, YEAR(submitDate) as year FROM REPORT WHERE isSubmit = 'true' GROUP BY MONTH(submitDate), YEAR(submitDate)" ;
                 break;
             case "By Year": 
                 query1 = "SELECT YEAR(issueDate) as issueDate, COUNT(*) as count1 FROM REPORT GROUP BY YEAR(issueDate)" ;
@@ -386,7 +386,7 @@ public class ComparisonController implements Initializable {
 
             while (result1.next()) {          
                 if(timeSec.equals("By Month")){
-                    rowId = result1.getString("yer")+"-"+result1.getString("mon");
+                    rowId = result1.getString("year")+"-"+result1.getString("mon");
                 }else{
                     rowId = result1.getString("issueDate");
                 }
@@ -397,7 +397,7 @@ public class ComparisonController implements Initializable {
             }
             while (result2.next()) {
                 if(timeSec.equals("By Month")){
-                    rowId = result2.getString("yer")+"-"+result2.getString("mon");
+                    rowId = result2.getString("year")+"-"+result2.getString("mon");
                 }else{
                     rowId = result2.getString("submitDate");      
                 }
@@ -432,8 +432,8 @@ public class ComparisonController implements Initializable {
         chart.getData().removeAll();
         countMap =  new HashMap<>();  
         keyArray =  new ArrayList<>();
-        firstChart = new XYChart.Series<>();
-        secondChart = new XYChart.Series<>();
+        firstChart = new XYChart.Series();
+        secondChart = new XYChart.Series();
         
         xAxis.setLabel("Duration");
         yAxis.setLabel("Count");
@@ -450,8 +450,8 @@ public class ComparisonController implements Initializable {
 //              group by weekly
                 break;
             case "By Month":
-                query1 = "SELECT count(*) as count1, MONTH(addedDate) AS mon, YEAR(addedDate) as yer FROM BOOK GROUP BY MONTH(addedDate), YEAR(addedDate)" ; 
-                query2 = "SELECT count(*) as count2, MONTH(addedDate) AS mon, YEAR(addedDate) as yer FROM MEMBER GROUP BY MONTH(addedDate), YEAR(addedDate)" ; 
+                query1 = "SELECT count(*) as count1, MONTH(addedDate) AS mon, YEAR(addedDate) as year FROM BOOK GROUP BY MONTH(addedDate), YEAR(addedDate)" ; 
+                query2 = "SELECT count(*) as count2, MONTH(addedDate) AS mon, YEAR(addedDate) as year FROM MEMBER GROUP BY MONTH(addedDate), YEAR(addedDate)" ; 
                 break;
             case "By Year": 
                 query1 = "SELECT YEAR(addedDate)as addedDate, COUNT(*) as count1 FROM BOOK GROUP BY YEAR(addedDate)" ;
@@ -466,7 +466,7 @@ public class ComparisonController implements Initializable {
 
             while (result1.next()) {   
                 if(timeSec.equals("By Month")){
-                    rowId = result1.getString("yer")+"-"+result1.getString("mon");
+                    rowId = result1.getString("year")+"-"+result1.getString("mon");
                 }else{
                     rowId = result1.getString("addedDate");      
                 }
@@ -513,7 +513,7 @@ public class ComparisonController implements Initializable {
         chart.getData().removeAll();
         countMap =  new HashMap<>();  
         keyArray =  new ArrayList<>();
-        firstChart = new XYChart.Series<>();  
+        firstChart = new XYChart.Series();  
         
         xAxis.setLabel("Duration");
         yAxis.setLabel("Count");
@@ -528,7 +528,7 @@ public class ComparisonController implements Initializable {
 //                by weekly
                 break;
             case "By Month":
-                query = "SELECT count(*) as count, MONTH(submitDate) AS mon, YEAR(submitDate) as yer FROM REPORT WHERE isSubmit = 'true' AND isLateSubmit = 'true' GROUP BY MONTH(submitDate), YEAR(submitDate)" ;
+                query = "SELECT count(*) as count, MONTH(submitDate) AS mon, YEAR(submitDate) as year FROM REPORT WHERE isSubmit = 'true' AND isLateSubmit = 'true' GROUP BY MONTH(submitDate), YEAR(submitDate)" ;
                 break;
             case "By Year": 
                 query = "SELECT count(*) as count, YEAR(submitDate) as submitDate FROM REPORT WHERE isSubmit = 'true' AND isLateSubmit = 'true' GROUP BY YEAR(submitDate)" ;
@@ -541,7 +541,7 @@ public class ComparisonController implements Initializable {
 
             while (result1.next()) {            
                 if(timeSec.equals("By Month")){
-                    rowId = result1.getString("mon")+"-"+result1.getString("yer");
+                    rowId = result1.getString("mon")+"-"+result1.getString("yera");
                 }else{
                     rowId = result1.getString("submitDate");    
                 }
@@ -572,7 +572,7 @@ public class ComparisonController implements Initializable {
         chart.getData().removeAll();
         countMap =  new HashMap<>();  
         keyArray =  new ArrayList<>();
-        firstChart = new XYChart.Series<>();  
+        firstChart = new XYChart.Series();  
         
         xAxis.setLabel("Duration");
         yAxis.setLabel("Collected Fine");
@@ -587,7 +587,7 @@ public class ComparisonController implements Initializable {
 //                by weekly
                 break;
             case "By Month":
-                query = "SELECT SUM(fine), MONTH(submitDate) AS mon, YEAR(submitDate) as yer FROM REPORT WHERE isSubmit = 'true' GROUP BY MONTH(submitDate), YEAR(submitDate)" ;
+                query = "SELECT SUM(fine), MONTH(submitDate) AS mon, YEAR(submitDate) as year FROM REPORT WHERE isSubmit = 'true' GROUP BY MONTH(submitDate), YEAR(submitDate)" ;
                 break;
             case "By Year": 
                 query = "SELECT SUM(fine), YEAR(submitDate) as submitDate FROM REPORT WHERE isSubmit = 'true' GROUP BY YEAR(submitDate)" ;
@@ -600,7 +600,7 @@ public class ComparisonController implements Initializable {
 
             while (result1.next()) {            
                 if(timeSec.equals("By Month")){
-                    rowId = result1.getString("mon")+"-"+result1.getString("yer");
+                    rowId = result1.getString("mon")+"-"+result1.getString("year");
                 }else{
                     rowId = result1.getString("submitDate");    
                 }
